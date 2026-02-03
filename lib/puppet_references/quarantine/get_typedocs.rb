@@ -93,7 +93,7 @@ Puppet::Type.eachtype do |type|
       raise "Could not retrieve property #{propertyname} on type #{type.name}" unless property
 
       description = property.doc
-      warn "No docs for property #{name} of #{type.name}" unless description and !description.empty?
+      warn "No docs for property #{name} of #{type.name}" unless description && !description.empty?
 
       allproperties[name] = {
         description: scrub(description),
@@ -107,7 +107,7 @@ Puppet::Type.eachtype do |type|
   docobject[:attributes].merge!(
     type.parameters.each_with_object({}) do |name, allparameters|
       description = type.paramdoc(name)
-      warn "No docs for parameter #{name} of #{type.name}" unless description and !description.empty?
+      warn "No docs for parameter #{name} of #{type.name}" unless description && !description.empty?
 
       # Strip off the too-huge provider list. The question of what to do about
       # providers is a decision for the formatter, not the fragment collector.

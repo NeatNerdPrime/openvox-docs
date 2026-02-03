@@ -8,7 +8,7 @@
 
 def relativepath(path, relative_to)
   if path == relative_to
-    return '.' if path[-1] == '/' and relative_to[-1] == '/'
+    return '.' if (path[-1] == '/') && (relative_to[-1] == '/')
 
     return File.basename(path)
 
@@ -45,11 +45,11 @@ def relativepath(path, relative_to)
     relative_to.shift
   end
 
-  if relative_to.length.zero? and path.length.zero?
+  if relative_to.length.zero? && path.length.zero?
     throw 'BUG: Processed paths were equivalent when raw paths were the same'
   elsif relative_to.length.zero?
     path.join(File::SEPARATOR)
-  elsif path.length.zero? and relative_to.length == 1
+  elsif path.length.zero? && (relative_to.length == 1)
     '.'
   else
     ((['..'] * (relative_to.length - 1)) + path).join(File::SEPARATOR)

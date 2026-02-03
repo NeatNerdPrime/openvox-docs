@@ -131,7 +131,7 @@ module Jekyll
       real_file = sourcedir + absolute_url.relative_path_from(root)
 
       # Add partial to dependency tree
-      if context.registers[:page] and context.registers[:page].has_key? 'path'
+      if context.registers[:page] && context.registers[:page].has_key?('path')
         site.regenerator.add_dependency(
           site.in_source_dir(context.registers[:page]['path']),
           real_file.to_s,

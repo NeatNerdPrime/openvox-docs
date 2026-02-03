@@ -38,7 +38,7 @@ Jekyll::Hooks.register :site, :post_render do |site|
             link_test_results[page.relative_path][:internal_with_hostname] << link
             # continue and see if it actually resolves. Get the path portion.
             path = path.split(DOCS_HOSTNAME, 2)[1]
-          elsif path =~ PREVIEW_HOSTNAMES or path =~ %r{^(https?:)?//localhost} # it's a link to the preview site.
+          elsif path =~ (PREVIEW_HOSTNAMES) || path =~ (%r{^(https?:)?//localhost}) # it's a link to the preview site.
             link_test_results[page.relative_path][:broken_path] << link
             next
           elsif %r{^//[^/.]+/}.match?(path) # the hostname has no TLD and probably won't resolve on the global internet.
@@ -90,7 +90,7 @@ Jekyll::Hooks.register :site, :post_render do |site|
             # Finally, we're willing to call it broken.
             link_test_results[page.relative_path][:broken_path] << link
           end
-        elsif !anchor.nil? and anchor != '' and destination.content !~ /id=(['"])#{anchor}\1/ # we found a "real" page, so go ahead and check the anchors.
+        elsif !anchor.nil? && (anchor != '') && destination.content !~ (/id=(['"])#{anchor}\1/) # we found a "real" page, so go ahead and check the anchors.
           link_test_results[page.relative_path][:broken_anchor] << link # then we couldn't find that anchor.
         end
       end

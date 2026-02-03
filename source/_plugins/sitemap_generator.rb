@@ -117,7 +117,7 @@ module Jekyll
         end
 
         date = (@source_dir + post.path).mtime
-        last_modified_date = date if last_modified_date.nil? or date > last_modified_date
+        last_modified_date = date if last_modified_date.nil? || (date > last_modified_date)
       end
 
       last_modified_date
@@ -263,7 +263,7 @@ module Jekyll
     def valid_priority?(priority)
       begin
         priority_val = Float(priority)
-        return true if priority_val >= 0.0 and priority_val <= 1.0
+        return true if (priority_val >= 0.0) && (priority_val <= 1.0)
       rescue ArgumentError
       end
 
