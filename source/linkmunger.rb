@@ -45,11 +45,11 @@ def relativepath(path, relative_to)
     relative_to.shift
   end
 
-  if relative_to.length.zero? && path.length.zero?
+  if relative_to.empty? && path.empty?
     throw 'BUG: Processed paths were equivalent when raw paths were the same'
-  elsif relative_to.length.zero?
+  elsif relative_to.empty?
     path.join(File::SEPARATOR)
-  elsif path.length.zero? && (relative_to.length == 1)
+  elsif path.empty? && (relative_to.length == 1)
     '.'
   else
     ((['..'] * (relative_to.length - 1)) + path).join(File::SEPARATOR)
