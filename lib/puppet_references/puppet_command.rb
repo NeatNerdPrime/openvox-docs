@@ -9,15 +9,15 @@ module PuppetReferences
         @command << " #{PUPPET_OPTIONS}"
       end
     end
+
     def get
       text = ''
       Dir.chdir(@puppet_dir) do
         text = PuppetReferences::Util.run_dirty_command(
-            "bundle exec #{@command}"
+          "bundle exec #{@command}"
         )
       end
       text
     end
-
   end
 end

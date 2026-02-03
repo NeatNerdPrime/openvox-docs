@@ -70,23 +70,25 @@ module TocFilter
             hdepth.push(hlevel) # and we DO add our current level to hdepth.
           end
         end
-      # else we're at the same level as last time and don't need to change course.
+        # else we're at the same level as last time and don't need to change course.
       end
       sublist_stack.last.push(
         {
-            text: text,
-            id: id,
-            hlevel: hlevel
+          text: text,
+          id: id,
+          hlevel: hlevel
         }
       )
     }
     print_toc_sublist(toc)
   end
+
   def print_toc_sublist(ary)
     return '' if ary == nil # Most common case.
+
     sublist_string = ''
     sublist_string << %{\n<ol class="toc">\n}
-    ary.each {|header|
+    ary.each { |header|
       sublist_string << %{#{" " * header[:hlevel].to_i}<li class="toc-lv#{header[:hlevel]}"><a href="##{header[:id]}">#{header[:text]}</a>}
       sublist_string << print_toc_sublist(header[:sublist])
       sublist_string << "</li>\n"
@@ -95,6 +97,5 @@ module TocFilter
     sublist_string << "</ol>"
     sublist_string
   end
-
 end
 Liquid::Template.register_filter(TocFilter)

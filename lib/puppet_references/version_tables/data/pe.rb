@@ -14,10 +14,10 @@ module PuppetReferences
           config = PuppetReferences::VersionTables::Config.read
           @includes = config['pe']['include'] || {}
           @excludes = config['pe']['exclude'] || []
-          detected_versions = @repo.tags.map {|tag| tag.name}.select {|name|
+          detected_versions = @repo.tags.map { |tag| tag.name }.select { |name|
             (name =~ /^\d{4}/ or name =~ /^3\.8/) and name !~ /-/
           }
-          @versions_and_commits = Hash[ detected_versions.map {|name| [name, name]} ]
+          @versions_and_commits = Hash[detected_versions.map { |name| [name, name] }]
           @excludes.each do |tag|
             @versions_and_commits.delete(tag)
           end
@@ -25,43 +25,43 @@ module PuppetReferences
 
           @package_name_variations = {
 
-              'Puppet' => %w(pe-puppet pup-puppet puppet-enterprise-nxos-1-i386 puppet-enterprise-nxos-1-x86_64),
+            'Puppet' => %w(pe-puppet pup-puppet puppet-enterprise-nxos-1-i386 puppet-enterprise-nxos-1-x86_64),
 
-              'Puppet Agent' => %w(puppet-agent),
+            'Puppet Agent' => %w(puppet-agent),
 
-              'Puppet Server' => %w(pe-puppetserver),
+            'Puppet Server' => %w(pe-puppetserver),
 
-              'Facter' => %w(pe-facter pup-facter),
+            'Facter' => %w(pe-facter pup-facter),
 
-              'Hiera' => %w(pe-hiera pup-hiera),
+            'Hiera' => %w(pe-hiera pup-hiera),
 
-              'PuppetDB' => %w(pe-puppetdb),
+            'PuppetDB' => %w(pe-puppetdb),
 
-              'MCollective' => %w(pe-mcollective pup-mcollective),
+            'MCollective' => %w(pe-mcollective pup-mcollective),
 
-              'Razor Server' => %w(pe-razor-server),
+            'Razor Server' => %w(pe-razor-server),
 
-              'Razor Libs' => %w(pe-razor-libs),
+            'Razor Libs' => %w(pe-razor-libs),
 
-              'r10k' => %w(pe-r10k),
+            'r10k' => %w(pe-r10k),
 
-              'Ruby' => %w(pe-ruby pup-ruby),
+            'Ruby' => %w(pe-ruby pup-ruby),
 
-              'Nginx' => %w(pe-nginx),
+            'Nginx' => %w(pe-nginx),
 
-              'Apache' => %w(pe-httpd),
+            'Apache' => %w(pe-httpd),
 
-              'ActiveMQ' => %w(pe-activemq),
+            'ActiveMQ' => %w(pe-activemq),
 
-              'PostgreSQL' => %w(pe-postgresql),
+            'PostgreSQL' => %w(pe-postgresql),
 
-              'Passenger' => %w(pe-passenger),
+            'Passenger' => %w(pe-passenger),
 
-              'OpenSSL' => %w(pe-openssl pup-openssl),
+            'OpenSSL' => %w(pe-openssl pup-openssl),
 
-              'Java' => %w(pe-java),
+            'Java' => %w(pe-java),
 
-              'LibAPR' => %w(pe-libapr)
+            'LibAPR' => %w(pe-libapr)
 
           }
         end
@@ -70,13 +70,13 @@ module PuppetReferences
         def data
           unless @data
             puts 'Updating historical PE data by reading the enterprise-dist repo...'
-            @data = @versions_and_commits.reduce( {} ) do |result, (name, commit)|
+            @data = @versions_and_commits.reduce({}) do |result, (name, commit)|
               puts "#{name}..."
               if @cache[name]
                 puts "  (using cached)"
                 result[name] = @cache[name]
               else
-                result[name] = packages_json_to_versions_sorted_by_platform( load_package_json(commit) )
+                result[name] = packages_json_to_versions_sorted_by_platform(load_package_json(commit))
               end
               result
             end
@@ -89,7 +89,7 @@ module PuppetReferences
         # this is like { platformname: { packagename: { version: version, md5: md5 }, packagename: {...} }, platformname: {......} }
         def load_package_json(version)
           @repo.checkout(version)
-          JSON.load( File.read( PuppetReferences::PE_DIR + 'packages.json' ) )
+          JSON.load(File.read(PuppetReferences::PE_DIR + 'packages.json'))
         end
 
         # Use lein deps :tree to turn a pe-puppetserver version into a real Puppet Server version
@@ -157,15 +157,15 @@ http://leiningen.org/#install are not written with us in mind, so follow these:
 
         def packages_json_to_versions_sorted_by_platform(packagedata)
           result = {}
-          packagedata.each do | platform, platform_hash |
+          packagedata.each do |platform, platform_hash|
             # Skip never-shipped network device OSes.
             # https://tickets.puppetlabs.com/browse/DOC-2645
             if platform == "nxos-1-x86_64" || platform == "cumulus-1.5-powerpc" || platform == "nxos-1-i386"
               next
             end
 
-            platform_hash.each do | package_name, package_data |
-              we_care = @package_name_variations.detect {|k,v| v.include?(package_name)}
+            platform_hash.each do |package_name, package_data|
+              we_care = @package_name_variations.detect { |k, v| v.include?(package_name) }
               if we_care
                 common_name = we_care[0]
                 normalized_version = normalize_version_number(package_data['version'], common_name)
@@ -178,8 +178,6 @@ http://leiningen.org/#install are not written with us in mind, so follow these:
 
           result
         end
-
-
       end
     end
   end

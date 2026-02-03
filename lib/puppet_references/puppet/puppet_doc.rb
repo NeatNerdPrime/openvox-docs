@@ -27,12 +27,12 @@ module PuppetReferences
         if reference == 'configuration'
           clean_configuration_reference!(raw_content)
         end
-        header_data = {title: "#{reference.capitalize} Reference",
-                       toc: 'columns',
-                       canonical: "#{@latest}/#{reference}.html"}
+        header_data = { title: "#{reference.capitalize} Reference",
+                        toc: 'columns',
+                        canonical: "#{@latest}/#{reference}.html" }
         content = make_header(header_data) + raw_content
         filename = OUTPUT_DIR + "#{reference}.md"
-        filename.open('w') {|f| f.write(content)}
+        filename.open('w') { |f| f.write(content) }
       end
 
       # Remove any references to a real system's hostname.
@@ -50,5 +50,3 @@ module PuppetReferences
     end
   end
 end
-
-

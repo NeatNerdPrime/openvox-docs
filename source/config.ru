@@ -1,7 +1,6 @@
 require 'pathname'
 
 class DirectoryIndex
-
   def initialize(app)
     @app = app
   end
@@ -15,7 +14,6 @@ class DirectoryIndex
     end
     @app.call(env)
   end
-
 end
 
 puts ">>> Serving at http://localhost:9292"

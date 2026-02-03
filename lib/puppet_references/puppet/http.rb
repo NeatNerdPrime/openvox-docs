@@ -22,7 +22,7 @@ module PuppetReferences
 
       def copy_schemas
         # This cp_r method is finicky and makes me long for rsync.
-        FileUtils.cp_r( (API_SOURCE + 'schemas').to_path, OUTPUT_DIR.to_path)
+        FileUtils.cp_r((API_SOURCE + 'schemas').to_path, OUTPUT_DIR.to_path)
       end
 
       def copy_docs
@@ -41,13 +41,13 @@ module PuppetReferences
         elsif shortname == 'pson'
           title = 'PSON'
         else
-          title = shortname.sub(/^http_/, '').split('_').map {|w| w.capitalize}.join(' ')
+          title = shortname.sub(/^http_/, '').split('_').map { |w| w.capitalize }.join(' ')
         end
-        header_data = {title: "Puppet HTTP API: #{title}",
-                       canonical: "#{@latest}/#{shortname}.html"}
+        header_data = { title: "Puppet HTTP API: #{title}",
+                        canonical: "#{@latest}/#{shortname}.html" }
         content = make_header(header_data) + file.read
         dest = DOCS_DIR + file.basename
-        dest.open('w') {|f| f.write(content)}
+        dest.open('w') { |f| f.write(content) }
       end
     end
   end

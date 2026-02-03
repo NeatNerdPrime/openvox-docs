@@ -11,11 +11,10 @@ module PuppetReferences
         @agent_stuff.delete('Puppet Agent')
 
         @file = '_versions_late_3.x.md'
-        @versions = @pe_data.keys.select {|v|
+        @versions = @pe_data.keys.select { |v|
           v =~ /^3\.[78]/
         }.sort.reverse
       end
     end
   end
 end
-

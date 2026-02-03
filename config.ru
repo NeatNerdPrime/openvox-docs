@@ -1,6 +1,5 @@
 require 'pathname'
 
-
 module Rack
   class DirectoryWithIndexes < Rack::Directory
     def initialize(*args)
@@ -12,6 +11,7 @@ module Rack
 
       if stat.readable?
         return @app.call(env) if stat.file?
+
         if stat.directory?
           index = Pathname.new(path) + 'index.html'
           if index.readable?
@@ -25,7 +25,6 @@ module Rack
       else
         raise Errno::ENOENT, 'No such file or directory'
       end
-
     rescue Errno::ENOENT, Errno::ELOOP
       return entity_not_found(path_info)
     end
@@ -39,6 +38,7 @@ module Rack
 
       if @stat.readable?
         return @app.call(@env) if @stat.file?
+
         if @stat.directory?
           index = Pathname.new(@path) + 'index.html'
           if index.readable?
@@ -51,11 +51,9 @@ module Rack
       else
         raise Errno::ENOENT, 'No such file or directory'
       end
-
     rescue Errno::ENOENT, Errno::ELOOP
       return entity_not_found(@path_info)
     end
-
   end
 end
 

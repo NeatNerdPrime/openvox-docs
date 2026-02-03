@@ -26,7 +26,7 @@ EXCEPTIONS = [
   '#page-nav' # Outside the content area (and thus excluded from the page source), but present on every page.
 ]
 
-all_info = YAML.load( File.read( LINK_CHECK_YAML ))
+all_info = YAML.load(File.read(LINK_CHECK_YAML))
 
 kinds = {
   :broken_anchor => "GLITCHY: in-page anchor is broken",
@@ -35,11 +35,11 @@ kinds = {
   :redirected => "STALE: redirected to a new URL."
 }
 
-subset = all_info.select {|key, val| key =~ /^#{PREFIXES}/ }.sort
+subset = all_info.select { |key, val| key =~ /^#{PREFIXES}/ }.sort
 
 # Suppress hostname warnings for pages that SHOULD be using the docs site hostname
 subset.each do |page, report|
-  if USING_HOSTNAME_IS_OK.detect {|match| page =~ match}
+  if USING_HOSTNAME_IS_OK.detect { |match| page =~ match }
     report.delete(:internal_with_hostname)
   end
 end
@@ -53,11 +53,13 @@ subset.each do |page, report|
   puts "file: #{page}"
   report.each do |kind, links|
     next unless kinds.include?(kind)
+
     puts "--#{kinds[kind]}"
     links.each do |link|
       if EXCEPTIONS.include?(link)
         next
       end
+
       puts "    #{link}"
     end
     puts ""

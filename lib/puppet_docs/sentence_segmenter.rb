@@ -1,8 +1,6 @@
 require 'nokogiri'
 require 'punkt-segmenter'
 
-
-
 # Sentence segmenter -- splits <p> elements into something like
 # <div class="real-paragraph">
 #    <p class="temp-sentence"> ... </p>
@@ -15,7 +13,6 @@ require 'punkt-segmenter'
 
 module PuppetDocs
   module SentenceSegmenter
-
     def self.segment_on_sentences(text)
       parsed = Nokogiri::HTML::DocumentFragment.parse(text)
       tokenizer = Punkt::SentenceTokenizer.new(text)
@@ -34,7 +31,7 @@ module PuppetDocs
     def self.mangle_file(filename)
       full_path = File.expand_path(filename)
       print "Mangling #{full_path}... "
-      mangled_html = segment_on_sentences( File.read(full_path, encoding: 'utf-8') )
+      mangled_html = segment_on_sentences(File.read(full_path, encoding: 'utf-8'))
       File.open(full_path, 'w') do |f|
         f.write(mangled_html)
       end
@@ -54,7 +51,7 @@ module PuppetDocs
 
       # transform into paragraph
       all_real_paragraphs.each do |graf|
-        graf.replace( '<p>' << graf.inner_html << '</p>' )
+        graf.replace('<p>' << graf.inner_html << '</p>')
       end
 
       # build yaml frontmatter by subbing in title from div.title
@@ -73,14 +70,11 @@ module PuppetDocs
     def self.unmangle_file(filename)
       full_path = File.expand_path(filename)
       print "Un-mangling #{full_path}... "
-      fixed_html = unsegment_paragraphs( File.read(full_path, encoding: 'utf-8') )
+      fixed_html = unsegment_paragraphs(File.read(full_path, encoding: 'utf-8'))
       File.open(full_path, 'w') do |f|
         f.write(fixed_html)
       end
       print " done.\n"
     end
-
-
   end
 end
-

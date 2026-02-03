@@ -1,4 +1,5 @@
 # encoding: UTF-8
+
 require 'rubygems'
 require 'bundler/setup'
 require 'rake'
@@ -7,7 +8,6 @@ require 'fileutils'
 require 'yaml'
 require 'puppet_docs/config'
 require 'rake/clean'
-
 
 CLOBBER.include('output')
 CLOBBER.include('externalsources')
@@ -25,7 +25,6 @@ VERSION_FILE = "#{OUTPUT_DIR}/VERSION.txt"
 @config_data = PuppetDocs::Config.new("#{SOURCE_DIR}/_config.yml")
 
 def jekyll(command = 'build', source = SOURCE_DIR, destination = OUTPUT_DIR, *args)
-
   about_verbose_mode = <<-ABOUT_VERBOSE_MODE
 
     -*-*-*-*-*-*-*-*-*-*-*-*-
@@ -54,7 +53,6 @@ end
 
 desc "Stash all directories but one in a temporary location. Run a preview server on localhost:4000."
 task :preview, :filename do |t, args|
-
   if ["marionette-collective", "puppetdb_master", "puppetdb_1.1", "puppetdb", "mcollective"].include?(args.filename)
     abort("\n\n*** External documentation sources aren't supported right now.\n\n")
   end
@@ -63,11 +61,12 @@ task :preview, :filename do |t, args|
   FileUtils.mkdir(STASH_DIR) unless File.exist?(STASH_DIR)
 
   # Directories and files we have to have for a good live preview
-  required_dirs = ["_config.yml", "_includes", "_plugins", "files", "favicon.ico", "_layouts","images"]
+  required_dirs = ["_config.yml", "_includes", "_plugins", "files", "favicon.ico", "_layouts", "images"]
 
   # Move the things we don't need into the _stash
   Dir.glob("#{SOURCE_DIR}/*") do |directory|
-    FileUtils.mv directory, STASH_DIR unless directory.include?(args.filename) || required_dirs.include?(File.basename(directory))
+    FileUtils.mv directory,
+                 STASH_DIR unless directory.include?(args.filename) || required_dirs.include?(File.basename(directory))
   end
 
   # Get all the files we'd like to see in a temporary preview index (so we don't have to hunt for files by name)
@@ -75,22 +74,22 @@ task :preview, :filename do |t, args|
   file_list = Dir.glob("**/*.markdown")
   preview_index_files = []
   file_list.each do |f|
-    html_name = f.gsub(/\.markdown/,'.html')
+    html_name = f.gsub(/\.markdown/, '.html')
     preview_index_files << "* [#{args.filename}/#{html_name}](#{args.filename}/#{html_name})\n"
   end
 
-preview_index=<<PREVIEW_INDEX
----
-layout: frontpage
-title: Files Available for Live Preview
-canonical: "/"
----
-#{preview_index_files}
-PREVIEW_INDEX
+  preview_index = <<~PREVIEW_INDEX
+    ---
+    layout: frontpage
+    title: Files Available for Live Preview
+    canonical: "/"
+    ---
+    #{preview_index_files}
+  PREVIEW_INDEX
 
   Dir.chdir(SOURCE_DIR)
   # put our file list index in place
-  File.open("index.markdown", 'w') {|f| f.write(preview_index) }
+  File.open("index.markdown", 'w') { |f| f.write(preview_index) }
 
   # Run our preview server, watching ... watching ...
   jekyll('serve', SOURCE_DIR, PREVIEW_DIR)
@@ -111,7 +110,6 @@ task :unpreview do
 end
 
 namespace :externalsources do
-
   unless File.exist?("externalsources") && File.directory?("externalsources")
     Dir.mkdir("externalsources")
   end
@@ -147,7 +145,7 @@ namespace :externalsources do
 
   # "Fetch all external doc repos (from externalsources in source/_config.yml), cloning any that don't yet exist"
   task :clone do
-    repos = @config_data['externalsources'].values.map {|info| info['repo']}.uniq
+    repos = @config_data['externalsources'].values.map { |info| info['repo'] }.uniq
 
     Dir.chdir("externalsources") do
       repos.each do |repo|
@@ -180,7 +178,7 @@ namespace :externalsources do
 
   # "Clean up any external source symlinks from the source directory" # In the current implementation, all external sources are symlinks and there are no other symlinks in the source. This means we can naively kill all symlinks in ./source.
   task :clean do
-    allsymlinks = FileList.new("#{SOURCE_DIR}/**/*").select{|f| File.symlink?(f)}
+    allsymlinks = FileList.new("#{SOURCE_DIR}/**/*").select { |f| File.symlink?(f) }
     allsymlinks.each do |f|
       File.delete(f)
     end
@@ -231,9 +229,9 @@ task :symlink_latest_versions do
   @config_data['symlink_latest'].each do |project|
     project_dir = "#{OUTPUT_DIR}/#{project}"
 
-    versions = Pathname.glob("#{project_dir}/*").select {|f|
+    versions = Pathname.glob("#{project_dir}/*").select { |f|
       f.directory? && !f.symlink?
-    }.map {|d| d.basename.to_s}
+    }.map { |d| d.basename.to_s }
 
     latest = @config_data['lock_latest'][project] || PuppetDocs::Versions.latest(versions)
 
@@ -258,9 +256,8 @@ task :generate_redirects do
   nginx_config = "#{OUTPUT_DIR}/nginx_rewrite.conf"
   redirects_yaml = "#{SOURCE_DIR}/_redirects.yaml"
   generated_lines = PuppetDocs::AutoRedirects.generate(@config_data, redirects_yaml)
-  File.open(nginx_config, 'a') {|f| f.write(generated_lines)}
+  File.open(nginx_config, 'a') { |f| f.write(generated_lines) }
 end
-
 
 desc "Serve generated output on port 9292"
 task :serve do
@@ -269,7 +266,6 @@ end
 
 desc "Generate docs and serve locally"
 task :run => [:generate, :serve]
-
 
 task :write_version do
   if File.directory?('.git')
@@ -294,7 +290,7 @@ end
 
 task :check_build_version do
   abort "No site build found! Run 'rake build' before releasing." unless File.directory?(OUTPUT_DIR)
-  abort "Site build is empty! Run 'rake build' before releasing." if (Dir.entries(OUTPUT_DIR) - %w{ . .. }).empty?
+  abort "Site build is empty! Run 'rake build' before releasing." if (Dir.entries(OUTPUT_DIR) - %w{. ..}).empty?
   if File.directory?('.git')
     if File.exists?(VERSION_FILE)
       head = `git rev-parse HEAD`.strip
@@ -323,8 +319,6 @@ task :build_and_check_links do
   Rake::Task['build'].invoke
 end
 
-
-
 desc "Instead of building real pages, build naked HTML fragments (with no nav, etc.)"
 task :build_html_fragments do
   Rake::Task['check_git_dirty_status'].invoke
@@ -347,7 +341,7 @@ task :build_and_mangle_html_fragments do
   all_fragments = Dir.glob('output/**/*.html') # This actually sweeps up YARD pages too, but... never mind.
   total_size = all_fragments.length
   all_fragments.each_with_index do |fragment, i|
-    print "(#{i+1}/#{total_size}) "
+    print "(#{i + 1}/#{total_size}) "
     PuppetDocs::SentenceSegmenter.mangle_file(fragment)
   end
 end
@@ -371,7 +365,6 @@ task :body_and_nav_html_only do
 
   Rake::Task['externalsources:clean'].invoke # The opposite of externalsources:link. Delete all symlinks in the source.
   Rake::Task['externalsources:clean'].reenable
-
 
   if @config_data['preview'].class == Array && @config_data['preview'].length > 0
     puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml."
@@ -411,6 +404,3 @@ namespace :references do
     abort "No VERSION given to build references for" unless ENV['VERSION']
   end
 end
-
-
-

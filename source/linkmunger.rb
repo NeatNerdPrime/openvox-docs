@@ -93,7 +93,7 @@ Dir['**/*.html'].each do |page_path|
     "#{$1}=#{$2}" + relativepath($3, "/" + page_path) + $2
   end
 
-  if ! noop
+  if !noop
     File.write(page_path, results)
   end
 end

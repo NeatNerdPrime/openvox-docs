@@ -33,7 +33,6 @@
 # recipe for pain.  -NF
 
 module Jekyll
-
   class PartialTagError < StandardError
     attr_accessor :path
 
@@ -48,7 +47,6 @@ module Jekyll
 
     VALID_SYNTAX = /([\w-]+)\s*=\s*(?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w\.-]+))/
     VARIABLE_SYNTAX = /(?<variable>[^{]*\{\{\s*(?<name>[\w\-\.]+)\s*(\|.*)?\}\}[^\s}]*)(?<params>.*)/
-
 
     def initialize(tag_name, markup, tokens)
       super
@@ -75,12 +73,12 @@ module Jekyll
         markup = markup[match.end(0)..-1]
 
         value = if match[2]
-          match[2].gsub(/\\"/, '"')
-        elsif match[3]
-          match[3].gsub(/\\'/, "'")
-        elsif match[4]
-          context[match[4]]
-        end
+                  match[2].gsub(/\\"/, '"')
+                elsif match[3]
+                  match[3].gsub(/\\'/, "'")
+                elsif match[4]
+                  context[match[4]]
+                end
 
         params[match[1]] = value
       end
@@ -90,16 +88,16 @@ module Jekyll
     def validate_params
       full_valid_syntax = Regexp.compile('\A\s*(?:' + VALID_SYNTAX.to_s + '(?=\s|\z)\s*)*\z')
       unless @params =~ full_valid_syntax
-        raise ArgumentError.new <<-eos
-Invalid syntax for #{@tag_name} tag:
+        raise ArgumentError.new <<~eos
+          Invalid syntax for #{@tag_name} tag:
 
-  #{@params}
+            #{@params}
 
-Valid syntax:
+          Valid syntax:
 
-  #{syntax_example}
+            #{syntax_example}
 
-eos
+        eos
       end
     end
 
@@ -140,12 +138,11 @@ eos
         )
       end
 
-
-#       source = real_file.read
-#       partial = Liquid::Template.parse(source)
-#       context.stack do
-#         partial.render(context)
-#       end
+      #       source = real_file.read
+      #       partial = Liquid::Template.parse(source)
+      #       context.stack do
+      #         partial.render(context)
+      #       end
 
       begin
         partial = site.liquid_renderer.file(real_file.to_s).parse(real_file.read)
@@ -157,11 +154,8 @@ eos
       rescue => e
         raise PartialTagError.new e.message, real_file.to_s
       end
-
-
     end
   end
-
 end
 
 Liquid::Template.register_tag('partial', Jekyll::PartialTag)

@@ -17,7 +17,6 @@ require 'rexml/document'
 require 'pathname'
 
 module Jekyll
-
   class Jekyll::Document
     attr_accessor :name
 
@@ -62,7 +61,7 @@ module Jekyll
 
     # Valid values allowed by sitemap.xml spec for change frequencies
     VALID_CHANGE_FREQUENCY_VALUES = ["always", "hourly", "daily", "weekly",
-      "monthly", "yearly", "never"]
+                                     "monthly", "yearly", "never"]
 
     # Goes through pages and posts and generates sitemap.xml file
     #
@@ -84,7 +83,7 @@ module Jekyll
 
       urlset = REXML::Element.new "urlset"
       urlset.add_attribute("xmlns",
-        "http://www.sitemaps.org/schemas/sitemap/0.9")
+                           "http://www.sitemaps.org/schemas/sitemap/0.9")
 
       @last_modified_post_date = fill_posts(site, urlset)
       fill_pages(site, urlset)
@@ -110,7 +109,6 @@ module Jekyll
     #
     # Returns last_modified_date of latest post
     def fill_posts(site, urlset)
-
       last_modified_date = nil
       site.collections["posts"].docs.each do |post|
         if !excluded?(site, post.name)
@@ -152,8 +150,6 @@ module Jekyll
 
       lastmod = fill_last_modified(site, page_or_post)
       url.add_element(lastmod) if lastmod
-
-
 
       if (page_or_post.data[@config['change_frequency_name']])
         change_frequency =

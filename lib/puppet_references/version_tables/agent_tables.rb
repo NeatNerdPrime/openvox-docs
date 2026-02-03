@@ -12,26 +12,25 @@ module PuppetReferences
         @file = 'generic.md' # override me
         @versions = [] # override me
         @agent_stuff = %w(Puppet Facter Hiera MCollective Ruby OpenSSL)
-
       end
 
       def build_all
         puts "Building #{@file}"
         header = ['puppet-agent'].concat(@agent_stuff)
-        body = @versions.map {|version| # Make a row for each version
-          component_versions = @agent_stuff.map {|component| # read from the version info
+        body = @versions.map { |version| # Make a row for each version
+          component_versions = @agent_stuff.map { |component| # read from the version info
             PuppetReferences::Util.link_release_notes_if_applicable(
-                component,
-                @agent_data[version][component],
-                nil,
-                @agent_data
+              component,
+              @agent_data[version][component],
+              nil,
+              @agent_data
             )
           }
           linked_agent_version = PuppetReferences::Util.link_release_notes_if_applicable(
-              'Puppet Agent',
-              version,
-              nil,
-              @agent_data
+            'Puppet Agent',
+            version,
+            nil,
+            @agent_data
           )
           [linked_agent_version].concat(component_versions)
         }
@@ -40,9 +39,8 @@ module PuppetReferences
 
         OUTPUT_DIR.mkpath
         filename = OUTPUT_DIR + @file
-        filename.open('w') {|f| f.write(table)}
+        filename.open('w') { |f| f.write(table) }
       end
-
     end
   end
 end

@@ -18,34 +18,34 @@ require 'json'
 require 'puppet'
 require 'puppet/util/docs'
 extend Puppet::Util::Docs
+
 # We use scrub().
 
+# The schema of the typedocs object:
 
-  # The schema of the typedocs object:
-
-  # { :name_of_type => {
-  #     :description => 'Markdown fragment: description of type',
-  #     :features    => { :feature_name => 'feature description', ... }
-  #       # If there are no features, the value of :features will be an empty hash.
-  #     :providers   => { # If there are no providers, the value of :providers will be an empty hash.
-  #       :name_of_provider => {
-  #         :description => 'Markdown fragment: docs for this provider',
-  #         :features    => [:feature_name, :other_feature, ...]
-  #           # If provider has no features, the value of :features will be an empty array.
-  #       },
-  #       ...etc...
-  #     }
-  #     :attributes  => { # Puppet dictates that there will ALWAYS be at least one attribute.
-  #       :name_of_attribute => {
-  #         :description => 'Markdown fragment: docs for this attribute',
-  #         :kind        => (:property || :parameter),
-  #         :namevar     => (true || false), # always false if :kind => :property
-  #       },
-  #       ...etc...
-  #     },
-  #   },
-  #   ...etc...
-  # }
+# { :name_of_type => {
+#     :description => 'Markdown fragment: description of type',
+#     :features    => { :feature_name => 'feature description', ... }
+#       # If there are no features, the value of :features will be an empty hash.
+#     :providers   => { # If there are no providers, the value of :providers will be an empty hash.
+#       :name_of_provider => {
+#         :description => 'Markdown fragment: docs for this provider',
+#         :features    => [:feature_name, :other_feature, ...]
+#           # If provider has no features, the value of :features will be an empty array.
+#       },
+#       ...etc...
+#     }
+#     :attributes  => { # Puppet dictates that there will ALWAYS be at least one attribute.
+#       :name_of_attribute => {
+#         :description => 'Markdown fragment: docs for this attribute',
+#         :kind        => (:property || :parameter),
+#         :namevar     => (true || false), # always false if :kind => :property
+#       },
+#       ...etc...
+#     },
+#   },
+#   ...etc...
+# }
 typedocs = {}
 
 Puppet::Type.loadall
@@ -59,22 +59,22 @@ Puppet::Type.eachtype { |type|
   # Initialize the documentation object for this type
   docobject = {
     :description => scrub(type.doc),
-    :attributes  => {}
+    :attributes => {}
   }
 
   # Handle features:
   # inject will return empty hash if type.features is empty.
-  docobject[:features] = type.features.inject( {} ) { |allfeatures, name|
-    allfeatures[name] = scrub( type.provider_feature(name).docs )
+  docobject[:features] = type.features.inject({}) { |allfeatures, name|
+    allfeatures[name] = scrub(type.provider_feature(name).docs)
     allfeatures
   }
 
   # Handle providers:
   # inject will return empty hash if type.providers is empty.
-  docobject[:providers] = type.providers.inject( {} ) { |allproviders, name|
+  docobject[:providers] = type.providers.inject({}) { |allproviders, name|
     allproviders[name] = {
-      :description => scrub( type.provider(name).doc ),
-      :features    => type.provider(name).features
+      :description => scrub(type.provider(name).doc),
+      :features => type.provider(name).features
     }
     allproviders
   }
@@ -90,19 +90,19 @@ Puppet::Type.eachtype { |type|
     docobject[:providers][:groupadd][:features] << :libuser
   end
 
-
   # Handle properties:
   docobject[:attributes].merge!(
-    type.validproperties.inject( {} ) { |allproperties, name|
+    type.validproperties.inject({}) { |allproperties, name|
       property = type.propertybyname(name)
       raise "Could not retrieve property #{propertyname} on type #{type.name}" unless property
+
       description = property.doc
       $stderr.puts "No docs for property #{name} of #{type.name}" unless description and !description.empty?
 
       allproperties[name] = {
         :description => scrub(description),
-        :kind        => :property,
-        :namevar     => false # Properties can't be namevars.
+        :kind => :property,
+        :namevar => false # Properties can't be namevars.
       }
       allproperties
     }
@@ -110,7 +110,7 @@ Puppet::Type.eachtype { |type|
 
   # Handle parameters:
   docobject[:attributes].merge!(
-    type.parameters.inject( {} ) { |allparameters, name|
+    type.parameters.inject({}) { |allparameters, name|
       description = type.paramdoc(name)
       $stderr.puts "No docs for parameter #{name} of #{type.name}" unless description and !description.empty?
 
@@ -120,8 +120,8 @@ Puppet::Type.eachtype { |type|
 
       allparameters[name] = {
         :description => scrub(description),
-        :kind        => :parameter,
-        :namevar     => type.key_attributes.include?(name) # returns a boolean
+        :kind => :parameter,
+        :namevar => type.key_attributes.include?(name) # returns a boolean
       }
       allparameters
     }

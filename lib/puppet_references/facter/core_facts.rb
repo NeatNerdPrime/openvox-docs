@@ -15,15 +15,14 @@ module PuppetReferences
         puts 'Core facts: building reference.'
         OUTPUT_DIR.mkpath
         raw_text = `ruby #{PuppetReferences::FACTER_DIR}/lib/docs/generate.rb`
-        header_data = {title: 'Facter: Core Facts',
-                       toc: 'columns',
-                       canonical: "#{@latest}/core_facts.html"}
+        header_data = { title: 'Facter: Core Facts',
+                        toc: 'columns',
+                        canonical: "#{@latest}/core_facts.html" }
         content = make_header(header_data) + PREAMBLE + raw_text
         filename = OUTPUT_DIR + 'core_facts.md'
-        filename.open('w') {|f| f.write(content)}
+        filename.open('w') { |f| f.write(content) }
         puts 'Core facts: done!'
       end
-
     end
   end
 end

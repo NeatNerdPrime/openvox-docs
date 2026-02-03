@@ -5,11 +5,10 @@ module PuppetReferences
       def initialize(pe_data, agent_data = {})
         super
         @file = '_versions_2016.md'
-        @versions = @pe_data.keys.select {|v|
+        @versions = @pe_data.keys.select { |v|
           v =~ /^2016/
         }.sort.reverse
       end
     end
   end
 end
-
