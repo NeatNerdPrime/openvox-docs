@@ -13,12 +13,12 @@ CLOBBER.include('references_output')
 
 top_dir = Dir.pwd
 
-SOURCE_DIR = "#{top_dir}/source"
-OUTPUT_DIR = "#{top_dir}/output"
-STASH_DIR = "#{top_dir}/_stash"
-PREVIEW_DIR = "#{top_dir}/_preview"
+SOURCE_DIR = "#{top_dir}/source".freeze
+OUTPUT_DIR = "#{top_dir}/output".freeze
+STASH_DIR = "#{top_dir}/_stash".freeze
+PREVIEW_DIR = "#{top_dir}/_preview".freeze
 
-VERSION_FILE = "#{OUTPUT_DIR}/VERSION.txt"
+VERSION_FILE = "#{OUTPUT_DIR}/VERSION.txt".freeze
 
 @config_data = PuppetDocs::Config.new("#{SOURCE_DIR}/_config.yml")
 

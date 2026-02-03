@@ -53,15 +53,15 @@ module Jekyll
     priority :lowest
 
     # Config defaults
-    SITEMAP_FILE_NAME = '/sitemap.xml'
-    EXCLUDE = ['/atom.xml', '/feed.xml', '/feed/index.xml']
-    INCLUDE_POSTS = ['/index.html']
-    CHANGE_FREQUENCY_NAME = 'change_frequency'
-    PRIORITY_NAME = 'priority'
+    SITEMAP_FILE_NAME = '/sitemap.xml'.freeze
+    EXCLUDE = ['/atom.xml', '/feed.xml', '/feed/index.xml'].freeze
+    INCLUDE_POSTS = ['/index.html'].freeze
+    CHANGE_FREQUENCY_NAME = 'change_frequency'.freeze
+    PRIORITY_NAME = 'priority'.freeze
 
     # Valid values allowed by sitemap.xml spec for change frequencies
     VALID_CHANGE_FREQUENCY_VALUES = %w[always hourly daily weekly
-                                       monthly yearly never]
+                                       monthly yearly never].freeze
 
     # Goes through pages and posts and generates sitemap.xml file
     #

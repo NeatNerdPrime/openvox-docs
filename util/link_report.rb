@@ -17,14 +17,14 @@ Example:
   exit
 end
 
-PREFIXES = "(#{ARGV.join('|')})"
+PREFIXES = "(#{ARGV.join('|')})".freeze
 LINK_CHECK_YAML = File.join(File.dirname(__FILE__), '..', 'link_test_results.yaml')
 USING_HOSTNAME_IS_OK = [
   %r{^/puppet/[^/]+/reference/(function\.|http_api/|indirection\.|configuration\.|man/|metaparameter\.|report\.|type\.|types/)},
-]
+].freeze
 EXCEPTIONS = [
   '#page-nav', # Outside the content area (and thus excluded from the page source), but present on every page.
-]
+].freeze
 
 all_info = YAML.load_file(LINK_CHECK_YAML)
 
