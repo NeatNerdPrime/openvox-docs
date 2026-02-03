@@ -9,24 +9,19 @@ module Rack
     def list_path_2x(env, path, path_info, script_name)
       stat = ::File.stat(path)
 
-      if stat.readable?
-        return @app.call(env) if stat.file?
+      raise Errno::ENOENT, 'No such file or directory' unless stat.readable?
+      return @app.call(env) if stat.file?
 
-        if stat.directory?
-          index = Pathname.new(path) + 'index.html'
-          if index.readable?
-            env['PATH_INFO'] = env['PATH_INFO'].sub(/\/?$/, '/index.html')
-            return @app.call(env)
-          else
-            return list_directory(path_info, path, script_name)
-          end
-        end
+      if stat.directory?
+        index = Pathname.new(path) + 'index.html'
+        return list_directory(path_info, path, script_name) unless index.readable?
 
-      else
-        raise Errno::ENOENT, 'No such file or directory'
+        env['PATH_INFO'] = env['PATH_INFO'].sub(%r{/?$}, '/index.html')
+        @app.call(env)
+
       end
     rescue Errno::ENOENT, Errno::ELOOP
-      return entity_not_found(path_info)
+      entity_not_found(path_info)
     end
 
     def list_path(env = @env, path = @path, path_info = @path_info, script_name = @script_name)
@@ -36,27 +31,23 @@ module Rack
       @script_name = script_name
       @stat = ::File.stat(@path)
 
-      if @stat.readable?
-        return @app.call(@env) if @stat.file?
+      raise Errno::ENOENT, 'No such file or directory' unless @stat.readable?
+      return @app.call(@env) if @stat.file?
 
-        if @stat.directory?
-          index = Pathname.new(@path) + 'index.html'
-          if index.readable?
-            @env['PATH_INFO'] = @env['PATH_INFO'].sub(/\/?$/, '/index.html')
-            return @app.call(@env)
-          else
-            return list_directory(@path_info, @path, @script_name)
-          end
-        end
-      else
-        raise Errno::ENOENT, 'No such file or directory'
+      if @stat.directory?
+        index = Pathname.new(@path) + 'index.html'
+        return list_directory(@path_info, @path, @script_name) unless index.readable?
+
+        @env['PATH_INFO'] = @env['PATH_INFO'].sub(%r{/?$}, '/index.html')
+        @app.call(@env)
+
       end
     rescue Errno::ENOENT, Errno::ELOOP
-      return entity_not_found(@path_info)
+      entity_not_found(@path_info)
     end
   end
 end
 
-puts ">>> Serving at http://localhost:9292"
+puts '>>> Serving at http://localhost:9292'
 
 run Rack::DirectoryWithIndexes.new(Pathname.new(__FILE__).parent + 'output')

@@ -13,8 +13,8 @@ Jekyll::Hooks.register :site, :post_render do |site|
     GENERATED_REDIRECTS = PuppetDocs::AutoRedirects.generate(site.config, "#{site.source}/_redirects.yaml")
 
     link_test_results = {}
-    link_regex = %r{<[^>]+(href|src)=(['"])([^'"]+)\2}i
-    redirections = (NGINX_CONFIG + GENERATED_REDIRECTS).scan(%r{^rewrite\s+(\S+)}).map { |ary| Regexp.new(ary[0]) }
+    link_regex = /<[^>]+(href|src)=(['"])([^'"]+)\2/i
+    redirections = (NGINX_CONFIG + GENERATED_REDIRECTS).scan(/^rewrite\s+(\S+)/).map { |ary| Regexp.new(ary[0]) }
 
     site.pages.each do |page|
       puts "testing #{page.url}"
@@ -28,20 +28,20 @@ Jekyll::Hooks.register :site, :post_render do |site|
       cwd = Pathname.new(page.relative_path).dirname
       links = page.content.scan(link_regex).map { |ary| ary[2] }
 
-      links.each { |link|
+      links.each do |link|
         (path, anchor) = link.split('#', 2)
 
-        if path =~ /^(mailto|ftp|&)/ # then we don't care, byeeeee
+        if /^(mailto|ftp|&)/.match?(path) # then we don't care, byeeeee
           next
-        elsif path =~ %r{^(https?:)?//} # it's internal-with-hostname, external, or broken in an interesting way.
-          if path =~ DOCS_HOSTNAME # it's internal!
+        elsif %r{^(https?:)?//}.match?(path) # it's internal-with-hostname, external, or broken in an interesting way.
+          if DOCS_HOSTNAME.match?(path) # it's internal!
             link_test_results[page.relative_path][:internal_with_hostname] << link
             # continue and see if it actually resolves. Get the path portion.
             path = path.split(DOCS_HOSTNAME, 2)[1]
           elsif path =~ PREVIEW_HOSTNAMES or path =~ %r{^(https?:)?//localhost} # it's a link to the preview site.
             link_test_results[page.relative_path][:broken_path] << link
             next
-          elsif path =~ %r{^//[^/\.]+/} # the hostname has no TLD and probably won't resolve on the global internet.
+          elsif %r{^//[^/.]+/}.match?(path) # the hostname has no TLD and probably won't resolve on the global internet.
             # Someone probably typoed something like //puppet/latest/reference/etc.
             link_test_results[page.relative_path][:broken_path] << link
             next
@@ -56,14 +56,14 @@ Jekyll::Hooks.register :site, :post_render do |site|
         else
           full_path = (cwd + path).to_s
 
-          if full_path =~ %r{/latest(/|$)} # then we have to resolve it to its real directory, because we haven't symlinked latest yet.
+          if %r{/latest(/|$)}.match?(full_path) # then we have to resolve it to its real directory, because we haven't symlinked latest yet.
             path_dirs = full_path.split('/', -1)
             project = path_dirs[1..(path_dirs.index('latest') - 1)].join('/') # something like 'references' or 'ja/puppet'
             if site.config['symlink_latest'].include?(project)
               project_dir = "#{site.source}/#{project}"
-              versions = Pathname.glob("#{project_dir}/*").select { |f|
+              versions = Pathname.glob("#{project_dir}/*").select do |f|
                 f.directory?
-              }.map { |d| d.basename.to_s }
+              end.map { |d| d.basename.to_s }
 
               latest = site.config['lock_latest'][project] || PuppetDocs::Versions.latest(versions) || 'latest' # last one just in case we've deleted them all.
               path_dirs[path_dirs.index('latest')] = latest
@@ -74,9 +74,9 @@ Jekyll::Hooks.register :site, :post_render do |site|
           # Handle Jekyll's "friendly" index.html URL trimming
           full_path.sub!(%r{/index\.html$}, '/')
 
-          destination = site.pages.detect { |pg|
+          destination = site.pages.detect do |pg|
             pg.url == full_path or pg.relative_path == full_path or pg.url == "#{full_path}/"
-          }
+          end
           # that last one is because /puppet/4.3/reference is known to Jekyll as /puppet/4.3/reference/.
         end
 
@@ -90,12 +90,10 @@ Jekyll::Hooks.register :site, :post_render do |site|
             # Finally, we're willing to call it broken.
             link_test_results[page.relative_path][:broken_path] << link
           end
-        else # we found a "real" page, so go ahead and check the anchors.
-          if anchor != nil and anchor != '' and destination.content !~ /id=(['"])#{anchor}\1/ # then we couldn't find that anchor.
-            link_test_results[page.relative_path][:broken_anchor] << link
-          end
+        elsif !anchor.nil? and anchor != '' and destination.content !~ /id=(['"])#{anchor}\1/ # we found a "real" page, so go ahead and check the anchors.
+          link_test_results[page.relative_path][:broken_anchor] << link # then we couldn't find that anchor.
         end
-      }
+      end
     end
 
     # Clean the results
@@ -103,7 +101,7 @@ Jekyll::Hooks.register :site, :post_render do |site|
       tally.reject! { |_kind, links| links.empty? }
     end
     link_test_results.reject! { |_filename, tally| tally.empty? }
-    File.open("#{File.dirname(site.source)}/link_test_results.yaml", 'w') { |f| f.write(YAML.dump(link_test_results)) }
+    File.write("#{File.dirname(site.source)}/link_test_results.yaml", YAML.dump(link_test_results))
     puts "Finished checking links! See #{File.dirname(site.source)}/link_test_results.yaml for the details."
 
   end

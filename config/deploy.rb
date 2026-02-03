@@ -1,6 +1,6 @@
-set :application, "docs.puppet.com"
-set :repository, "git://github.com/puppetlabs/puppet-docs.git"
-set :user, "docsdeploy"
+set :application, 'docs.puppet.com'
+set :repository, 'git://github.com/puppetlabs/puppet-docs.git'
+set :user, 'docsdeploy'
 
 task :mirror0 do
   set :domain,    "#{user}@staticweb1-prod.puppetlabs.com"
@@ -14,21 +14,21 @@ end
 
 task :preview1 do
   set :domain,    "#{user}@staticweb1-dev.puppetlabs.com"
-  set :deploy_to, "/var/www/docspreview1.ops.puppetlabs.net"
+  set :deploy_to, '/var/www/docspreview1.ops.puppetlabs.net'
 end
 
 task :preview2 do
   set :domain,    "#{user}@staticweb1-dev.puppetlabs.com"
-  set :deploy_to, "/var/www/docspreview2.ops.puppetlabs.net"
+  set :deploy_to, '/var/www/docspreview2.ops.puppetlabs.net'
 end
 
 task :preview3 do
   set :domain,    "#{user}@staticweb1-dev.puppetlabs.com"
-  set :deploy_to, "/var/www/docspreview3.ops.puppetlabs.net"
+  set :deploy_to, '/var/www/docspreview3.ops.puppetlabs.net'
 end
 
 namespace :vlad do
-  desc "Release the documentation site"
+  desc 'Release the documentation site'
   remote_task :release do
     Rake::Task['check_build_version'].invoke
     puts "DEPLOYING TO: #{domain}"

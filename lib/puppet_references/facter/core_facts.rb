@@ -6,9 +6,9 @@ module PuppetReferences
       PREAMBLE_FILE = Pathname.new(__FILE__).dirname + 'core_facts_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest'
-        super(*args)
+        super
       end
 
       def build_all
@@ -17,7 +17,7 @@ module PuppetReferences
         raw_text = `ruby #{PuppetReferences::FACTER_DIR}/lib/docs/generate.rb`
         header_data = { title: 'Facter: Core Facts',
                         toc: 'columns',
-                        canonical: "#{@latest}/core_facts.html" }
+                        canonical: "#{@latest}/core_facts.html", }
         content = make_header(header_data) + PREAMBLE + raw_text
         filename = OUTPUT_DIR + 'core_facts.md'
         filename.open('w') { |f| f.write(content) }

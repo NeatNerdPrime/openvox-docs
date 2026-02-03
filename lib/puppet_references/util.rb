@@ -6,27 +6,25 @@ module PuppetReferences
     # Given a hash of data, return YAML frontmatter suitable for the docs site.
     def self.make_header(data)
       # clean out any symbols:
-      generated_at = "> **NOTE:** This page was generated from the Puppet source code on #{Time.now.to_s}"
-      clean_data = data.reduce({}) do |result, (key, val)|
+      generated_at = "> **NOTE:** This page was generated from the Puppet source code on #{Time.now}"
+      clean_data = data.each_with_object({}) do |(key, val), result|
         result[key.to_s] = val
-        result
       end
       YAML.dump(clean_data) + "---\n\n" + "# #{clean_data['title']}" + "\n\n" + generated_at + "\n\n"
     end
 
     # Run a command that can't cope with a contaminated shell environment.
     def self.run_dirty_command(command)
-      result = Bundler.with_unbundled_env do
+      Bundler.with_unbundled_env do
         # Bundler replaces the entire environment once this block is finished.
         ENV.delete('RUBYLIB')
-        %x(#{command})
+        `#{command}`
       end
-      result
     end
 
     # Just build an HTML table.
     def self.table_from_header_and_array_of_body_rows(header_row, other_rows)
-      html_table = <<~EOT
+      <<~EOT
         <table>
           <thead>
             <tr>
@@ -35,12 +33,11 @@ module PuppetReferences
           </thead>
 
           <tbody>
-            <tr>#{other_rows.map { |row| "<td>" << row.join("</td> <td>") << "</td>" }.join("</tr>\n    <tr>")}</tr>
+            <tr>#{other_rows.map { |row| '<td>' << row.join('</td> <td>') << '</td>' }.join("</tr>\n    <tr>")}</tr>
           </tbody>
         </table>
 
       EOT
-      html_table
     end
 
     # Get the Puppet version for a given puppet-agent version.
@@ -56,17 +53,17 @@ module PuppetReferences
         parsed_version = Versionomy.parse(version)
         x = parsed_version.major.to_s
         x_dot_y = "#{parsed_version.major}.#{parsed_version.minor}"
-        dotless = version.gsub(/\./, '')
-      rescue
+        dotless = version.delete('.')
+      rescue StandardError
         x = version.split('.')[0]
         x_dot_y = version.split('.')[0..1].join('.')
-        dotless = version.gsub(/\./, '')
+        dotless = version.delete('.')
       end
       case component
       when 'Puppet'
         begin
           mono_three = (x == '3' and Versonomy.parse(x_dot_y) < Versionomy.parse(3.5))
-        rescue
+        rescue StandardError
           mono_three = false
         end
         if mono_three
@@ -77,7 +74,7 @@ module PuppetReferences
       when 'Puppet Agent'
         begin
           too_old = Versionomy.parse(version) < Versionomy.parse('1.2')
-        rescue
+        rescue StandardError
           too_old = false
         end
         if too_old
@@ -99,19 +96,15 @@ module PuppetReferences
       when 'PuppetDB'
         "/puppetdb/#{x_dot_y}/release_notes.html" # Anchors are broken because Kramdown is silly.
       when 'MCollective'
-        "/mcollective/releasenotes.html" # Anchors broken here too.
+        '/mcollective/releasenotes.html' # Anchors broken here too.
       when 'r10k'
         "https://github.com/puppetlabs/r10k/blob/master/CHANGELOG.mkd##{dotless}"
-      else
-        nil
       end
     end
 
     # Returns the provided text, wrapping it in a link if it can find an applicable release notes URL.
     def self.link_release_notes_if_applicable(component, text, version = nil, agent_data = {})
-      unless version
-        version = text
-      end
+      version ||= text
       notes = release_notes_for_component_version(component, version, agent_data)
       if notes
         '<a href="' << notes << '">' << text << '</a>'

@@ -5,9 +5,9 @@ module PuppetReferences
     class Man < PuppetReferences::Reference
       OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet/man'
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest/man'
-        super(*args)
+        super
       end
 
       def build_all
@@ -25,15 +25,15 @@ module PuppetReferences
         puts 'Man pages: Building overview page'
         # Categorize subcommands
         categories = {
-          core: %w(
+          core: %w[
             agent
             apply
             lookup
             master
             module
             resource
-          ),
-          occasional: %w(
+          ],
+          occasional: %w[
             ca
             certificate
             certificate_request
@@ -50,8 +50,8 @@ module PuppetReferences
             plugin
             script
             ssl
-          ),
-          weird: %w(
+          ],
+          weird: %w[
             catalog
             facts
             file
@@ -62,9 +62,9 @@ module PuppetReferences
             report
             resource_type
             status
-          )
+          ],
         }
-        all_in_categories = categories.values.flatten
+        categories.values.flatten
         # Don't let new commands drop off into The Nothing:
         # leftovers = commands - all_in_categories
         # Clean up any commands that don't exist in this version of Puppet:
@@ -72,7 +72,7 @@ module PuppetReferences
           list.reject! { |sub| !commands.include?(sub) }
         end
         header_data = { title: 'Puppet Man Pages',
-                        canonical: "#{@latest}/overview.html" }
+                        canonical: "#{@latest}/overview.html", }
         index_text = <<~EOT
           #{make_header(header_data)}
 
@@ -119,7 +119,7 @@ module PuppetReferences
       def build_manpage(subcommand)
         puts "Man pages: Building #{subcommand}"
         header_data = { title: "Man Page: puppet #{subcommand}",
-                        canonical: "#{@latest}/#{subcommand}.html" }
+                        canonical: "#{@latest}/#{subcommand}.html", }
         # raw_text = PuppetReferences::ManCommand.new(subcommand).get
         man_filepath = "#{PuppetReferences::PUPPET_DIR}" + "/man/man8/puppet-#{subcommand}.8"
         content = make_header(header_data) + PuppetReferences::Util.convert_man(man_filepath)

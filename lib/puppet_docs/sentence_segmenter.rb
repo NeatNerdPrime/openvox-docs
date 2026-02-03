@@ -20,7 +20,7 @@ module PuppetDocs
       all_paragraphs = parsed.css('p')
 
       all_paragraphs.each do |graf|
-        sentences = tokenizer.sentences_from_text(graf.inner_html, :output => :sentences_text)
+        sentences = tokenizer.sentences_from_text(graf.inner_html, output: :sentences_text)
         new_div = '<div class="real-paragraph"> <p class="temp-sentence">' << sentences.join('</p> <p class="temp-sentence">') << '</p></div>'
         graf.replace(new_div)
       end
@@ -32,9 +32,7 @@ module PuppetDocs
       full_path = File.expand_path(filename)
       print "Mangling #{full_path}... "
       mangled_html = segment_on_sentences(File.read(full_path, encoding: 'utf-8'))
-      File.open(full_path, 'w') do |f|
-        f.write(mangled_html)
-      end
+      File.write(full_path, mangled_html)
       print " done.\n"
     end
 
@@ -58,10 +56,10 @@ module PuppetDocs
       title_div = parsed.at_css('div.title')
       if title_div
         title = title_div.content
-        frontmatter = %Q{---\ntitle: "#{title}"\n---\n\n}
+        frontmatter = %(---\ntitle: "#{title}"\n---\n\n)
         title_div.remove
       else # at_css can return nil if there's no title div.
-        frontmatter = %Q{---\ntitle: "(no title)"\n---\n\n}
+        frontmatter = %{---\ntitle: "(no title)"\n---\n\n}
       end
 
       frontmatter + parsed.to_html
@@ -71,9 +69,7 @@ module PuppetDocs
       full_path = File.expand_path(filename)
       print "Un-mangling #{full_path}... "
       fixed_html = unsegment_paragraphs(File.read(full_path, encoding: 'utf-8'))
-      File.open(full_path, 'w') do |f|
-        f.write(fixed_html)
-      end
+      File.write(full_path, fixed_html)
       print " done.\n"
     end
   end

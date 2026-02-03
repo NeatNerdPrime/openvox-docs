@@ -9,11 +9,11 @@ module PuppetReferences
       @config = config || {}
       @name = name
       @directory = directory
-      if sources
-        @sources = [sources].flatten
-      else
-        @sources = ["git@github.com:openvoxproject/#{@name}.git"]
-      end
+      @sources = if sources
+                   [sources].flatten
+                 else
+                   ["git@github.com:openvoxproject/#{@name}.git"]
+                 end
       @main_source = @sources[0]
       unless Dir.exist?(@directory + '.git') || @config['skip_download']
         puts "Cloning #{@name} repo..."

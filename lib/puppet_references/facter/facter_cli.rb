@@ -6,15 +6,15 @@ module PuppetReferences
       PREAMBLE_FILE = Pathname.new(__FILE__).dirname + 'facter_cli_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest'
-        super(*args)
+        super
       end
 
       def header_data
         { title: 'Facter: CLI',
           toc: 'columns',
-          canonical: "#{@latest}/cli.html" }
+          canonical: "#{@latest}/cli.html", }
       end
 
       def build_all

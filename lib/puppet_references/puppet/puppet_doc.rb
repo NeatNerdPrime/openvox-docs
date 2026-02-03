@@ -2,12 +2,12 @@ require 'puppet_references'
 module PuppetReferences
   module Puppet
     class PuppetDoc < PuppetReferences::Reference
-      REFERENCES = %w(configuration)
+      REFERENCES = %w[configuration]
       OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet'
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest'
-        super(*args)
+        super
       end
 
       def build_all
@@ -24,12 +24,10 @@ module PuppetReferences
         raw_content = PuppetReferences::DocCommand.new(reference).get
         # Remove the first H1 with the title, like "# Metaparameter Reference"
         raw_content.sub!(/^# \w+ Reference *$/, '')
-        if reference == 'configuration'
-          clean_configuration_reference!(raw_content)
-        end
+        clean_configuration_reference!(raw_content) if reference == 'configuration'
         header_data = { title: "#{reference.capitalize} Reference",
                         toc: 'columns',
-                        canonical: "#{@latest}/#{reference}.html" }
+                        canonical: "#{@latest}/#{reference}.html", }
         content = make_header(header_data) + raw_content
         filename = OUTPUT_DIR + "#{reference}.md"
         filename.open('w') { |f| f.write(content) }
@@ -43,9 +41,9 @@ module PuppetReferences
         text.gsub!(fqdn.downcase, "(the system's fully qualified domain name)")
         # This is yuck to deal with when the domain name is "local," like a Mac on a DNS-less network.
         # Will have to be very specific, which makes it kind of brittle.
-        if domain != ''
-          text.gsub!("- *Default*: #{domain.downcase}\n", "- *Default*: (the system's own domain)\n")
-        end
+        return unless domain != ''
+
+        text.gsub!("- *Default*: #{domain.downcase}\n", "- *Default*: (the system's own domain)\n")
       end
     end
   end

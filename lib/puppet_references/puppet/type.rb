@@ -12,12 +12,12 @@ module PuppetReferences
       PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'type_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest'
         @output_dir_unified = PuppetReferences::OUTPUT_DIR + 'puppet'
         @output_dir_individual = PuppetReferences::OUTPUT_DIR + 'puppet/types'
         @base_filename = 'type'
-        super(*args)
+        super
       end
 
       def build_all
@@ -38,10 +38,10 @@ module PuppetReferences
 
       def build_index(names)
         header_data = { title: 'Resource types overview',
-                        canonical: "#{@latest}/types/overview.md" }
-        links = names.map { |name|
-          "* [#{name}](./#{name}.md)" unless name == 'component' || name == 'whit'
-        }
+                        canonical: "#{@latest}/types/overview.md", }
+        links = names.map do |name|
+          "* [#{name}](./#{name}.md)" unless %w[component whit].include?(name)
+        end
         content = make_header(header_data) + "## List of resource types\n\n" + links.join("\n") + "\n\n" + PREAMBLE
         filename = @output_dir_individual + 'overview.md'
         filename.open('w') { |f| f.write(content) }
@@ -57,12 +57,12 @@ module PuppetReferences
         header_data = { title: 'Resource Type Reference (Single-Page)',
                         canonical: "#{@latest}/type.html",
                         toc_levels: 2,
-                        toc: 'columns' }
+                        toc: 'columns', }
 
         sorted_type_list = typedocs.keys.sort
-        all_type_docs = sorted_type_list.collect { |name|
+        all_type_docs = sorted_type_list.collect do |name|
           text_for_type(name, typedocs[name])
-        }.join("\n\n---------\n\n")
+        end.join("\n\n---------\n\n")
 
         content = make_header(header_data) + "\n\n" + PREAMBLE + all_type_docs + "\n\n"
         filename = @output_dir_unified + "#{@base_filename}.md"
@@ -78,14 +78,14 @@ module PuppetReferences
       def build_page(name, data)
         puts "Type ref: Building #{name}"
         header_data = { title: "Resource Type: #{name}",
-                        canonical: "#{@latest}/types/#{name}.html" }
+                        canonical: "#{@latest}/types/#{name}.html", }
         content = make_header(header_data) + "\n\n" + text_for_type(name, data) + "\n\n"
         filename = @output_dir_individual + "#{name}.md"
         filename.open('w') { |f| f.write(content) }
       end
 
       def text_for_type(name, this_type)
-        sorted_attribute_list = this_type['attributes'].keys.sort { |a, b|
+        sorted_attribute_list = this_type['attributes'].keys.sort do |a, b|
           # Float namevar to top and ensure to second-top
           if this_type['attributes'][a]['namevar']
             -1
@@ -98,7 +98,7 @@ module PuppetReferences
           else
             a <=> b
           end
-        }
+        end
 
         # template uses: name, this_type, sorted_attribute_list, sorted_feature_list, longest_attribute_name
         template_scope = OpenStruct.new({
@@ -106,9 +106,9 @@ module PuppetReferences
                                           this_type: this_type,
                                           sorted_attribute_list: sorted_attribute_list,
                                           sorted_feature_list: this_type['features'].keys.sort,
-                                          longest_attribute_name: sorted_attribute_list.collect { |attr|
+                                          longest_attribute_name: sorted_attribute_list.collect do |attr|
                                             attr.length
-                                          }.max
+                                          end.max,
                                         })
         TEMPLATE.result(template_scope.instance_eval { binding })
       end

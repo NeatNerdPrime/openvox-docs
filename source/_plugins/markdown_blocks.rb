@@ -5,8 +5,8 @@ module Jekyll
 
       def initialize(tag_name, markup, tokens)
         super
-        @prefix = ""
-        @suffix = ""
+        @prefix = ''
+        @suffix = ''
       end
 
       def render(context)

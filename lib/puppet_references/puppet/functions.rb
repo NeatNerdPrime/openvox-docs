@@ -12,9 +12,9 @@ module PuppetReferences
       PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
-      def initialize(*args)
+      def initialize(*)
         @latest = '/puppet/latest'
-        super(*args)
+        super
       end
 
       def build_all
@@ -29,16 +29,16 @@ module PuppetReferences
         header_data = { title: 'Built-in function reference',
                         canonical: "#{@latest}/function.html",
                         toc_levels: 2,
-                        toc: 'columns' }
+                        toc: 'columns', }
 
         # Deal with the duplicate function stub situation.
         # 1. Figure out which functions are duplicated.
         names = functions.map { |func| func['name'] }
         duplicates = names.uniq.select { |name| names.count(name) > 1 }
         # 2. Reject the unpreferred version of any dupes.
-        functions = functions.reject { |func|
+        functions = functions.reject do |func|
           duplicates.include?(func['name']) && func['type'] != preferred_version
-        }
+        end
 
         # Make a limited binding object that only has one variable, so the template doesn't have access to the current scope.
         # BTW, I learned this trick from the Facter reference that the agent team made for us back in the day.
