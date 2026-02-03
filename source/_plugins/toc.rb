@@ -42,7 +42,7 @@ module TocFilter
              ''
            end
       text = entry[3].gsub(/<[^>]+>/m, '').strip # Get rid of any span-level tags inside the header text, and strip trailing whitespace.
-      if hdepth.last == 0 # Prime the pump. This has to be exclusive of the next elsif.
+      if hdepth.last.zero? # Prime the pump. This has to be exclusive of the next elsif.
         sublist_stack.push(toc)
         hdepth.push(hlevel)
       elsif hdepth.last < hlevel # we just entered a deeper header level.

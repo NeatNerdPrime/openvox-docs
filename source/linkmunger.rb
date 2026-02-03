@@ -40,16 +40,16 @@ def relativepath(path, relative_to)
                   relative_to.split(File::SEPARATOR, -1)
                 end
 
-  while (path.length > 0) && (path.first == relative_to.first)
+  while (path.length.positive?) && (path.first == relative_to.first)
     path.shift
     relative_to.shift
   end
 
-  if relative_to.length == 0 and path.length == 0
+  if relative_to.length.zero? and path.length.zero?
     throw 'BUG: Processed paths were equivalent when raw paths were the same'
-  elsif relative_to.length == 0
+  elsif relative_to.length.zero?
     path.join(File::SEPARATOR)
-  elsif path.length == 0 and relative_to.length == 1
+  elsif path.length.zero? and relative_to.length == 1
     '.'
   else
     ((['..'] * (relative_to.length - 1)) + path).join(File::SEPARATOR)
