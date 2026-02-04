@@ -10,3 +10,4 @@ AllCops:
     - .vendor/**/*
     - spec/fixtures/**/*
     - externalsources/**/*
+    - output/**/*
