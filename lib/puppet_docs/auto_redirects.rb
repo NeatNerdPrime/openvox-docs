@@ -38,7 +38,7 @@ module PuppetDocs
         latest = "/#{doc}/latest"
 
         # First, bail out unless the doc exists and this is a valid version.
-        if config['document_version_index'][doc].class != Hash || !config['document_version_index'][doc].has_key?(at_version)
+        if config['document_version_index'][doc].class != Hash || !config['document_version_index'][doc].key?(at_version)
           puts "Skipping bad auto-redirect (make sure the syntax is right and the version exists!): #{redirect}"
           memo
         else

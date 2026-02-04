@@ -69,7 +69,7 @@ module PuppetDocs
 
         # Reject any non-existent versions (they'll fall back to latest):
         data['my_versions'].reject! do |group, version|
-          !self['document_version_index'][group].has_key?(version)
+          !self['document_version_index'][group].key?(version)
         end
 
         # The third rule of Tautology Club: my own version is my version.
@@ -77,7 +77,7 @@ module PuppetDocs
         # As for the rest of our known document groups...
         other_groups = document_groups - [data['doc']]
         # If we have an explicit version for a given group, keep it:
-        unknown_groups = other_groups.reject { |group| data['my_versions'].has_key?(group) }
+        unknown_groups = other_groups.reject { |group| data['my_versions'].key?(group) }
 
         unknown_groups.each do |group|
           # Compile a list of the target group's versions that claim this version:
