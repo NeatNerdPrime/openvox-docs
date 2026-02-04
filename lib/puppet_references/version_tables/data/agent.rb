@@ -20,7 +20,7 @@ module PuppetReferences
           @includes = config['agent']['include'] || {}
           @excludes = config['agent']['exclude'] || []
 
-          detected_versions = @repo.tags.map { |tag| tag.name }
+          detected_versions = @repo.tags.map(&:name)
           detected_versions.shift until detected_versions.first == '1.0.0'
           @versions_and_commits = Hash[detected_versions.map { |name| [name, name] }]
           @excludes.each do |tag|

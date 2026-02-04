@@ -14,7 +14,7 @@ module Jekyll
       super
       @arg_regex = /\s*(?:#{Liquid::VariableSignature}+|"[^"]+"|'[^']')\s*/o
       @var_regex = /\A#{Liquid::VariableSignature}+\Z/o
-      @args = args_string.scan(@arg_regex).map { |a| a.strip }
+      @args = args_string.scan(@arg_regex).map(&:strip)
       return unless @args.length != 3
 
       @error = "Tag error: Gave #{args.length} (valid) arguments; change_baseurl tag requires url, old_baseurl, new_baseurl."

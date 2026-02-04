@@ -61,9 +61,7 @@ Jekyll::Hooks.register :site, :post_render do |site|
             project = path_dirs[1..(path_dirs.index('latest') - 1)].join('/') # something like 'references' or 'ja/puppet'
             if site.config['symlink_latest'].include?(project)
               project_dir = "#{site.source}/#{project}"
-              versions = Pathname.glob("#{project_dir}/*").select do |f|
-                f.directory?
-              end.map { |d| d.basename.to_s }
+              versions = Pathname.glob("#{project_dir}/*").select(&:directory?).map { |d| d.basename.to_s }
 
               latest = site.config['lock_latest'][project] || PuppetDocs::Versions.latest(versions) || 'latest' # last one just in case we've deleted them all.
               path_dirs[path_dirs.index('latest')] = latest

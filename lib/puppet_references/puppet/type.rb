@@ -106,9 +106,7 @@ module PuppetReferences
                                           this_type: this_type,
                                           sorted_attribute_list: sorted_attribute_list,
                                           sorted_feature_list: this_type['features'].keys.sort,
-                                          longest_attribute_name: sorted_attribute_list.collect do |attr|
-                                            attr.length
-                                          end.max,
+                                          longest_attribute_name: sorted_attribute_list.collect(&:length).max,
                                         })
         TEMPLATE.result(template_scope.instance_eval { binding })
       end

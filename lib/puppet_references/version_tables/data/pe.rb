@@ -14,7 +14,7 @@ module PuppetReferences
           config = PuppetReferences::VersionTables::Config.read
           @includes = config['pe']['include'] || {}
           @excludes = config['pe']['exclude'] || []
-          detected_versions = @repo.tags.map { |tag| tag.name }.select do |name|
+          detected_versions = @repo.tags.map(&:name).select do |name|
             (name =~ /^\d{4}/ or name =~ /^3\.8/) and name !~ /-/
           end
           @versions_and_commits = Hash[detected_versions.map { |name| [name, name] }]

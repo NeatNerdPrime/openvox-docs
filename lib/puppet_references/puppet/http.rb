@@ -41,7 +41,7 @@ module PuppetReferences
                 elsif shortname == 'pson'
                   'PSON'
                 else
-                  shortname.sub(/^http_/, '').split('_').map { |w| w.capitalize }.join(' ')
+                  shortname.sub(/^http_/, '').split('_').map(&:capitalize).join(' ')
                 end
         header_data = { title: "Puppet HTTP API: #{title}",
                         canonical: "#{@latest}/#{shortname}.html", }

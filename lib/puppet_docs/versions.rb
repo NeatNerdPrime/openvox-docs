@@ -19,7 +19,7 @@ module PuppetDocs
       rescue StandardError
         nil
       end.compact
-      sorted_normal_versions = parsed_versions.sort.reverse.map { |ver| ver.to_s }
+      sorted_normal_versions = parsed_versions.sort.reverse.map(&:to_s)
       special_versions = versions_array - sorted_normal_versions
 
       sorted_normal_versions + special_versions

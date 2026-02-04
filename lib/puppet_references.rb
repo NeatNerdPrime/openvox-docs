@@ -66,9 +66,7 @@ module PuppetReferences
 
   def self.build_from_list_of_classes(reference_classes, real_commit)
     references = reference_classes.map { |r| r.new(real_commit) }
-    references.each do |ref|
-      ref.build_all
-    end
+    references.each(&:build_all)
 
     locations = references.map do |ref|
       "#{ref.class} -> #{ref.latest}"
