@@ -92,7 +92,7 @@ module PuppetReferences
           # This might vary per-platform... but for now, we'll just take the most recent 64-bit EL version and hope.
           platform = Dir.glob(PuppetReferences::AGENT_DIR.to_s + '/configs/platforms/*').map do |path|
             File.basename(path, '.rb')
-          end.select { |path| path =~ /^el-\d+-x86_64/ }.sort.last
+          end.grep(/^el-\d+-x86_64/).sort.last
           puts "Using agent data for #{platform}"
           inspect_command = PuppetReferences::PuppetCommand.new("inspect puppet-agent #{platform}", PuppetReferences::AGENT_DIR)
           inspect_data = JSON.parse(inspect_command.get)
