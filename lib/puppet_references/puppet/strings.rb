@@ -11,7 +11,7 @@ module PuppetReferences
         super()
         @@strings_data_cached = true if force_cached
         generate_strings_data unless @@strings_data_cached
-        merge!(JSON.load(File.read(STRINGS_JSON_FILE)))
+        merge!(JSON.parse(File.read(STRINGS_JSON_FILE)))
         # We can't keep the actual data hash in an instance variable, because if you duplicate the main hash, all its
         # deeply nested members will be assigned by reference to the new hash, and you'll get leakage across objects.
       end

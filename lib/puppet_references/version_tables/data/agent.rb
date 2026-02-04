@@ -119,7 +119,7 @@ module PuppetReferences
 
         def version_from_json(file)
           # We want the last component of a string like refs/tags/4.2.0.
-          version_from_ref(JSON.load(File.read(file))['ref'])
+          version_from_ref(JSON.parse(File.read(file))['ref'])
         end
 
         def version_from_ruby(file)

@@ -25,7 +25,7 @@ module PuppetReferences
         @output_dir_individual.mkpath
         puts 'Type ref: Building all...'
         type_json = get_type_json
-        type_data = JSON.load(type_json)
+        type_data = JSON.parse(type_json)
 
         write_json_file(type_json)
         build_index(type_data.keys.sort)

@@ -88,7 +88,7 @@ module PuppetReferences
         # this is like { platformname: { packagename: { version: version, md5: md5 }, packagename: {...} }, platformname: {......} }
         def load_package_json(version)
           @repo.checkout(version)
-          JSON.load(File.read(PuppetReferences::PE_DIR + 'packages.json'))
+          JSON.parse(File.read(PuppetReferences::PE_DIR + 'packages.json'))
         end
 
         # Use lein deps :tree to turn a pe-puppetserver version into a real Puppet Server version
