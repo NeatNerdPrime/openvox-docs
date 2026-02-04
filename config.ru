@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 
 module Rack
@@ -13,7 +15,7 @@ module Rack
       return @app.call(env) if stat.file?
 
       if stat.directory?
-        index = Pathname.new(path) + 'index.html'
+        index = "#{Pathname.new(path)}index.html"
         return list_directory(path_info, path, script_name) unless index.readable?
 
         env['PATH_INFO'] = env['PATH_INFO'].sub(%r{/?$}, '/index.html')
@@ -35,7 +37,7 @@ module Rack
       return @app.call(@env) if @stat.file?
 
       if @stat.directory?
-        index = Pathname.new(@path) + 'index.html'
+        index = "#{Pathname.new(@path)}index.html"
         return list_directory(@path_info, @path, @script_name) unless index.readable?
 
         @env['PATH_INFO'] = @env['PATH_INFO'].sub(%r{/?$}, '/index.html')
@@ -50,4 +52,4 @@ end
 
 puts '>>> Serving at http://localhost:9292'
 
-run Rack::DirectoryWithIndexes.new(Pathname.new(__FILE__).parent + 'output')
+run Rack::DirectoryWithIndexes.new("#{Pathname.new(__FILE__).parent}output")

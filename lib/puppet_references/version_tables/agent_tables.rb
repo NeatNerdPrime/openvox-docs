@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 require 'puppet_references'
 
@@ -5,7 +7,7 @@ module PuppetReferences
   module VersionTables
     # A generic class for puppet agent tables.
     class AgentTables
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'version_tables'
+      OUTPUT_DIR = "#{PuppetReferences::OUTPUT_DIR}version_tables".freeze
 
       def initialize(agent_data)
         @agent_data = agent_data

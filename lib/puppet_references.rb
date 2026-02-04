@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'pathname'
 
 module PuppetReferences
   BASE_DIR = Pathname.new(File.expand_path(__FILE__)).parent.parent
-  PUPPET_DIR = BASE_DIR + 'vendor/puppet'
-  FACTER_DIR = BASE_DIR + 'vendor/facter'
-  AGENT_DIR = BASE_DIR + 'vendor/puppet-agent'
-  PE_DIR = BASE_DIR + 'vendor/enterprise-dist'
-  PE_SERVER_DIR = BASE_DIR + 'vendor/pe-puppetserver'
-  OUTPUT_DIR = BASE_DIR + 'references_output'
+  PUPPET_DIR = "#{BASE_DIR}vendor/puppet".freeze
+  FACTER_DIR = "#{BASE_DIR}vendor/facter".freeze
+  AGENT_DIR = "#{BASE_DIR}vendor/puppet-agent".freeze
+  PE_DIR = "#{BASE_DIR}vendor/enterprise-dist".freeze
+  PE_SERVER_DIR = "#{BASE_DIR}vendor/pe-puppetserver".freeze
+  OUTPUT_DIR = "#{BASE_DIR}references_output".freeze
 
   require 'puppet_references/config'
   require 'puppet_references/util'

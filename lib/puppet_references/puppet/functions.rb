@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'json'
 require 'erb'
@@ -7,9 +9,9 @@ require 'pathname'
 module PuppetReferences
   module Puppet
     class Functions < PuppetReferences::Reference
-      TEMPLATE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_template.erb'
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet'
-      PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_preamble.md'
+      TEMPLATE_FILE = "#{Pathname.new(File.expand_path(__FILE__)).dirname}functions_template.erb".freeze
+      OUTPUT_DIR = "#{PuppetReferences::OUTPUT_DIR}puppet".freeze
+      PREAMBLE_FILE = "#{Pathname.new(File.expand_path(__FILE__)).dirname}functions_preamble.md".freeze
       PREAMBLE = PREAMBLE_FILE.read
 
       def initialize(*)

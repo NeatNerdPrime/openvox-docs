@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 module PuppetReferences
   module Facter
     class FacterCli < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'facter'
-      PREAMBLE_FILE = Pathname.new(__FILE__).dirname + 'facter_cli_preamble.md'
+      OUTPUT_DIR = "#{PuppetReferences::OUTPUT_DIR}facter".freeze
+      PREAMBLE_FILE = "#{Pathname.new(__FILE__).dirname}facter_cli_preamble.md".freeze
       PREAMBLE = PREAMBLE_FILE.read
 
       def initialize(*)
@@ -30,16 +32,16 @@ module PuppetReferences
           return
         end
         content = make_header(header_data) + PREAMBLE +
-                  raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n" + "\s\s\s\s" + '\1')
-        filename = OUTPUT_DIR + 'cli.md'
+                  raw_text.gsub(/SYNOPSIS\n--------\n\s\s(.*?)$/, "SYNOPSIS\n--------\n    \\1")
+        filename = "#{OUTPUT_DIR}cli.md"
         filename.open('w') { |f| f.write(content) }
         puts 'CLI documentation is done!'
       end
 
       def build_v3_cli
         OUTPUT_DIR.mkpath
-        filename = OUTPUT_DIR + 'cli.md'
-        man_filepath = PuppetReferences::FACTER_DIR + 'man/man8/facter.8'
+        filename = "#{OUTPUT_DIR}cli.md"
+        man_filepath = "#{PuppetReferences::FACTER_DIR}man/man8/facter.8"
         raw_text = PuppetReferences::Util.convert_man(man_filepath)
         content = make_header(header_data) + raw_text
         filename.open('w') { |f| f.write(content) }

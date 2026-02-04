@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rubygems'
 require 'bundler/setup'
 require 'rake'
@@ -60,7 +62,7 @@ task :preview, :filename do |_t, args|
   end
 
   # Make sure we have a stash_directory
-  FileUtils.mkdir(STASH_DIR) unless File.exist?(STASH_DIR)
+  FileUtils.mkdir_p(STASH_DIR)
 
   # Directories and files we have to have for a good live preview
   required_dirs = ['_config.yml', '_includes', '_plugins', 'files', 'favicon.ico', '_layouts', 'images']
@@ -108,7 +110,7 @@ end
 desc 'Move all stashed directories back into the source directory, ready for site generation. '
 task :unpreview do
   puts "\n*** Putting back the stashed files, removing the preview directory."
-  FileUtils.mv Dir.glob("#{STASH_DIR}/*"), "#{SOURCE_DIR}"
+  FileUtils.mv Dir.glob("#{STASH_DIR}/*"), SOURCE_DIR.to_s
   FileUtils.rm_rf(PREVIEW_DIR)
   puts "\n*** Done.\n\n"
 end

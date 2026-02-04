@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :application, 'docs.puppet.com'
 set :repository, 'git://github.com/puppetlabs/puppet-docs.git'
 set :user, 'docsdeploy'
@@ -33,7 +35,7 @@ namespace :vlad do
     Rake::Task['check_build_version'].invoke
     puts "DEPLOYING TO: #{domain}"
 
-    stage_dir = deploy_to + '/stage'
+    stage_dir = "#{deploy_to}/stage"
 
     sh "rsync -crlpv --delete --force output/ #{domain}:#{stage_dir}/"
 

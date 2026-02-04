@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+require 'English'
 require 'puppet_references'
 require 'pathname'
 require 'json'
@@ -15,9 +18,9 @@ module PuppetReferences
           @includes = config['pe']['include'] || {}
           @excludes = config['pe']['exclude'] || []
           detected_versions = @repo.tags.map(&:name).select do |name|
-            (name =~ /^\d{4}/ or name =~ /^3\.8/) and name !~ /-/
+            (name =~ /^\d{4}/ or name =~ /^3\.8/) and !name.include?('-')
           end
-          @versions_and_commits = Hash[detected_versions.map { |name| [name, name] }]
+          @versions_and_commits = detected_versions.to_h { |name| [name, name] }
           @excludes.each do |tag|
             @versions_and_commits.delete(tag)
           end
@@ -88,7 +91,7 @@ module PuppetReferences
         # this is like { platformname: { packagename: { version: version, md5: md5 }, packagename: {...} }, platformname: {......} }
         def load_package_json(version)
           @repo.checkout(version)
-          JSON.parse(File.read(PuppetReferences::PE_DIR + 'packages.json'))
+          JSON.parse(File.read("#{PuppetReferences::PE_DIR}packages.json"))
         end
 
         # Use lein deps :tree to turn a pe-puppetserver version into a real Puppet Server version
@@ -97,7 +100,7 @@ module PuppetReferences
           lein_tree = ''
           Dir.chdir(@server_repo.directory) do
             lein_tree = `lein deps :tree`
-            unless $?.success?
+            unless $CHILD_STATUS.success?
               puts "
 ERROR: Uh, something weird went wrong. Probably one of these things:
 

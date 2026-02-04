@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 
 module PuppetReferences
@@ -5,7 +7,7 @@ module PuppetReferences
     class TypeStrings < PuppetReferences::Puppet::Type
       def initialize(*)
         super
-        @output_dir_individual = PuppetReferences::OUTPUT_DIR + 'puppet/types_strings'
+        @output_dir_individual = "#{PuppetReferences::OUTPUT_DIR}puppet/types_strings"
         @base_filename = 'type_strings'
       end
 

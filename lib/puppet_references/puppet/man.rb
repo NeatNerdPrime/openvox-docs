@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 
 module PuppetReferences
   module Puppet
     class Man < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet/man'
+      OUTPUT_DIR = "#{PuppetReferences::OUTPUT_DIR}puppet/man".freeze
 
       def initialize(*)
         @latest = '/puppet/latest/man'
@@ -69,7 +71,7 @@ module PuppetReferences
         # leftovers = commands - all_in_categories
         # Clean up any commands that don't exist in this version of Puppet:
         categories.each_value do |list|
-          list.reject! { |sub| !commands.include?(sub) }
+          list.select! { |sub| commands.include?(sub) }
         end
         header_data = { title: 'Puppet Man Pages',
                         canonical: "#{@latest}/overview.html", }
@@ -103,12 +105,12 @@ module PuppetReferences
 
         EOT
         # write index
-        filename = OUTPUT_DIR + 'overview.md'
+        filename = "#{OUTPUT_DIR}overview.md"
         filename.open('w') { |f| f.write(index_text) }
       end
 
       def get_subcommands
-        application_files = Pathname.glob(PuppetReferences::PUPPET_DIR + 'lib/puppet/application/*.rb')
+        application_files = Pathname.glob("#{PuppetReferences::PUPPET_DIR}lib/puppet/application/*.rb")
         applications = application_files.map { |f| f.basename('.rb').to_s }
         applications.delete('face_base')
         applications.delete('indirection_base')
@@ -121,7 +123,7 @@ module PuppetReferences
         header_data = { title: "Man Page: puppet #{subcommand}",
                         canonical: "#{@latest}/#{subcommand}.html", }
         # raw_text = PuppetReferences::ManCommand.new(subcommand).get
-        man_filepath = "#{PuppetReferences::PUPPET_DIR}" + "/man/man8/puppet-#{subcommand}.8"
+        man_filepath = PuppetReferences::PUPPET_DIR.to_s + "/man/man8/puppet-#{subcommand}.8"
         content = make_header(header_data) + PuppetReferences::Util.convert_man(man_filepath)
         filename = OUTPUT_DIR + "#{subcommand}.md"
         filename.open('w') { |f| f.write(content) }

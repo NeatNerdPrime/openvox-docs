@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'json'
 
 module PuppetReferences
   module Puppet
     class Strings < Hash
-      STRINGS_JSON_FILE = PuppetReferences::OUTPUT_DIR + 'puppet/strings.json'
+      STRINGS_JSON_FILE = "#{PuppetReferences::OUTPUT_DIR}puppet/strings.json".freeze
       @@strings_data_cached = false
 
       def initialize(force_cached = false)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'yaml'
 require 'versionomy'
@@ -7,10 +9,8 @@ module PuppetReferences
     def self.make_header(data)
       # clean out any symbols:
       generated_at = "> **NOTE:** This page was generated from the Puppet source code on #{Time.now}"
-      clean_data = data.each_with_object({}) do |(key, val), result|
-        result[key.to_s] = val
-      end
-      YAML.dump(clean_data) + "---\n\n" + "# #{clean_data['title']}" + "\n\n" + generated_at + "\n\n"
+      clean_data = data.transform_keys(&:to_s)
+      "#{YAML.dump(clean_data)}---\n\n# #{clean_data['title']}\n\n#{generated_at}\n\n"
     end
 
     # Run a command that can't cope with a contaminated shell environment.
@@ -48,7 +48,8 @@ module PuppetReferences
     # Build a release notes URL for a given version, using what we know about each project's URLs and doc formats.
     # This has to take the hash of agent info, but only because finding the agent release notes relies on hidden info.
     # If we ever move those to their own dir, it'll fix that.
-    def self.release_notes_for_component_version(component, version, agent_info = {}) # returns string or nil.
+    # returns string or nil.
+    def self.release_notes_for_component_version(component, version, agent_info = {})
       begin
         parsed_version = Versionomy.parse(version)
         x = parsed_version.major.to_s

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 module PuppetReferences
   module Facter
     class CoreFacts < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'facter'
-      PREAMBLE_FILE = Pathname.new(__FILE__).dirname + 'core_facts_preamble.md'
+      OUTPUT_DIR = "#{PuppetReferences::OUTPUT_DIR}facter".freeze
+      PREAMBLE_FILE = "#{Pathname.new(__FILE__).dirname}core_facts_preamble.md".freeze
       PREAMBLE = PREAMBLE_FILE.read
 
       def initialize(*)
@@ -19,7 +21,7 @@ module PuppetReferences
                         toc: 'columns',
                         canonical: "#{@latest}/core_facts.html", }
         content = make_header(header_data) + PREAMBLE + raw_text
-        filename = OUTPUT_DIR + 'core_facts.md'
+        filename = "#{OUTPUT_DIR}core_facts.md"
         filename.open('w') { |f| f.write(content) }
         puts 'Core facts: done!'
       end

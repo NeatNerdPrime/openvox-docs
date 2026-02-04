@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'json'
 require 'erb'
@@ -6,16 +8,16 @@ require 'ostruct'
 module PuppetReferences
   module Puppet
     class Type < PuppetReferences::Reference
-      TYPEDOCS_SCRIPT = PuppetReferences::BASE_DIR + 'lib/puppet_references/quarantine/get_typedocs.rb'
-      TEMPLATE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'type_template.erb'
+      TYPEDOCS_SCRIPT = "#{PuppetReferences::BASE_DIR}lib/puppet_references/quarantine/get_typedocs.rb".freeze
+      TEMPLATE_FILE = "#{Pathname.new(File.expand_path(__FILE__)).dirname}type_template.erb".freeze
       TEMPLATE = ERB.new(TEMPLATE_FILE.read, trim_mode: '-')
-      PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'type_preamble.md'
+      PREAMBLE_FILE = "#{Pathname.new(File.expand_path(__FILE__)).dirname}type_preamble.md".freeze
       PREAMBLE = PREAMBLE_FILE.read
 
       def initialize(*)
         @latest = '/puppet/latest'
-        @output_dir_unified = PuppetReferences::OUTPUT_DIR + 'puppet'
-        @output_dir_individual = PuppetReferences::OUTPUT_DIR + 'puppet/types'
+        @output_dir_unified = "#{PuppetReferences::OUTPUT_DIR}puppet"
+        @output_dir_individual = "#{PuppetReferences::OUTPUT_DIR}puppet/types"
         @base_filename = 'type'
         super
       end
@@ -42,8 +44,8 @@ module PuppetReferences
         links = names.map do |name|
           "* [#{name}](./#{name}.md)" unless %w[component whit].include?(name)
         end
-        content = make_header(header_data) + "## List of resource types\n\n" + links.join("\n") + "\n\n" + PREAMBLE
-        filename = @output_dir_individual + 'overview.md'
+        content = "#{make_header(header_data)}## List of resource types\n\n#{links.join("\n")}\n\n#{PREAMBLE}"
+        filename = "#{@output_dir_individual}overview.md"
         filename.open('w') { |f| f.write(content) }
       end
 
@@ -64,7 +66,7 @@ module PuppetReferences
           text_for_type(name, typedocs[name])
         end.join("\n\n---------\n\n")
 
-        content = make_header(header_data) + "\n\n" + PREAMBLE + all_type_docs + "\n\n"
+        content = "#{make_header(header_data)}\n\n#{PREAMBLE}#{all_type_docs}\n\n"
         filename = @output_dir_unified + "#{@base_filename}.md"
         filename.open('w') { |f| f.write(content) }
       end
@@ -79,7 +81,7 @@ module PuppetReferences
         puts "Type ref: Building #{name}"
         header_data = { title: "Resource Type: #{name}",
                         canonical: "#{@latest}/types/#{name}.html", }
-        content = make_header(header_data) + "\n\n" + text_for_type(name, data) + "\n\n"
+        content = "#{make_header(header_data)}\n\n#{text_for_type(name, data)}\n\n"
         filename = @output_dir_individual + "#{name}.md"
         filename.open('w') { |f| f.write(content) }
       end

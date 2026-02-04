@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ORIGIN: https://github.com/kinnetica/jekyll-plugins/blob/master/sitemap_generator.rb
 
 # Sitemap.xml Generator is a Jekyll plugin that generates a sitemap.xml file by
@@ -17,15 +19,17 @@ require 'rexml/document'
 require 'pathname'
 
 module Jekyll
-  class Jekyll::Document
-    attr_accessor :name
+  module Jekyll
+    class Document
+      attr_accessor :name
 
-    def path_to_source
-      File.join(*[@name].compact)
-    end
+      def path_to_source
+        File.join(*[@name].compact)
+      end
 
-    def location_on_server(my_url)
-      "#{my_url}#{url}"
+      def location_on_server(my_url)
+        "#{my_url}#{url}"
+      end
     end
   end
 
@@ -53,11 +57,11 @@ module Jekyll
     priority :lowest
 
     # Config defaults
-    SITEMAP_FILE_NAME = '/sitemap.xml'.freeze
+    SITEMAP_FILE_NAME = '/sitemap.xml'
     EXCLUDE = ['/atom.xml', '/feed.xml', '/feed/index.xml'].freeze
     INCLUDE_POSTS = ['/index.html'].freeze
-    CHANGE_FREQUENCY_NAME = 'change_frequency'.freeze
-    PRIORITY_NAME = 'priority'.freeze
+    CHANGE_FREQUENCY_NAME = 'change_frequency'
+    PRIORITY_NAME = 'priority'
 
     # Valid values allowed by sitemap.xml spec for change frequencies
     VALID_CHANGE_FREQUENCY_VALUES = %w[always hourly daily weekly
@@ -232,11 +236,7 @@ module Jekyll
     #
     # Returns latest of two dates
     def greater_date(date1, date2)
-      if date1 >= date2
-        date1
-      else
-        date2
-      end
+      [date1, date2].max
     end
 
     # Is the page or post listed as something we want to exclude?

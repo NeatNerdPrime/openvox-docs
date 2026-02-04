@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 require 'puppet_references'
 require 'fileutils'
 module PuppetReferences
   module Puppet
     class Http < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'puppet'
-      DOCS_DIR = OUTPUT_DIR + 'http_api'
-      API_SOURCE = PuppetReferences::PUPPET_DIR + 'api'
+      OUTPUT_DIR = "#{PuppetReferences::OUTPUT_DIR}puppet".freeze
+      DOCS_DIR = "#{OUTPUT_DIR}http_api".freeze
+      API_SOURCE = "#{PuppetReferences::PUPPET_DIR}api".freeze
 
       def initialize(*)
         @latest = '/puppet/latest/http_api'
@@ -22,12 +24,12 @@ module PuppetReferences
 
       def copy_schemas
         # This cp_r method is finicky and makes me long for rsync.
-        FileUtils.cp_r((API_SOURCE + 'schemas').to_path, OUTPUT_DIR.to_path)
+        FileUtils.cp_r("#{API_SOURCE}schemas".to_path, OUTPUT_DIR.to_path)
       end
 
       def copy_docs
-        docs_dir = API_SOURCE + 'docs'
-        files = Pathname.glob(docs_dir + '*')
+        docs_dir = "#{API_SOURCE}docs"
+        files = Pathname.glob("#{docs_dir}*")
         files.each do |file|
           munge_and_copy_doc_file(file)
         end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 require 'puppet_references'
 
@@ -5,7 +7,7 @@ module PuppetReferences
   module VersionTables
     # This is a generic class for this; you have to subclass it for it to work.
     class PeTables
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'version_tables'
+      OUTPUT_DIR = "#{PuppetReferences::OUTPUT_DIR}version_tables".freeze
 
       def initialize(pe_data, agent_data = {})
         @pe_data = pe_data
