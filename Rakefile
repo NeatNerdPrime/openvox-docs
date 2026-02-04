@@ -7,6 +7,12 @@ require 'yaml'
 require 'puppet_docs/config'
 require 'rake/clean'
 
+require 'rubocop/rake_task'
+
+RuboCop::RakeTask.new do |task|
+  task.plugins << 'rubocop-rake'
+end
+
 CLOBBER.include('output')
 CLOBBER.include('externalsources')
 CLOBBER.include('references_output')
