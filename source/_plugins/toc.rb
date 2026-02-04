@@ -36,7 +36,7 @@ module TocFilter
       </\1\s*> # Closing tag
     }imx).each do |entry|
       hlevel = entry[1].to_i
-      id = if entry[2].class == String
+      id = if entry[2].instance_of?(String)
              entry[2][/id\s*=\s*(['"])(.*?)\1/, 2]
            else # Don't try to call [] on nil.
              ''

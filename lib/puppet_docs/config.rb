@@ -35,7 +35,7 @@ module PuppetDocs
         data['base_url'] = base_url
         data['nav'] = (Pathname.new(base_url) + data['nav']).to_s
         data['version'] = data['version'].to_s
-        next unless data['my_versions'].class == Hash
+        next unless data['my_versions'].instance_of?(Hash)
 
         data['my_versions'].keys.each do |doc|
           data['my_versions'][doc] = data['my_versions'][doc].to_s

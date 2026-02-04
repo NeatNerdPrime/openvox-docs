@@ -212,7 +212,7 @@ task :generate do
 
   Rake::Task['generate_redirects'].invoke
 
-  if @config_data['preview'].class == Array && @config_data['preview'].length.positive?
+  if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
     puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml."
   end
 end
@@ -236,7 +236,7 @@ task :symlink_latest_versions do
         FileUtils.ln_sf latest, 'latest'
       end
     rescue Errno::ENOENT
-      if @config_data['preview'].class == Array && @config_data['preview'].length.positive?
+      if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
         puts "WARNING: Couldn't symlink latest version of #{project}, but you're building a limited preview, so I'll let it slide."
       else
         puts "ERROR: Couldn't symlink latest version of #{project}. Something is probably horribly wrong. I'm bailing out."
@@ -362,7 +362,7 @@ task :body_and_nav_html_only do
   Rake::Task['externalsources:clean'].invoke # The opposite of externalsources:link. Delete all symlinks in the source.
   Rake::Task['externalsources:clean'].reenable
 
-  if @config_data['preview'].class == Array && @config_data['preview'].length.positive?
+  if @config_data['preview'].instance_of?(Array) && @config_data['preview'].length.positive?
     puts "THIS IS A PREVIEW VERSION, AND IT'S MISSING IMPORTANT STUFF. Do not deploy the site in this state; this is for local viewing only. To build a real version of the site, delete the `preview:` key from _config.yml."
   end
 
