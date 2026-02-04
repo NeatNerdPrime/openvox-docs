@@ -278,8 +278,8 @@ task :check_git_dirty_status do
     Rake::Task['externalsources:clean'].reenable
 
     if `git status --porcelain 2> /dev/null | tail -n1` != ''
-      STDOUT.puts "The working directory has uncommitted changes. They're probably either \n  incomplete changes you don't want to release, or important changes you \n  don't want lost; in either case, you might want to deal with them before \n  you build and deploy the site. Continue anyway? (y/n)"
-      abort 'Aborting.' unless /^y/.match?(STDIN.gets.strip.downcase)
+      $stdout.puts "The working directory has uncommitted changes. They're probably either \n  incomplete changes you don't want to release, or important changes you \n  don't want lost; in either case, you might want to deal with them before \n  you build and deploy the site. Continue anyway? (y/n)"
+      abort 'Aborting.' unless /^y/.match?($stdin.gets.strip.downcase)
     end
   end
 end
@@ -292,12 +292,12 @@ task :check_build_version do
       head = `git rev-parse HEAD`.strip
       build_version = File.read(VERSION_FILE)
       if head != build_version
-        STDOUT.puts "This build wasn't built from HEAD and may be outdated. Continue anyway? (y/n)"
-        abort 'Aborting.' unless /^y/.match?(STDIN.gets.strip.downcase)
+        $stdout.puts "This build wasn't built from HEAD and may be outdated. Continue anyway? (y/n)"
+        abort 'Aborting.' unless /^y/.match?($stdin.gets.strip.downcase)
       end
     else
-      STDOUT.puts "Can't tell age of site build; it's probably outdated. Continue anyway? (y/n)"
-      abort 'Aborting.' unless /^y/.match?(STDIN.gets.strip.downcase)
+      $stdout.puts "Can't tell age of site build; it's probably outdated. Continue anyway? (y/n)"
+      abort 'Aborting.' unless /^y/.match?($stdin.gets.strip.downcase)
     end
   end
 end
