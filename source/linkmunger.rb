@@ -40,7 +40,7 @@ def relativepath(path, relative_to)
                   relative_to.split(File::SEPARATOR, -1)
                 end
 
-  while (path.length.positive?) && (path.first == relative_to.first)
+  while path.length.positive? && (path.first == relative_to.first)
     path.shift
     relative_to.shift
   end
