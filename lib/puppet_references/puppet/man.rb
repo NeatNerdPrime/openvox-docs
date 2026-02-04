@@ -68,7 +68,7 @@ module PuppetReferences
         # Don't let new commands drop off into The Nothing:
         # leftovers = commands - all_in_categories
         # Clean up any commands that don't exist in this version of Puppet:
-        categories.values.each do |list|
+        categories.each_value do |list|
           list.reject! { |sub| !commands.include?(sub) }
         end
         header_data = { title: 'Puppet Man Pages',

@@ -37,7 +37,7 @@ module PuppetDocs
         data['version'] = data['version'].to_s
         next unless data['my_versions'].instance_of?(Hash)
 
-        data['my_versions'].keys.each do |doc|
+        data['my_versions'].each_key do |doc|
           data['my_versions'][doc] = data['my_versions'][doc].to_s
         end
       end
@@ -64,7 +64,7 @@ module PuppetDocs
 
       # Expand the document data: fill all empty my_version fields.
       document_groups = self['document_version_index'].keys
-      self['documents'].each do |_base_url, data|
+      self['documents'].each_value do |data|
         data['my_versions'] ||= {}
 
         # Reject any non-existent versions (they'll fall back to latest):

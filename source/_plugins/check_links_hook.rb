@@ -95,7 +95,7 @@ Jekyll::Hooks.register :site, :post_render do |site|
     end
 
     # Clean the results
-    link_test_results.each do |_filename, tally|
+    link_test_results.each_value do |tally|
       tally.reject! { |_kind, links| links.empty? }
     end
     link_test_results.reject! { |_filename, tally| tally.empty? }
