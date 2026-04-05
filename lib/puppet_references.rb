@@ -57,6 +57,7 @@ module PuppetReferences
     version4 = Gem::Version.create('4.0.0')
     repo = PuppetReferences::Repo.new('facter', FACTER_DIR)
     real_commit = repo.checkout(commit)
+    repo.update_bundle
     if !semantic?(commit) || (semantic?(commit) && Gem::Version.create(commit) >= version4)
       references << PuppetReferences::Facter::FacterCli
     elsif semantic?(commit) && Gem::Version.create(commit) < version4
