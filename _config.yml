@@ -40,6 +40,13 @@ collections:
     output: true
     permalink: '/openfact/5.x/:path.html'
 
+  openvox_latest:
+    output: true
+    permalink: '/openvox/latest/:path.html'
+  openvox_8x:
+    output: true
+    permalink: '/openvox/8.x/:path.html'
+
 defaults:
   - scope:
       path: ''
