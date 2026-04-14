@@ -1,0 +1,44 @@
+---
+title: OpenVox Documentation
+description: Documentation for various OpenVox Projects.
+
+timezone: UTC
+
+theme: jekyll-vitepress-theme
+plugins:
+  - jekyll-vitepress-theme
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+jekyll_vitepress:
+  # Disabled as it adds extra size to generated HTML pages.
+  copy_page:
+    enabled: false
+
+# Ignores all legacy files present in the root directory as of
+# commit 09952f27 (with the exception of LICENSE). As older files
+# are cleaned up, this exclusion list should shrink.
+exclude:
+  - bin
+  - CNAME
+  - CODEOWNERS
+  - config.ru
+  - CONTRIBUTING.md
+  - externalsources
+  - Gemfile
+  - Gemfile.lock
+  - lib
+  - puppet_docs.gemspec
+  - Rakefile
+  - README_WRITING.markdown
+  - README.markdown
+  - source
+  - toolchain_walkthrough.markdown
+  - util
+  - WORKFLOW.md
