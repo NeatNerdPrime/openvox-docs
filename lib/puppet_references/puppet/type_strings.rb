@@ -20,9 +20,9 @@ module PuppetReferences
         type_hash = strings_data['resource_types'].each_with_object({}) do |type, memo|
           memo[ type['name'] ] = {
             'description' => type['docstring']['text'],
-            'features' => (type['features'] || []).each_with_object({}) do |feature, memo|
-              memo[feature['name']] = feature['description']
-            end,
+            'features' => (type['features'] || []).to_h do |feature|
+                            [feature['name'], feature['description']]
+                          end,
             'providers' => strings_data['providers'].select do |provider|
               provider['type_name'] == type['name']
             end.each_with_object({}) do |provider, memo|
