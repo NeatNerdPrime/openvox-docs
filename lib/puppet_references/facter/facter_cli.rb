@@ -32,7 +32,7 @@ module PuppetReferences
           return
         end
         require 'pandoc-ruby'
-        markdown_text = PandocRuby.convert(raw_text, from: :mdoc, to: :commonmark)
+        markdown_text = PandocRuby.new(raw_text, from: 'man').to_markdown
         content = make_header(header_data) + PREAMBLE + markdown_text
         filename = OUTPUT_DIR + 'cli.md'
         filename.open('w') { |f| f.write(content) }
