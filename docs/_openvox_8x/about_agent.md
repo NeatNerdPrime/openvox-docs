@@ -25,7 +25,7 @@ See the table for details about which components shipped in which `openvox-agent
 
 We distribute OpenVox as two core packages.
 
-- `openvox-agent` --- This package contains OpenVox's main code and all of the dependencies needed to run it, including [OpenFact][], [Hiera][], and bundled versions of Ruby and OpenSSL. Once it's installed, you have everything you need to run [the OpenVox agent service][agent] and the [`openvox apply` command][apply].
+- `openvox-agent` --- This package contains OpenVox's main code and all of the dependencies needed to run it, including [OpenFact][], [Hiera][], and bundled versions of Ruby and OpenSSL. Once it's installed, you have everything you need to run [the OpenVox agent service][agent] and the [`puppet apply` command][apply].
 - `openvox-server` --- This package depends on `openvox-agent`, and adds the JVM-based [OpenVox Server][] application. Once it's installed, OpenVox Server can serve catalogs to nodes running the OpenVox agent service.
 
 ## How version numbers work
