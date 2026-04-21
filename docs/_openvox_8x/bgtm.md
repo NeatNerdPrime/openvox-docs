@@ -257,15 +257,17 @@ The `rspec-puppet` gem provides a unit-testing framework for Puppet. It extends 
 it { should contain_file('configuration') }
 ```
 
-RSpec lets you provide facts, like `osfamily`, in order to test the module in various scenarios.
+RSpec lets you provide facts, like `os['family']`, in order to test the module in various scenarios.
 
 A typical use of RSpec is to iterate over a list of operating systems, asserting that the package and service should exist in the catalog for every operating system your module supports.
 
-To learn more, see [https://rspec-puppet.com/](https://rspec-puppet.com/).
+To learn more, see the [rspec-puppet documentation](https://puppetlabs.github.io/rspec-puppet/).
 
 ### puppetlabs-spec-helper
 
 The [puppetlabs-spec-helper](https://github.com/puppetlabs/puppetlabs_spec_helper) gem automates some of the tasks required to test modules.
+
+> **Note:** This gem is no longer needed for any Vox Pupuli modules.
 
 This is especially useful in conjunction with `rspec-puppet`, as `puppetlabs-spec-helper` provides default Rake tasks that allow you to standardize testing across modules. It also provides some code to connect `rspec-puppet` with modules. Add it to the Gemfile of the project, and then add the following line to the Rakefile:
 
@@ -283,9 +285,11 @@ It provisions one or more virtual machines on various hypervisors (such as [Vagr
 
 [Serverspec](https://serverspec.org/) provides additional testing constructs (such as `be_running` and `be_installed`) for beaker-rspec. It allows you to abstract away details of the underlying distribution when testing. It lets you write tests like:
 
-    describe service('httpd') do
-      it { should be_running }
-    end
+```ruby
+describe service('httpd') do
+  it { should be_running }
+end
+```
 
 It then knows how to translate `be_running` into shell commands for different distributions.
 
@@ -309,7 +313,7 @@ We encourage you to publish your modules on the [Puppet Forge](https://forge.pup
 
 Sharing your modules allows other users to write improvements to the modules you make available and contribute them back to you, effectively giving you free improvements to your modules.
 
-Additionally, publishing your modules to the Forge helps foster community among Puppet users, and allows other Puppet community members to download and use your module. If the Puppet community routinely releases and iterates on modules on the Forge, the quality of available modules increases dramatically and gives you access to more modules to download and modify for your own purposes. Details on how to publish modules to the Forge can be found [here](./modules_publishing.html).
+Additionally, publishing your modules to the Forge helps foster community among Puppet users, and allows other Puppet community members to download and use your module. If the Puppet community routinely releases and iterates on modules on the Forge, the quality of available modules increases dramatically and gives you access to more modules to download and modify for your own purposes. Details on how to publish modules to the Forge can be found in the [module publishing guide](./modules_publishing.html).
 
 ## Community Resources
 
@@ -323,3 +327,4 @@ For beginning module authors, a variety of community resources are available.
 
 [Vox Pupuli community channels](https://voxpupuli.org/connect/)
 
+[puppetmodule.info](https://www.puppetmodule.info) — open source Puppet module documentation server, generating fresh docs for Puppet modules and popular Git repositories
