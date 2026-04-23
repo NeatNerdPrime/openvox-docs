@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Writing functions in Ruby: Documenting Ruby functions"
 ---
 
@@ -6,13 +7,15 @@ title: "Writing functions in Ruby: Documenting Ruby functions"
 [overview]: ./functions_ruby_overview.html
 [signatures]: ./functions_ruby_signatures.html
 
-[Puppet Strings][], a free documentation tool for Puppet, can extract code details and specially-formatted comments to build documentation pages for functions. This page describes the proper formatting to make your comments work well with Strings.
+[Puppet Strings][], a free documentation tool for OpenVox, can extract code details and specially-formatted comments to build
+documentation pages for functions. This page describes the proper formatting to make your comments work well with Strings.
 
 > **Note:** This is one of several pages describing the Ruby functions API. Before reading it, make sure you understand the [overview of this API][overview] and how to [define function signatures][signatures].
 
 ## Examples
 
-Full content for this page is coming soon. In the meantime, the following examples show how to format comments in two situations: a function with two explicit signatures, and a function with an automatic signature.
+Full content for this page is coming soon. In the meantime, the following examples show how to format comments in two situations:
+a function with two explicit signatures, and a function with an automatic signature.
 
 ``` ruby
 # Subtracts two things.
