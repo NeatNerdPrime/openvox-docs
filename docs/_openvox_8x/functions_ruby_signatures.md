@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Writing functions in Ruby: Defining function signatures"
 ---
 
@@ -9,25 +10,26 @@ title: "Writing functions in Ruby: Defining function signatures"
 [lambda]: ./lang_lambdas.html
 [call]: ./lang_functions.html
 [callable]: ./lang_data_abstract.html#callable
-[variant]: lang_data_abstract.html#variant
+[variant]: ./lang_data_abstract.html#variant
+[abstract data types]: ./lang_data_abstract.html
 [implementation]: ./functions_ruby_implementation.html
 [documenting]: ./functions_ruby_documenting.html
 
-
 Functions can specify how many arguments they expect, and can specify a data type for each argument. The rule set for a function's arguments is called a **signature.**
 
-Since Puppet functions support more advanced argument checking than Ruby does, the functions API uses a lightweight domain-specific language (DSL) to specify signatures.
+Since functions support more advanced argument checking than Ruby does, the functions API uses a lightweight domain-specific language (DSL) to specify signatures.
 
 > **Note:** This is one of several pages describing the Ruby functions API. Before reading it, make sure you understand the [overview of this API.][overview]
-
 
 ## Number of signatures
 
 A function written in Ruby can have more than one signature.
 
-Using multiple signatures is an easy way to have a function behave differently when passed different types or quantities of arguments --- instead of writing complex logic to decide what to do, you can write separate implementations and let Puppet figure out which one to use.
+Using multiple signatures is an easy way to have a function behave differently when passed different types or quantities of
+arguments --- instead of writing complex logic to decide what to do, you can write separate implementations and let OpenVox
+figure out which one to use.
 
-If a function has multiple signatures, Puppet checks them in the order they're written and uses the first one to match the provided arguments.
+If a function has multiple signatures, OpenVox checks them in the order they're written and uses the first one to match the provided arguments.
 
 ## Using automatic signatures
 
@@ -48,7 +50,11 @@ In this case, since the last segment of `stdlib::camelcase` is `camelcase`, we m
 
 ### Drawbacks of automatic signatures
 
-Although functions with automatic signatures are simpler to write, they give worse error messages when called incorrectly. Users will get a useful error if they call the function with a wrong number of arguments, but if they give the wrong _type_ of argument, they'll get something unhelpful. (For example, if you pass the function above a number instead of a string, it reports `Error: Evaluation Error: Error while evaluating a Function Call, undefined method 'split' for 5:Fixnum at /Users/nick/Desktop/test2.pp:7:8 on node magpie.lan`.)
+Although functions with automatic signatures are simpler to write, they give worse error messages when called incorrectly.
+Users will get a useful error if they call the function with a wrong number of arguments, but if they give the wrong _type_
+of argument, they'll get something unhelpful. (For example, if you pass the function above a number instead of a string,
+it reports `Error: Evaluation Error: Error while evaluating a Function Call, undefined method 'split' for 5:Fixnum`
+at the call site.)
 
 If your function might be used by anyone other than yourself, you should support your users by writing a signature with `dispatch`.
 
@@ -67,18 +73,17 @@ To write a signature, use the `dispatch` method.
 `dispatch` takes:
 
 * The name of an implementation method, provided as a Ruby [symbol][].
-    * The corresponding method must be defined somewhere in the `create_function` block, usually after all the signatures.
+  * The corresponding method must be defined somewhere in the `create_function` block, usually after all the signatures.
 * A block of code, which should only contain calls to the parameter and return methods (described below).
-
 
 ## Parameter methods
 
 In the code block of a `dispatch` statement, you can specify arguments with special parameter methods. All of these methods take two arguments:
 
 * The allowed data type for the argument, as a [string][ruby_string].
-    * Types are specified using Puppet's [data type syntax][data type].
+  * Types are specified using OpenVox's [data type syntax][data type].
 * A user-facing name for the argument, as a [symbol][].
-    * This name is only used in documentation and error messages; it doesn't have to match the argument names in the implementation method.
+  * This name is only used in documentation and error messages; it doesn't have to match the argument names in the implementation method.
 
 The order in which you call these methods is important: the function's first argument should go first, the second one second, etc.
 
@@ -98,7 +103,9 @@ Method name                                   | Description
 When specifying a repeatable argument, note that:
 
 * In your implementation method, the repeatable argument appears as an array, which contains all the provided values that weren't assigned to earlier, non-repeatable arguments.
-* The specified data type is matched against _each value_ for the repeatable argument, not the repeatable argument as a whole. For example, if you want to accept any number of numbers, you should specify `repeated_param 'Numeric', :values_to_average`, not `repeated_param 'Array[Numeric]', :values_to_average`.
+* The specified data type is matched against _each value_ for the repeatable argument, not the repeatable argument as a
+  whole. For example, if you want to accept any number of numbers, you should specify
+  `repeated_param 'Numeric', :values_to_average`, not `repeated_param 'Array[Numeric]', :values_to_average`.
 
 ### More about blocks of code
 
@@ -106,7 +113,9 @@ Functions can receive blocks of Puppet code, as described in [the docs on callin
 
 The data type for a block argument should always be [`Callable`][callable], or a [`Variant`][variant] that only contains `Callable`s.
 
-The `Callable` type can optionally specify the type and quantity of parameters that the lambda should accept; for example, `Callable[String, String]` matches any lambda that can be called with a pair of strings. For more details, [see the docs on the `Callable` type.][callable]
+The `Callable` type can optionally specify the type and quantity of parameters that the lambda should accept; for example,
+`Callable[String, String]` matches any lambda that can be called with a pair of strings. For more details,
+[see the docs on the `Callable` type.][callable]
 
 For details on how to execute a provided block in your implementation method, see [Using special features in implementation methods.][implementation]
 
@@ -147,9 +156,8 @@ Most notably, this means:
 
 ## The `return_type` method
 
-> **Note:** `return_type` only works with Puppet 4.7 and later. In earlier versions of Puppet, it will cause an evaluation error.
-
-After specifying a signature's arguments, you can use the `return_type` method to specify the data type of its return value. This method takes one argument: a [Puppet data type][data type], specified as a string.
+After specifying a signature's arguments, you can use the `return_type` method to specify the data type of its return value.
+This method takes one argument: a [Puppet data type][data type], specified as a string.
 
 ``` ruby
 dispatch :camelcase do
@@ -160,24 +168,24 @@ end
 
 The return type serves two purposes: documentation, and insurance.
 
-* Puppet Strings can include information about the return value of a function.
-* If something goes wrong and your function returns the wrong type (like `nil` when a string is expected), it will fail early with an informative error instead of allowing compilation to continue with an incorrect value.
+* Puppet Strings can include information about the return value of a function in generated docs.
+* If something goes wrong and your function returns the wrong type (like `nil` when a string is expected), it will fail
+  early with an informative error instead of allowing compilation to continue with an incorrect value.
 
 ## Specifying local type aliases
 
-> **Note:** Local type aliases only work with Puppet 4.5 and later. In earlier versions of Puppet, they will cause an evaluation error.
-
 If you are using complicated [abstract data types][] to validate arguments, and if you need to use these types in multiple signatures, they can sometimes become difficult to work with.
 
-In these cases, you can specify short aliases for your complex types and use the short names in your signatures. Centralizing the complex part like this can make your function more maintainable by reducing copy-pasted code.
+In these cases, you can specify short aliases for your complex types and use the short names in your signatures.
+Centralizing the complex part like this can make your function more maintainable by reducing copy-pasted code.
 
 To specify aliases, use the `local_types` method.
 
 * You must call `local_types` only once, _before_ any signatures.
 * `local_types` takes a block, which should only contain calls to the `type` method.
-* The `type` method takes a single [string][] argument, of the form `'<NAME> = <TYPE>'`.
-    * The name should be a capitalized, CamelCase word, similar to a Ruby class name or the existing [Puppet data types][data type].
-    * The type should be a valid [Puppet data type][data type].
+* The `type` method takes a single [string][ruby_string] argument, of the form `'<NAME> = <TYPE>'`.
+  * The name should be a capitalized, CamelCase word, similar to a Ruby class name or the existing [Puppet data types][data type].
+  * The type should be a valid [Puppet data type][data type].
 
 Example:
 
@@ -201,5 +209,9 @@ end
 
 To make this API reference easier to use, we've split some of its larger topics into separate pages. Please read the following pages to learn the remainder of the Ruby functions API:
 
-* [Using special features in implementation methods][implementation]. For the most part, implementation methods are basic Ruby. However, there are some special features available for accessing Puppet variables, working with provided blocks of Puppet code, and calling other functions.
-* [Documenting Ruby functions][documenting]. Puppet Strings, a free documentation tool for Puppet, can extract documentation from functions and display it to your module's users. This page describes how to format your code comments to work well with Strings.
+* [Using special features in implementation methods][implementation]. For the most part, implementation methods are basic
+  Ruby. However, there are some special features available for accessing OpenVox variables, working with provided blocks
+  of Puppet code, and calling other functions.
+* [Documenting Ruby functions][documenting]. Puppet Strings, a free documentation tool for OpenVox, can extract
+  documentation from functions and display it to your module's users. This page describes how to format your code
+  comments to work well with Strings.
