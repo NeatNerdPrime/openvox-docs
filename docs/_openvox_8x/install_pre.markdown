@@ -1,52 +1,59 @@
 ---
 layout: default
-title: "Installing OpenVox: Pre-install tasks"
+title: "Installing OpenVox: Before you begin"
 ---
 
 [sysreqs]: ./system_requirements.html
-[ruby]: ./system_requirements.html#basic-requirements
 [architecture]: ./architecture.html
-[openvox-db]: /openvoxdb/latest/
+[openvoxdb]: /openvoxdb/latest/
+[openvox_server]: /openvox-server/latest/install_from_packages.html
 [server_setting]: ./configuration.html#server
 
-To ease your OpenVox installation, complete these tasks before installing Puppet agent.
+OpenVox 8 uses the same commands and configuration paths as modern Puppet releases.
+You can keep using your existing tooling and `/etc/puppetlabs/` configuration, but
+you cannot install both Puppet and OpenVox on the same system at the same time.
 
-1. Decide on a deployment type.
+Before installing OpenVox:
 
-   OpenVox usually uses an agent-server (client-server) architecture, but it can also run in a self-contained architecture. Your choice determines which packages you install, and what extra configuration you need to do.
+1. Decide which deployment model you want.
 
-   Additionally, consider using [OpenVox-DB][], which enables extra Puppet features and makes it easy to query and analyze Puppet's data about your infrastructure.
+   OpenVox can run in an agent-server layout or in a standalone `puppet apply`
+   workflow. Your choice determines which packages you need and which hosts must
+   be available first. For background, see the [architecture overview][architecture].
 
-   [Learn more about OpenVox's architectures here.][architecture]
+2. Decide which systems will run OpenVox Server and, if you use it, [OpenVoxDB][openvoxdb].
 
-2. If you choose the standard agent-server architecture, you need to decide which servers act as the OpenVox server (and the [OpenVox-DB][] server, if you choose to use it).
+   Install and validate your server components before you roll out `openvox-agent`
+   to managed nodes. See the [OpenVox Server documentation][openvox_server] for
+   server installation instructions. In agent-server deployments, Linux and other
+   Unix-like systems are the supported server platforms.
 
-   Completely install and configure OpenVox on any OpenVox servers and OpenVox-DB servers before installing on any agent nodes. The server must be running some kind of \*nix. Windows machines can't be OpenVox servers.
+3. Review supported platforms and capacity requirements.
 
-   An OpenVox server is a dedicated machine, so it must be reachable at a reliable hostname. Agent nodes default to contacting the server at the hostname `puppet`. If you make sure this hostname resolves to the server, you can skip changing [the `server` setting][server_setting] and reduce your setup time.
+   Use the [system requirements][sysreqs] page to confirm that your chosen systems
+   are supported and sized appropriately for the number of nodes they will manage.
 
-3. Check OS versions and system requirements.
+4. Plan your migration if you are replacing legacy Puppet packages.
 
-   See the [system requirements][sysreqs] for the version of OpenVox you are installing, and consider the following:
+   OpenVox packages replace the legacy Puppet packages and continue using the
+   existing `/etc/puppetlabs/` tree. Back up `/etc/puppetlabs/` before starting
+   any in-place migration, especially on server nodes.
 
-   * Your OpenVox servers should be able to handle the amount of agents they'll need to serve.
-   * Systems we provide official packages for have an easier install path.
-   * Systems we don't provide packages for might still be able to run OpenVox, as long as the version of Ruby is suitable and the prerequisites are installed, but it means a more complex and often time consuming install path.
+5. Check DNS, certificates, and networking.
 
-4. Check your network configuration.
+   In agent-server deployments, agents must be able to reach the server on port
+   `8140`. Forward and reverse DNS should be correct for every node. If you want
+   agents to use the default server name, make sure `puppet` resolves correctly;
+   otherwise set the [`server` setting][server_setting] explicitly.
 
-   In an agent-server deployment, you must prepare your network for OpenVox's traffic.
+6. Verify time synchronization on the certificate authority.
 
-   * **Firewalls:** The OpenVox server must allow incoming connections on port 8140, and agent nodes must be able to connect to the server on that port.
-   * **Name resolution:** Every node must have a unique hostname. **Forward and reverse DNS** must both be configured correctly. If your site lacks DNS, you must write an `/etc/hosts` file on each node.
-     * **Note:** The default OpenVox server hostname is `puppet`. Your agent nodes can be ready sooner if this hostname resolves to your OpenVox server.
+   Incorrect system time can cause certificate issuance and validation failures.
+   Make sure the CA host is using reliable time synchronization before any agents
+   request certificates.
 
-5. Set timekeeping on your OpenVox server.
+Once you have completed these checks, continue with the install page for your platform:
 
-   The time must be set accurately on the OpenVox server that acts as the certificate authority. If the time is wrong, it can mistakenly issue agent certificates from the distant past or future, which other nodes treat as expired. There are modules, such as the chrony or systemd module that can help you with this.
-
-Install OpenVox Server before installing OpenVox on your agent nodes. If you're using OpenVox-DB, install it once OpenVox Server is up and running. Once you have completed these steps and configured your server, you can install OpenVox agents.
-
-* [Installing OpenVox agent on Linux](./install_linux.html)
-* [Installing OpenVox agent on Windows](./install_windows.html)
-* [Installing OpenVox agent on macOS](./install_osx.html)
+- [Install OpenVox agent on Linux](./install_linux.html)
+- [Install OpenVox agent on Windows](./install_windows.html)
+- [Install OpenVox agent on macOS](./install_osx.html)

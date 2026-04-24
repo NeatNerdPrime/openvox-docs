@@ -7,7 +7,7 @@
     link: "known_issues.html"
   - text: System requirements
     link: "system_requirements.html"
-  - text: Component versions in `openvox-agent`
+  - text: About `openvox-agent`
     link: "about_agent.html"
 - text: Quick start guides
   items:
@@ -37,9 +37,9 @@
   items:
   - text: Overview of OpenVox's architecture
     link: "architecture.html"
-  - text: Pre-install tasks
+  - text: Before you begin
     link: "install_pre.html"
-  - text: OpenVox Platform repositories
+  - text: OpenVox repositories and packages
     link: "openvox_platform.html"
   - text: 'Install agent: Linux'
     link: "install_linux.html"
@@ -49,17 +49,7 @@
     link: "install_osx.html"
   - text: What gets installed and where (agent)
     link: "install_what_and_where.html"
-  - text: File location changes since OpenVox 3.8.x
-    link: "whered_it_go.html"
-  - text: Pre-upgrade tasks from 3.8
-    link: "upgrade_major_pre.html"
-  - text: Upgrade agents from 3.8.x OpenVox 5.x
-    link: "upgrade_major_agent.html"
-  - text: Upgrade servers
-    link: "upgrade_major_server.html"
-  - text: Post-upgrade cleanup
-    link: "upgrade_major_post.html"
-  - text: 'Minor upgrades: From OpenVox 4 and within OpenVox 5.x'
+  - text: Upgrading OpenVox 8
     link: "upgrade_minor.html"
 - text: Configuration
   items:
@@ -145,11 +135,11 @@
     link: "services_commands.html"
   - text: Running OpenVox commands on Windows
     link: "services_commands_windows.html"
-  - text: The rack OpenVox master
+  - text: The rack OpenVox server
     link: "services_master_rack.html"
   - text: Configuring a Server with Passenger and Apache
     link: "passenger.html"
-  - text: The WEBrick OpenVox master
+  - text: The WEBrick OpenVox server
     link: "services_master_webrick.html"
   - text: OpenVox agent on *nix
     link: "services_agent_unix.html"
@@ -453,7 +443,7 @@
     link: "man/apply.html"
   - text: puppet cert
     link: "man/cert.html"
-  - text: puppet master
+  - text: legacy server command
     link: "man/master.html"
   - text: puppet module
     link: "man/module.html"
@@ -565,7 +555,7 @@
     link: "ssl_regenerate_certificates.html"
 - text: Details about OpenVox's internals
   items:
-  - text: Agent/master HTTPS communications
+  - text: Agent/server HTTPS communications
     link: "subsystem_agent_master_comm.html"
   - text: Catalog compilation
     link: "subsystem_catalog_compilation.html"

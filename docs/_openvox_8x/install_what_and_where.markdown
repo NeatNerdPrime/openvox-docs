@@ -8,7 +8,7 @@ When you install the `openvox-agent` package, it places files and directories in
 ## Executables and binaries
 
 | Location | Description |
-|----------|-------------|
+| --- | --- |
 | `/opt/puppetlabs/bin/` | Public binaries (`puppet`, `facter`). This directory is on the `PATH` by default. |
 | `/opt/puppetlabs/puppet/bin/` | Private binaries and the Ruby runtime used internally by the agent. Not on the `PATH` by default. |
 
@@ -25,11 +25,13 @@ The main configuration directory ([confdir](./dirs_confdir.html)) defaults to:
 Key files within the confdir:
 
 | File | Description |
-|------|-------------|
+| --- | --- |
 | `puppet.conf` | Main configuration file |
 | `ssl/` | SSL certificates, keys, and CRLs — see [SSLdir](./dirs_ssldir.html) |
 | `hiera.yaml` | Hiera configuration |
 | `auth.conf` | HTTPS authorization rules |
+
+On server nodes, OpenVox Server configuration lives separately at `/etc/puppetlabs/puppetserver/`.
 
 ## Code and data
 
@@ -49,7 +51,7 @@ The cache directory ([vardir](./dirs_vardir.html)) stores dynamic data generated
 Notable contents:
 
 | Path | Description |
-|------|-------------|
+| --- | --- |
 | `state/last_run_summary.yaml` | Summary of the most recent agent run |
 | `state/last_run_report.yaml` | Full report from the most recent agent run |
 | `state/agent_catalog_run.lock` | Lock file present while an agent run is in progress |
@@ -66,3 +68,12 @@ The agent runs as the `puppet` service, managed by the platform's native service
 
 - **Service name:** `puppet`
 - **Runs as user:** `puppet` (created by the package installer)
+
+## Migrating from Puppet packages
+
+OpenVox uses the same directory layout as modern Puppet. If you are replacing legacy Puppet packages:
+
+- back up `/etc/puppetlabs/` before you begin
+- expect the same command names after installation
+- expect the same configuration paths after installation
+- do not install Puppet and OpenVox packages side by side on the same host
