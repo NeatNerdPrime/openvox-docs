@@ -81,7 +81,9 @@ The rakefile has three rake tasks:
 - references:openfact
 - references:openvox
 
-Each reference source is clonde into `vendor/` directory.
+Each reference source is cloned into `vendor/` directory.
+
+GitHub URL is located in `lib/puppet_references/repo.rb`
 
 #### OpenFact Workflow
 
