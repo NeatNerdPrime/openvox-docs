@@ -5,7 +5,7 @@ title: "Updating Puppet 3.x manifests"
 
 [str2bool]: https://forge.puppetlabs.com/puppetlabs/stdlib#str2bool
 [file_mode]: ./type.html#file-attribute-mode
-[where]: ./whered_it_go.html
+[where]: ./install_what_and_where.html
 [reserved]: ./lang_reserved.html
 [numeric]: ./lang_data_number.html
 [expressions]: ./lang_expressions.html

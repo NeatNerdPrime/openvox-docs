@@ -1,41 +1,55 @@
 ---
 layout: default
-title: "Component versions in OpenVox-agent"
+title: "About `openvox-agent`"
 ---
 
-[OpenFact]: /openfact/latest/
-[Hiera]: ./hiera_intro.html
-[agent]: ./services_agent_unix.html
-[apply]: ./services_apply.html
-[OpenVox Server]: /openvox-server/latest/
-[release notes]: ./release_notes.html
+[release_notes]: ./release_notes.html
+[services_agent]: ./services_agent_unix.html
+[services_apply]: ./services_apply.html
+[openvox_server]: /openvox-server/latest/
 
-## Release contents of `OpenVox-agent` 8.x
+`openvox-agent` is the core OpenVox package for managed nodes and standalone use.
+It bundles the OpenVox runtime and the dependencies needed to run it, so it is the
+package you install on Linux, macOS, and Windows agent nodes.
 
-See the table for details about which components shipped in which `openvox-agent` release, and the [package-specific release notes][release notes] for more information about packaging and installation fixes and features.
+## What `openvox-agent` provides
 
-| OpenVox release | OpenFact | Ruby   | OpenSSL |
-|-----------------|----------|--------|---------|
-| 8.26.2          | 5.6.0    | 3.2.11 | 3.0.20  |
-| 8.26.1          | 5.6.0    | 3.2.11 | 3.0.20  |
-| 8.26.0          | 5.6.0    | 3.2.11 | 3.0.20  |
-| 8.25.0          | 5.4.0    | 3.2.10 | 3.0.19  |
+The package includes:
 
-## What `openvox-agent` and OpenVox Server are
+- the `puppet` and `facter` commands
+- the OpenVox agent service
+- the runtime needed for `puppet apply`
+- bundled dependencies such as Ruby and OpenSSL
 
-We distribute OpenVox as two core packages.
+After installation, you can run the [OpenVox agent service][services_agent] or use
+[standalone apply workflows][services_apply] on the same host.
 
-- `openvox-agent` --- This package contains OpenVox's main code and all of the dependencies needed to run it, including [OpenFact][], [Hiera][], and bundled versions of Ruby and OpenSSL. Once it's installed, you have everything you need to run [the OpenVox agent service][agent] and the [`puppet apply` command][apply].
-- `openvox-server` --- This package depends on `openvox-agent`, and adds the JVM-based [OpenVox Server][] application. Once it's installed, OpenVox Server can serve catalogs to nodes running the OpenVox agent service.
+## Relationship to other packages
 
-## How version numbers work
+OpenVox is usually installed as a small set of packages:
 
-OpenVox Server is a separate application that, among other things, runs instances of the OpenVox server application. It has its own version number separate from the version of OpenVox it runs and may be compatible with more than one existing OpenVox version.
+- `openvox-agent` for agent nodes and standalone use
+- `openvox-server` for catalog compilation and CA services on server nodes
+- `openvoxdb` for exported resources, reports, and inventory data
+- `openvoxdb-termini` on server nodes that need to talk to OpenVoxDB
 
-The `openvox-agent` package also has its own version number, which doesn't necessarily match the version of OpenVox it installs.
+`openvox-server` depends on `openvox-agent`, so server upgrades often pull in a
+newer `openvox-agent` package on the server at the same time.
 
-Order is important in the upgrade process. First, update OpenVox Server, then you update `openvox-agent`. If you upgrade OpenVox Server or OpenVoxDB to version 8, if you're on the master it will automatically upgrade the `openvox-agent` package to OpenVox agent 8.0.0 or newer. OpenVox Server 8 will also prevent you from installing anything lower than `openvox-agent` 8.0.0 on your agent nodes.
+## Versions and release notes
 
-Since the `openvox-agent` package distributes several different pieces of software, its version number will frequently increase when OpenVox's version does not --- for example, `openvox-agent` 8.25.0 shipped the same OpenVox version but different Facter versions. Similarly, new versions of OpenVox Server usually don't require updates to the core OpenVox code.
+The `openvox-agent` package version is a package release number, not a separate
+product line. It can change when bundled dependencies or packaging details change,
+even if the core OpenVox language and command behavior stay the same.
 
-This versioning scheme helps us avoid a bunch of "empty" OpenVox releases where the version number increases without any changes to OpenVox itself.
+For package-specific changes, see the [OpenVox release notes][release_notes] and the
+latest [OpenVox Server documentation][openvox_server].
+
+## Release contents of `openvox-agent` 8.x
+
+| OpenVox release | OpenFact | Ruby | OpenSSL |
+| --- | --- | --- | --- |
+| 8.26.2 | 5.6.0 | 3.2.11 | 3.0.20 |
+| 8.26.1 | 5.6.0 | 3.2.11 | 3.0.20 |
+| 8.26.0 | 5.6.0 | 3.2.11 | 3.0.20 |
+| 8.25.0 | 5.4.0 | 3.2.10 | 3.0.19 |

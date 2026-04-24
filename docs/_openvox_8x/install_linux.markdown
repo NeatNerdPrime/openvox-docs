@@ -1,58 +1,86 @@
 ---
 layout: default
-title: "Installing Puppet agent: Linux"
+title: "Installing OpenVox agent: Linux"
 ---
 
-[master_settings]: ./config_important_settings.html#settings-for-puppet-master-servers
 [agent_settings]: ./config_important_settings.html#settings-for-agents-all-nodes
-[where]: ./whered_it_go.html
-[dns_alt_names]: /puppet/latest/configuration.html#dnsaltnames
-[server_heap]: {{puppetserver}}/install_from_packages.html#memory-allocation
-[puppetserver_confd]: {{puppetserver}}/configuration.html
-[server_install]: {{puppetserver}}/install_from_packages.html
-[modules]: ./modules_fundamentals.html
-[main manifest]: ./dirs_manifest.html
-[environments]: ./environments.html
-[`puppet-agent`]: ./about_agent.html
 
-Install the Puppet agent so that your master can communicate with your Linux nodes.
+Install `openvox-agent` on Linux nodes that will run the OpenVox agent service or
+use `puppet apply`.
 
-**Before you begin**: Review the [pre-install tasks](./install_pre.html) and [installing Puppet Server][server_install].
+**Before you begin:** Review the [pre-install tasks](./install_pre.html). If this
+node will connect to an OpenVox Server, make sure the server side is already installed
+and reachable.
 
-1. Install a release package to [enable Puppet Platform repositories](./puppet_platform.html).
+1. Enable the OpenVox repository for your distribution.
 
-2. Confirm that you can run Puppet executables.
+   On apt-based systems, download and install the release package for your OS from
+   [apt.voxpupuli.org](https://apt.voxpupuli.org). For example, on Ubuntu 22.04:
 
-   The location for Puppet's executables is `/opt/puppetlabs/bin/`, which is not in your `PATH` environment variable by default.
+   ```bash
+   wget https://apt.voxpupuli.org/openvox8-release-ubuntu22.04.deb
+   sudo dpkg -i openvox8-release-ubuntu22.04.deb
+   sudo apt update
+   ```
 
-   The executable path doesn't matter for Puppet services --- for instance, `service puppet start` works regardless of the `PATH` --- but if you're running interactive `puppet` commands, you must either add their location to your `PATH` or execute them using their full path.
+   On yum/dnf-based systems, install the release package for your OS from
+   [yum.voxpupuli.org](https://yum.voxpupuli.org). For example, on EL 9:
 
-   To quickly add the executable location to your `PATH` for your current terminal session, use the command `export PATH=/opt/puppetlabs/bin:$PATH`. You can also add this location wherever you configure your `PATH`, such as your `.profile` or `.bashrc` configuration files.
+   ```bash
+   sudo rpm -Uvh https://yum.voxpupuli.org/openvox8-release-el-9.noarch.rpm
+   ```
 
-   For more information, see details about [file and directory locations][where].
+   For other distributions and versions, see the full list of release packages on
+   the respective repository pages or the [Installing OpenVox](https://voxpupuli.org/openvox/install/) page.
 
-4. Install the `puppet-agent` package on your Puppet agent nodes using the command appropriate to your system:
+2. Install the package.
 
-   * Yum -- `sudo yum install puppet-agent`
-   * Apt -- `sudo apt-get install puppet-agent`
-   * Zypper -- `sudo zypper install puppet-agent`
+   On apt-based systems:
 
-5. (Optional) Configure agent settings.
+   ```bash
+   sudo apt update
+   sudo apt install openvox-agent
+   ```
 
-   For example, if your master isn't reachable at the default address, `server = puppet`, set the `server` setting to your Puppet master's hostname.
+   On yum-based systems:
 
-   For other settings you might want to change, see a [list of agent-related settings][agent_settings].
+   ```bash
+   sudo yum install openvox-agent
+   ```
 
-6. Start the `puppet` service: `sudo /opt/puppetlabs/bin/puppet resource service puppet ensure=running enable=true`.
+3. Confirm that you can run the OpenVox executables.
 
-7. (Optional) To see a sample of Puppet agent's output and verify any changes you may have made to your configuration settings in step 5, manually launch and watch a Puppet run:
-   `sudo /opt/puppetlabs/bin/puppet agent --test`
+   The public binaries are installed under `/opt/puppetlabs/bin`. Add that directory
+   to your `PATH` for interactive use, or call the binaries with their full path.
 
-8. Sign certificates on the certificate authority (CA) master.
+   ```bash
+   export PATH=/opt/puppetlabs/bin:$PATH
+   ```
 
-   On the Puppet master:
+4. Configure agent settings if needed.
 
-   1. Run `sudo /opt/puppetlabs/bin/puppet cert list` to see any outstanding requests.
-   2. Run `sudo /opt/puppetlabs/bin/puppet cert sign <NAME>` to sign a request.
+   If the server is not reachable as `puppet`, set the `server` value in
+   `puppet.conf`. For other commonly adjusted settings, see the
+   [agent settings list][agent_settings].
 
-   As each Puppet agent runs for the first time, it submits a certificate signing request (CSR) to the CA Puppet master. You must log into that server to check for and sign certificates. After an agent's certificate is signed, it regularly fetches and applies configuration catalogs from the Puppet master.
+5. Start and enable the agent service.
+
+   ```bash
+   sudo /opt/puppetlabs/bin/puppet resource service puppet ensure=running enable=true
+   ```
+
+6. Run a test check-in.
+
+   ```bash
+   sudo /opt/puppetlabs/bin/puppet agent --test
+   ```
+
+7. Sign the node certificate on the CA, if your deployment requires manual signing.
+
+   ```bash
+   sudo /opt/puppetlabs/bin/puppetserver ca list
+   sudo /opt/puppetlabs/bin/puppetserver ca sign --certname <NAME>
+   ```
+
+If you are replacing Puppet packages on an existing host, back up `/etc/puppetlabs/`
+before you begin. OpenVox continues to use that configuration tree after installation.

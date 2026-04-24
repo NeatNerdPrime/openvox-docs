@@ -1,91 +1,65 @@
 ---
 layout: default
-title: "Minor upgrades: From Puppet 4 and within Puppet 5.x"
+title: "Upgrading OpenVox 8"
 ---
 
-[`puppetlabs/puppetdb`]: https://forge.puppetlabs.com/puppetlabs/puppetdb
-[major upgrades]: ./upgrade_major_pre.html
+Use this page for routine OpenVox 8 upgrades and for in-place migrations from the
+legacy Puppet packages to OpenVox packages.
 
-A minor upgrade is an upgrade from Puppet 4 to Puppet 5, or from one Puppet 5 release to another. The order in which you upgrade packages is important. Always upgrade `puppetserver` on your masters _before_ you upgrade agents. You can upgrade PuppetDB before or after you upgrade other nodes.
+OpenVox 8 is functionally equivalent to modern Puppet in day-to-day operation. The
+main migration rule is that a host cannot have both Puppet and OpenVox packages
+installed at the same time. Back up `/etc/puppetlabs/` before you start.
 
-## Upgrade Puppet Server
+## Recommended order
 
-Upgrade Puppet Server on the masters before upgrading any agents. 
+Upgrade in this order:
 
-> **Note**: Your Puppet masters are responsible for maintaining your site's infrastructure, and upgrading them disrupts their activities. If you only use one master, all Puppet services will be unavailable during the upgrade; avoid reconfiguring any Puppet-managed servers until your master is back up. If you use multiple load-balanced servers, upgrade them individually to avoid Puppet downtime or problems synchronizing configurations.
+1. `openvox-server`
+2. `openvoxdb`
+3. `openvoxdb-termini` on server nodes
+4. `openvox-agent` on managed nodes
 
-The `puppetserver` package depends on the `puppet-agent` package, and your node's package manager automatically upgrades `puppet-agent` if the new version of `puppetserver` requires it.
+This keeps the central services ahead of the agents they serve.
 
-1. To upgrade the `puppetserver` package and its dependencies on masters that use `apt`, run:
+## Upgrading Linux packages
 
-   ``` bash
-   # apt-get update
-   # apt-get install --only-upgrade puppetserver
-   ```
+On apt-based systems:
 
-   On masters that use `yum`, run:
+```bash
+sudo apt update
+sudo apt install --only-upgrade openvox-server openvoxdb openvoxdb-termini openvox-agent
+```
 
-   ``` bash
-   # yum update puppetserver
-   ```
+On yum-based systems:
 
-> **Note**: If you pinned or held your Puppet packages to a specific version, remove the pins or holds before continuing. On systems that use `apt`, remove any special `.pref` files from `/etc/apt/preferences.d/` that pin Puppet packages, and use the `apt-mark unhold` command on each held package. For `yum` packages locked with the versionlock plugin, edit `/etc/yum/pluginconf.d/versionlock.list` and remove the Puppet lock.
+```bash
+sudo yum update openvox-server openvoxdb openvoxdb-termini openvox-agent
+```
 
-## Upgrade Puppet on agents
+If you are migrating from Puppet packages rather than upgrading an existing OpenVox
+install, enable the OpenVox repository first and then install the corresponding
+`openvox*` packages. The package manager will replace the legacy Puppet packages.
 
-You should regularly upgrade Puppet on agents, and in most cases you shouldn't need to do anything to prepare for such upgrades.
+## Upgrading Windows and macOS agents
 
-Read the [release notes](./release_notes.html) before upgrading to learn about changes that affect specific systems or workflows.
+On Windows and macOS, download the current `openvox-agent` installer for your
+platform and run it again. OpenVox continues using the same configuration paths, so
+you normally do not need to move configuration files by hand.
 
-1. To upgrade \*nix agents that use `apt`, run:
+- [Install OpenVox agent on Windows](./install_windows.html)
+- [Install OpenVox agent on macOS](./install_osx.html)
 
-   ``` bash
-   # apt-get update
-   # apt-get install --only-upgrade puppet-agent
-   ```
+## After the upgrade
 
-   On \*nix agents that use `yum`, run:
+After each stage:
 
-   ``` bash
-   # yum update puppet-agent
-   ```
+1. Confirm services are running.
+2. Run a test agent execution.
+3. Check certificate handling and OpenVoxDB connectivity where applicable.
+4. Review the [release notes](./release_notes.html) for version-specific changes.
 
-On Windows agents, follow the [installation guide](./install_windows.html) to upgrade installed Puppet packages. You do not need to uninstall Puppet first unless you're changing from 32-bit Puppet to the 64-bit version. Running 32-bit Puppet on 64-bit Windows is now deprecated, so you should update your Puppet's architecture to match your system.
+## Historical Puppet documentation
 
-> **Note**: If you installed Puppet into a custom directory and are moving from a 32-bit version to a 64-bit version, you must specify the INSTALLDIR option and any other relevant MSI properties when re-installing.
+For older Puppet documentation, see the Puppet docs archive:
 
-On macOS, follow the [installation guide](./install_osx.html) to upgrade installed Puppet packages. You don't need to uninstall Puppet first.
-
-## Upgrade PuppetDB
-
-Upgrade PuppetDB nodes independently of masters and agents. 
-
-You can automate PuppetDB upgrades using the `version` parameter of the [`puppetlabs/puppetdb`][] module's [`puppetdb::globals`](https://forge.puppetlabs.com/puppetlabs/puppetdb#usage) class.
-
-1. To manually upgrade the `puppetdb` package on nodes that use `apt`, run:
-
-   ``` bash
-   # apt-get update
-   # apt-get install --only-upgrade puppetdb
-   ```
-
-   On nodes that use `yum`, run:
-
-   ``` bash
-   # yum update puppetdb
-   ```
-
-2. When you upgrade PuppetDB, you must also upgrade the `puppetdb-termini` package on all Puppet masters.
-
-   To upgrade it on masters that use `apt`, run:
-
-   ``` bash
-   # apt-get update
-   # apt-get install --only-upgrade puppetdb-termini
-   ```
-
-   On masters that use `yum`, run:
-
-   ``` bash
-   # yum update puppetdb-termini
-   ```
+- <https://github.com/puppetlabs/docs-archive>
