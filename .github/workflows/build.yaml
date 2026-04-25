@@ -72,10 +72,12 @@ jobs:
         with:
           ruby-version: '3.2'
           bundler-cache: true
-
+      - name: Install pandoc
+        run: |
+          curl -sLO https://github.com/jgm/pandoc/releases/download/3.9.0.2/pandoc-3.9.0.2-1-amd64.deb
+          sudo dpkg -i pandoc-3.9.0.2-1-amd64.deb
       - name: Build website
         run: |
-          sudo apt install -y pandoc
           bundle exec rake references:openfact INSTALLPATH=docs
           bundle exec rake references:openvox INSTALLPATH=docs
           bundle exec jekyll build
