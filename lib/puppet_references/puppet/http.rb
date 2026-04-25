@@ -5,7 +5,7 @@ require 'fileutils'
 module PuppetReferences
   module Puppet
     class Http < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openvox'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
       DOCS_DIR = OUTPUT_DIR + 'http_api'
       API_SOURCE = PuppetReferences::PUPPET_DIR + 'api'
 

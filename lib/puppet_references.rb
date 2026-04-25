@@ -7,7 +7,8 @@ module PuppetReferences
   PUPPET_DIR = BASE_DIR + 'vendor/openvox'
   FACTER_DIR = BASE_DIR + 'vendor/openfact'
   AGENT_DIR = BASE_DIR + 'vendor/openvox-agent'
-  OUTPUT_DIR = BASE_DIR + 'references_output'
+  INSTALLPATH = ENV['INSTALLPATH'] ? ENV.fetch('INSTALLPATH') : 'references_output'
+  OUTPUT_DIR = BASE_DIR + INSTALLPATH
 
   require 'puppet_references/config'
   require 'puppet_references/util'
@@ -37,7 +38,9 @@ module PuppetReferences
     ]
     config = PuppetReferences::Config.read
     repo = PuppetReferences::Repo.new('openvox', PUPPET_DIR, nil, config['puppet']['repo'])
-    real_commit = repo.checkout(commit)
+    version_commit = commit || repo.describe.split('-')[0]
+    puts "Using tag #{version_commit}"
+    real_commit = repo.checkout(version_commit)
     repo.update_bundle
     build_from_list_of_classes(references, real_commit)
   end
@@ -54,11 +57,13 @@ module PuppetReferences
     # we need the CLI docs for 3.y. We can remove this when we stop building 3.y.
     version4 = Gem::Version.create('4.0.0')
     repo = PuppetReferences::Repo.new('openfact', FACTER_DIR)
-    real_commit = repo.checkout(commit)
+    version_commit = commit || repo.describe.split('-')[0]
+    puts "Using tag #{version_commit}"
+    real_commit = repo.checkout(version_commit)
     repo.update_bundle
-    if !semantic?(commit) || (semantic?(commit) && Gem::Version.create(commit) >= version4)
+    if !semantic?(version_commit) || (semantic?(version_commit) && Gem::Version.create(version_commit) >= version4)
       references << PuppetReferences::Facter::FacterCli
-    elsif semantic?(commit) && Gem::Version.create(commit) < version4
+    elsif semantic?(version_commit) && Gem::Version.create(version_commit) < version4
       reference = PuppetReferences::Facter::FacterCli.new(real_commit)
       reference.build_v3_cli
     end

@@ -23,6 +23,7 @@ module PuppetReferences
         puts 'done cloning.'
       end
       @repo = Git.open(@directory)
+      @repo.checkout('remotes/origin/HEAD')
       # fetch the main source
       @repo.fetch unless @config['skip_download']
       # fetch tags from secondary sources
@@ -34,6 +35,10 @@ module PuppetReferences
     def checkout(commit)
       @repo.checkout(commit, { force: true }) unless @config['skip_download']
       @repo.revparse(commit)
+    end
+
+    def describe
+      @repo.describe
     end
 
     def tags

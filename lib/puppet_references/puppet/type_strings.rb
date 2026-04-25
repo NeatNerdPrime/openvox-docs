@@ -7,7 +7,8 @@ module PuppetReferences
     class TypeStrings < PuppetReferences::Puppet::Type
       def initialize(*)
         super
-        @output_dir_individual = PuppetReferences::OUTPUT_DIR + 'openvox/types_strings'
+        @output_dir_individual = PuppetReferences::OUTPUT_DIR + '_openvox_latest/types_strings'
+        @output_dir = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
         @base_filename = 'type_strings'
       end
 
@@ -16,7 +17,7 @@ module PuppetReferences
         # 2. Munge it to match the old format I threw together, which the template uses.
         # 3. Dump result to JSON.
         strings_data = PuppetReferences::Puppet::Strings.new
-        File.write('references_output/openvox/raw_strings_data_output.json', strings_data)
+        File.write("#{@output_dir}/raw_strings_data_output.json", strings_data)
         type_hash = strings_data['resource_types'].each_with_object({}) do |type, memo|
           memo[ type['name'] ] = {
             'description' => type['docstring']['text'],

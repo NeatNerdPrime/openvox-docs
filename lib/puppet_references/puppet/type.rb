@@ -16,8 +16,8 @@ module PuppetReferences
 
       def initialize(*)
         @latest = '/openvox/latest'
-        @output_dir_unified = PuppetReferences::OUTPUT_DIR + 'openvox'
-        @output_dir_individual = PuppetReferences::OUTPUT_DIR + 'openvox/types'
+        @output_dir_unified = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
+        @output_dir_individual = PuppetReferences::OUTPUT_DIR + '_openvox_latest/types'
         @base_filename = 'type'
         super
       end

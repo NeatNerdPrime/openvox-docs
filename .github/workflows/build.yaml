@@ -75,6 +75,8 @@ jobs:
 
       - name: Build website
         run: |
+          bundle exec references:openfact INSTALLPATH=docs
+          bundle exec references:openvox INSTALLPATH=docs
           bundle exec jekyll build
       - name: Archive website
         run: |

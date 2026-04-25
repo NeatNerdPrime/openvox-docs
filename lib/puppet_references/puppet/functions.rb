@@ -10,7 +10,7 @@ module PuppetReferences
   module Puppet
     class Functions < PuppetReferences::Reference
       TEMPLATE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_template.erb'
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openvox'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
       PREAMBLE_FILE = Pathname.new(File.expand_path(__FILE__)).dirname + 'functions_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 
