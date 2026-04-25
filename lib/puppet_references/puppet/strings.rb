@@ -8,7 +8,7 @@ require 'json'
 module PuppetReferences
   module Puppet
     class Strings < Hash
-      STRINGS_JSON_FILE = PuppetReferences::OUTPUT_DIR + 'openvox/strings.json'
+      STRINGS_JSON_FILE = PuppetReferences::OUTPUT_DIR + '_openvox_latest/strings.json'
       @@strings_data_cached = false
 
       def initialize(force_cached: false)

@@ -28,18 +28,20 @@ CLOBBER.include('references_output')
 desc 'List the available groups of references. Run `rake references:<GROUP>` to build.'
 task :references do
   puts 'The following references are available:'
-  puts 'bundle exec rake references:openvox VERSION=<GIT TAG OR COMMIT>'
-  puts 'bundle exec rake references:openfact VERSION=<GIT TAG OR COMMIT>'
+  puts 'bundle exec rake references:openvox [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
+  puts 'bundle exec rake references:openfact [VERSION=<GIT TAG OR COMMIT> INSTALLPATH=<RELATIVE OR ABSOLUTE PATH>]'
   puts 'bundle exec rake references:version_tables'
+  puts '  VERSION can be omitted, uses latest tag'
+  puts '  INSTALLPATH can be omitted, defaults to references_output/'
 end
 
 namespace :references do
-  task openvox: 'references:check_version' do
+  task openvox: 'references:check' do
     require 'puppet_references'
     PuppetReferences.build_puppet_references(ENV.fetch('VERSION', nil))
   end
 
-  task openfact: 'references:check_version' do
+  task openfact: 'references:check' do
     require 'puppet_references'
     PuppetReferences.build_facter_references(ENV.fetch('VERSION', nil))
   end
@@ -49,7 +51,9 @@ namespace :references do
     PuppetReferences.build_version_tables
   end
 
-  task :check_version do
-    abort 'No VERSION given to build references for' unless ENV['VERSION']
+  task :check do
+    puts 'No VERSION given to build references for - using latest tag' unless ENV['VERSION']
+    puts "Using provided install path #{ENV.fetch('INSTALLPATH')} instead of default" if ENV['INSTALLPATH']
+    puts "Using default install path 'references_output'" unless ENV['INSTALLPATH']
   end
 end

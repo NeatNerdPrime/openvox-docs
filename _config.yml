@@ -128,3 +128,4 @@ exclude:
   - util
   - vendor
   - WORKFLOW.md
+  - WORKFLOW_reference.md

@@ -4,7 +4,7 @@ require 'puppet_references'
 module PuppetReferences
   module Facter
     class CoreFacts < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openfact'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openfact_latest'
       PREAMBLE_FILE = Pathname.new(__FILE__).dirname + 'core_facts_preamble.md'
       PREAMBLE = PREAMBLE_FILE.read
 

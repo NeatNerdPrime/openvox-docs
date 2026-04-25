@@ -5,7 +5,7 @@ module PuppetReferences
   module Puppet
     class PuppetDoc < PuppetReferences::Reference
       REFERENCES = %w[configuration].freeze
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + 'openvox'
+      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openvox_latest'
 
       def initialize(*)
         @latest = '/openvox/latest'
