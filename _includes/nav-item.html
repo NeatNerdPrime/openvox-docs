@@ -13,7 +13,7 @@
   {% endif %}
 
   <div class="group no-transition">
-    <section class="VPSidebarItem level-{{ include.level }} collapsible{% if nav_has_active %} has-active{% endif %}">
+    <section class="VPSidebarItem level-{{ include.level }} collapsible{% if nav_has_active %} has-active{% endif %}" data-vp-sidebar-group>
       <div class="item" role="button" tabindex="0">
         <div class="indicator"></div>
         <h2 class="text">{{ include.item.text }}</h2>
