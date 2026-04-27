@@ -14,7 +14,7 @@ marked 'experimental' since 2.0.0 but is the only API available in 3.0.
 Note that this document focuses on API changes only, and only includes changes
 leading up to the release of 3.0. For a more complete description
 of the changes listed and changes in versions subsequent to 3.0, see the
-[release notes](../../../release_notes.markdown).
+[release notes](../../../release_notes.html).
 
 Each change below is marked with the corresponding release version.
 
@@ -47,7 +47,7 @@ Each change below is marked with the corresponding release version.
 
 * (3.0) The v4 catalogs endpoint has caused the response of the
   `edges` and `resources` fields to be expanded. For more information,
-  see [catalogs documentation](catalogs.markdown).
+  see [catalogs documentation](catalogs.html).
 
 * (3.0) We have renamed the "name" key of the catalogs endpoint to "certname", for
   consistency with other endpoints.
@@ -62,7 +62,7 @@ Each change below is marked with the corresponding release version.
   compose the v4 response body, along with the new fields
   `producer_timestamp`, `hash`, and `environment`. For more
   information, see the
-  [catalogs documentation](catalogs.markdown).
+  [catalogs documentation](catalogs.html).
 
 ### /pdb/query/v4/facts
 
@@ -75,13 +75,13 @@ Each change below is marked with the corresponding release version.
 
 * (2.2) The v4 factsets endpoint was added to facilitate the grouping
   of facts per node. For more information, see the
-  [factsets documentation](factsets.markdown).
+  [factsets documentation](factsets.html).
 
 * (3.0) We added a `hash` field to the endpoint fields to support a unique identifer for factsets.
 
 * (3.0) The `facts` field is now expanded as per our new expansion
   convention, so the data format has changed. For more information, see
-  the [factsets documentation](factsets.markdown).
+  the [factsets documentation](factsets.html).
 
 * (3.0) The `/pdb/query/v4/factsets/<node>/facts` endpoints will now
   return results even for deactivated or expired nodes.
@@ -94,7 +94,7 @@ Each change below is marked with the corresponding release version.
   parameters and returns an array of maps instead of a map. An additional
   `summarize_by` field has also been added to describe the parameter used. For
   more information, see the
-  [aggregate-event-counts documentation](aggregate-event-counts.markdown).
+  [aggregate-event-counts documentation](aggregate-event-counts.html).
 
 ### /metrics/v1 (formerly /v3/metrics)
 
@@ -112,9 +112,9 @@ Each change below is marked with the corresponding release version.
   * (3.0) For users posting commands directly to the
     /pdb/cmd/v1 endpoint, the only valid command submission
     versions will be
-    [replace catalogs v6](../../../api/wire_format/catalog_format_v6.markdown),
-    [store report v5](../../../api/wire_format/report_format_v5.markdown),
-    and [replace facts v4](../../../api/wire_format/facts_format_v4.markdown).
+    [replace catalogs v6](../../../api/wire_format/catalog_format_v6.html),
+    [store report v5](../../../api/wire_format/report_format_v5.html),
+    and [replace facts v4](../../../api/wire_format/facts_format_v4.html).
 
 ### /pdb/meta/v1/version (formerly /v3/version)
 * (3.0) The version endpoint has been split from the query service and mounted
@@ -135,32 +135,32 @@ Each change below is marked with the corresponding release version.
 * (2.2.0) `/pdb/query/v4/fact-paths` This endpoint is similar to the
   existing fact-names endpoint in that one expected use is GUI
   autocompletion. For more information, see the
-  [documentation](fact-paths.markdown).
+  [documentation](fact-paths.html).
 
 * (2.2.0) `/pdb/query/v4/fact-contents` This endpoint allows
   fine-grained querying of structured facts. For more information, see
-  the [documentation](fact-contents.markdown).
+  the [documentation](fact-contents.html).
 
 * (3.0) `/pdb/query/v4/edges` This endpoint allows querying edges
   inside a catalog. For more information, see the
-  [edges documentation](edges.markdown)
+  [edges documentation](edges.html)
 
 * (3.0) `/pdb/query/v4/reports/<hash>/events` This convenience
   endpoint allows you to show events for a particular report by its
-  hash. See the [/pdb/query/v4/reports documentation](reports.markdown)
+  hash. See the [/pdb/query/v4/reports documentation](reports.html)
 
 * (3.0) `/pdb/query/v4/reports/<hash>/metrics` This endpoint allows
   you to show metrics for a particular report by its hash. See the
-  [reports documentation](reports.markdown)
+  [reports documentation](reports.html)
 
 * (3.0) `/pdb/query/v4/reports/<hash>/logs` This endpoint allows you
   to show logs for a particular report by its hash. See the
-  [reports documentation](reports.markdown)
+  [reports documentation](reports.html)
 
 * (3.0) `/pdb/query/v4/catalogs/<node>/[resources|edges]` Both of
   these endpoints provide convenience for drilling into resources and
   edges data specific to a particular catalog. See
-  [catalogs documentation](catalogs.markdown)
+  [catalogs documentation](catalogs.html)
 
 ### Features affecting all endpoints
 
@@ -181,7 +181,7 @@ Each change below is marked with the corresponding release version.
 
 * (3.0) The response of the reports endpoint includes the new fields `noop`,
   `environment`, `status`, `resource_events`, `logs`, and `metrics`. For more information, see the
-  [documentation on the reports endpoint](../../../api/query/v4/reports.markdown). For comparison, see
+  [documentation on the reports endpoint](../../../api/query/v4/reports.html). For comparison, see
   [an example of the new format](../../../api/query/v4/reports.markdown#examples), and
   [an example of the old format](https://github.com/puppetlabs/puppetdb/blob/doc-2.3/documentation/api/query/v3/reports.markdown#response-format) (PuppetDB 2.3 docs).
 

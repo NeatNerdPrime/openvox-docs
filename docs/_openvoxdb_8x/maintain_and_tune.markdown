@@ -98,4 +98,4 @@ If you've recently changed the certificates in use by the PuppetDB server, you'l
 If you've installed PuppetDB from Puppet packages, you can simply re-run the
 `puppetdb ssl-setup` command. Otherwise, you'll need to again perform the SSL
 configuration steps outlined in
-[the installation instructions](./install_from_source.markdown).
+[the installation instructions](./install_from_source.html).

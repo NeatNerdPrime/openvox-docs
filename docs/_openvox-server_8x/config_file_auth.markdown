@@ -10,7 +10,7 @@ canonical: "/puppetserver/latest/config_file_auth.html"
 [short names]: https://puppet.com/docs/puppet/6.17/ssl_attributes_extensions.html#puppet_registered_ids
 [`puppetserver.conf`]: ./config_file_puppetserver.markdown
 
-Puppet Server's `auth.conf` file contains rules for authorizing access to Puppet Server's HTTP API endpoints. For an overview, see [Puppet Server Configuration](./configuration.markdown).
+Puppet Server's `auth.conf` file contains rules for authorizing access to Puppet Server's HTTP API endpoints. For an overview, see [Puppet Server Configuration](./configuration.html).
 
 The rules are defined in a file named `auth.conf`, and Puppet Server applies the settings when a request's endpoint matches a rule.
 
@@ -66,9 +66,9 @@ The `version` parameter is required. In this initial release, the only supported
 
 ### `allow-header-cert-info`
 
-> **Note:** Puppet Server ignores the setting of the same name in [`master.conf`](./config_file_master.markdown) in favor of this setting in the new `auth.conf` file. If you use the [deprecated][] authentication method and [Puppet `auth.conf`][] rules, you must instead configure this setting in `master.conf`.
+> **Note:** Puppet Server ignores the setting of the same name in [`master.conf`](./config_file_master.html) in favor of this setting in the new `auth.conf` file. If you use the [deprecated][] authentication method and [Puppet `auth.conf`][] rules, you must instead configure this setting in `master.conf`.
 
-This optional `authorization` section parameter determines whether to enable [external SSL termination](./external_ssl_termination.markdown) on all HTTP endpoints that Puppet Server handles, including those served by the "master" service, the certificate authority API, and the Puppet Admin API. It also controls how Puppet Server derives the user's identity for authorization purposes. The default value is `false`.
+This optional `authorization` section parameter determines whether to enable [external SSL termination](./external_ssl_termination.html) on all HTTP endpoints that Puppet Server handles, including those served by the "master" service, the certificate authority API, and the Puppet Admin API. It also controls how Puppet Server derives the user's identity for authorization purposes. The default value is `false`.
 
 If this setting is `true`, Puppet Server ignores any presented certificate and relies completely on header data to authorize requests.
 

@@ -28,7 +28,7 @@ After this information is stored in PuppetDB, it can be queried in various ways.
 
 * You can query **data about the run** and **report metadata** by making an HTTP request to the [`/reports`][report] endpoint.
 * You can query **data about individual events** by making an HTTP request to the `/events` endpoint.
-* You can query **summaries of event data** by making an HTTP request to the [`/event-counts`](./event-counts.markdown) or [`aggregate-event-counts`](./aggregate-event-counts.markdown) endpoints.
+* You can query **summaries of event data** by making an HTTP request to the [`/event-counts`](./event-counts.html) or [`aggregate-event-counts`](./aggregate-event-counts.html) endpoints.
 
 ## `/pdb/query/v4/events`
 

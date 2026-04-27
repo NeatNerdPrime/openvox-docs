@@ -20,7 +20,7 @@ and the PuppetDB-termini for your Puppet Server) using
   we expect that you already know how to assign Puppet classes to nodes.
 * If you are **just getting started with Puppet,** you may find it easier to
   follow our guide to
-  [installing PuppetDB from packages](./install_from_packages.markdown).
+  [installing PuppetDB from packages](./install_from_packages.html).
 
 ## Step 1: Enable the Puppet Platform package repository
 

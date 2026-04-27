@@ -179,13 +179,13 @@ Puppet Server does not use this setting.
 
 Puppet Server honors this setting only if the `allow-header-cert-info`
 setting in the `master.conf` file is set to 'true'. For more information on
-this setting, see the documentation on [external SSL termination](./external_ssl_termination.markdown).
+this setting, see the documentation on [external SSL termination](./external_ssl_termination.html).
 
 ###  [`ssl_client_verify_header`](https://puppet.com/docs/puppet/latest/configuration.html#sslclientverifyheader)
 
 Puppet Server honors this setting only if the `allow-header-cert-info`
 setting in the `master.conf` file is set to `true`. For more information on
-this setting, see the documentation on [external SSL termination](./external_ssl_termination.markdown).
+this setting, see the documentation on [external SSL termination](./external_ssl_termination.html).
 
 ### [`ssl_server_ca_auth`](https://puppet.com/docs/puppet/latest/configuration.html#sslservercaauth)
 

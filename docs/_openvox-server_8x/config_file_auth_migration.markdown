@@ -9,7 +9,7 @@ canonical: "/puppetserver/latest/config_file_auth_migration.html"
 
 Puppet Server 2.2.0 introduced a significant change in how it manages authentication to API endpoints. The older [Puppet `auth.conf`][] file and whitelist-based authorization method were deprecated in the same release and are now removed in Puppet Server 7. Puppet Server's current `auth.conf` file format (which is different than the old auth.conf) is illustrated below in examples.
 
-Use the following examples and methods to convert your authorization rules when upgrading to Puppet Server 2.2.0 and newer. For detailed information about using the new `auth.conf` rules with Puppet Server, see the [Puppet Server `auth.conf` documentation](./config_file_auth.markdown).
+Use the following examples and methods to convert your authorization rules when upgrading to Puppet Server 2.2.0 and newer. For detailed information about using the new `auth.conf` rules with Puppet Server, see the [Puppet Server `auth.conf` documentation](./config_file_auth.html).
 
 > **Note:** To support both Puppet 3 and Puppet 4 agents connecting to Puppet Server, see [Backward Compatibility with Puppet 3 Agents][].
 

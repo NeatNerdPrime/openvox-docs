@@ -38,7 +38,7 @@ source code, not into the Ruby code that it is processing.  So, if you wish to
 debug the Ruby code directly, you'll need to install gems and take advantage of
 their capabilities (not unlike how you would debug Ruby code in the MRI interpreter).
 
-For more info on installing gems for Puppet Server, see [Puppet Server and Gems](./gems.markdown).
+For more info on installing gems for Puppet Server, see [Puppet Server and Gems](./gems.html).
 
 ## Ruby REPL incompatible with Lein REPL
 
@@ -130,4 +130,4 @@ Tracing Code Events
 
 Puppet Server can utilize JRuby's standard facilities for tracing events during
 code execution.  For more information on these techniques, see the
-[Tracing Code Events](./dev_trace_func.markdown) page.
+[Tracing Code Events](./dev_trace_func.html) page.

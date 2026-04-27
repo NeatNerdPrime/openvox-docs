@@ -83,7 +83,7 @@ HTTP/1.1 500 Server Error
 ## Relevant Configuration
 
 Access to this endpoint is controlled by the `puppet-admin` section of `puppetserver.conf`. See
-[the configuration page](../../configuration.markdown)
+[the configuration page](../../configuration.html)
 for more information.
 
 In the example above, the `curl` command is using a certificate and private key. You must make sure this certificate's name is included in the `puppet-admin -> client-whitelist` setting before you can use it.

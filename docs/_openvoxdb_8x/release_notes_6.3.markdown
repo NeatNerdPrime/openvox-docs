@@ -123,9 +123,9 @@ Robert Roland, Wyatt Alt, and Zak Kent
 
 ### New features and improvements
 
-- **Import and export** `configure expiration` **commands.** You can now use import and export to check which nodes have fact expiration disabled. For more information about the `configure expiration` command, see [Configure expiration wire format](./api/wire_format/configure_expiration_format_v1.markdown). [PDB-4275](https://tickets.puppetlabs.com/browse/PDB-4275)
+- **Import and export** `configure expiration` **commands.** You can now use import and export to check which nodes have fact expiration disabled. For more information about the `configure expiration` command, see [Configure expiration wire format](./api/wire_format/configure_expiration_format_v1.html). [PDB-4275](https://tickets.puppetlabs.com/browse/PDB-4275)
 
-- **View a node's lifetime data.** Use the `/nodes` endpoint with an `include_fact_expiration=true` argument to check if a node's facts are set to never expire. This is an experimental command and could be altered or removed in a future release. For more information, see [Nodes endpoint](./api/query/v4/nodes.markdown). [PDB-4271](https://tickets.puppetlabs.com/browse/PDB-4271)
+- **View a node's lifetime data.** Use the `/nodes` endpoint with an `include_fact_expiration=true` argument to check if a node's facts are set to never expire. This is an experimental command and could be altered or removed in a future release. For more information, see [Nodes endpoint](./api/query/v4/nodes.html). [PDB-4271](https://tickets.puppetlabs.com/browse/PDB-4271)
 
 ### Bug fixes
 

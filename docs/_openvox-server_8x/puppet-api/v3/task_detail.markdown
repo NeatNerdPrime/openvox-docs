@@ -21,7 +21,7 @@ details about a task: its metadata, if present, and its associated executable
 files. The file entries have additional data on how to fetch their contents so
 they can be downloaded and run.
 
-> Note: Tasks file contents in versioned code can be retrieved using the [`static_file_content`](./static_file_content.markdown) endpoint.
+> Note: Tasks file contents in versioned code can be retrieved using the [`static_file_content`](./static_file_content.html) endpoint.
 
 ### Does not return entries for task files with invalid names
 

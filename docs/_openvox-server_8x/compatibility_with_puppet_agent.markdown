@@ -83,7 +83,7 @@ authorization: {
 }
 ~~~
 
-> **Note:** For more detailed `auth.conf` conversion examples, see [Migrating to the HOCON auth.conf Format](./config_file_auth_migration.markdown).
+> **Note:** For more detailed `auth.conf` conversion examples, see [Migrating to the HOCON auth.conf Format](./config_file_auth_migration.html).
 
 ## Details About Backward Compatibility
 

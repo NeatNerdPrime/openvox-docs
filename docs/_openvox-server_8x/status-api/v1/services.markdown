@@ -18,7 +18,7 @@ purposes. In future releases, the `services` endpoint's response payload might
 change without warning.
 >
 > For information about HTTP client metrics, which are served from the status endpoint,
-> see [their documentation](../../http_client_metrics.markdown).
+> see [their documentation](../../http_client_metrics.html).
 
 ## `GET /status/v1/services`
 

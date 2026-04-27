@@ -22,9 +22,9 @@ Puppet agent nodes submit reports after their runs, and the Puppet Server forwar
 
 After this information is stored in PuppetDB, it can be queried in various ways.
 
-* You can query **data about the run** and **report metadata** by making an HTTP request to the [`/reports`](./reports.markdown) endpoint.
+* You can query **data about the run** and **report metadata** by making an HTTP request to the [`/reports`](./reports.html) endpoint.
 * You can query **data about individual events** by making an HTTP request to the [`/events`][events] endpoint.
-* You can query **summaries of event data** by making an HTTP request to the `/event-counts` or [`aggregate-event-counts`](./aggregate-event-counts.markdown) endpoints.
+* You can query **summaries of event data** by making an HTTP request to the `/event-counts` or [`aggregate-event-counts`](./aggregate-event-counts.html) endpoints.
 
 ## `/pdb/query/v4/event-counts`
 

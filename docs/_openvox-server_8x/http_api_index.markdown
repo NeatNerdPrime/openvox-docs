@@ -24,7 +24,7 @@ All configuration endpoints are prefixed with `/puppet`, while all CA endpoints 
 
 ### Authorization
 
-Authorization for `/puppet` and `/puppet-ca` endpoints is controlled with [Puppet Server's `auth.conf` authorization system](./config_file_auth.markdown), which differs from Puppet's deprecated `auth.conf` system.
+Authorization for `/puppet` and `/puppet-ca` endpoints is controlled with [Puppet Server's `auth.conf` authorization system](./config_file_auth.html), which differs from Puppet's deprecated `auth.conf` system.
 
 ## Puppet V3 HTTP API
 
@@ -76,18 +76,18 @@ The endpoint accepts only payloads formatted as JSON, and responds with JSON (MI
 
 Puppet Server adds several unique endpoints of its own. They include these additional `/puppet/v3/` endpoints:
 
--   [Environment classes](./puppet-api/v3/environment_classes.markdown), at `/puppet/v3/environment_classes`
--   [Environment modules](./puppet-api/v3/environment_modules.markdown), at `/puppet/v3/environment_modules`
--   [Static file content](./puppet-api/v3/static_file_content.markdown), at `/puppet/v3/static_file_content`
+-   [Environment classes](./puppet-api/v3/environment_classes.html), at `/puppet/v3/environment_classes`
+-   [Environment modules](./puppet-api/v3/environment_modules.html), at `/puppet/v3/environment_modules`
+-   [Static file content](./puppet-api/v3/static_file_content.html), at `/puppet/v3/static_file_content`
 
 It also includes these unique APIs, with endpoints containing other URL prefixes:
 
--   [Status API](./status-api/v1/services.markdown), at `/status/v1/services`
--   [Metrics v1 (mbeans) API](./metrics-api/v1/metrics_api.markdown), at `/metrics/v1/mbeans`
--   [Metrics v2 (Jolokia) API](./metrics-api/v2/metrics_api.markdown), at `/metrics/v2/`
+-   [Status API](./status-api/v1/services.html), at `/status/v1/services`
+-   [Metrics v1 (mbeans) API](./metrics-api/v1/metrics_api.html), at `/metrics/v1/mbeans`
+-   [Metrics v2 (Jolokia) API](./metrics-api/v2/metrics_api.html), at `/metrics/v2/`
 -   Admin API, at `/puppet-admin-api/v1/`:
-    -   [Environment cache](./admin-api/v1/environment-cache.markdown), at `/puppet-admin-api/v1/environment-cache`
-    -   [JRuby pool](./admin-api/v1/jruby-pool.markdown), at `/puppet-admin-api/v1/jruby-pool`
+    -   [Environment cache](./admin-api/v1/environment-cache.html), at `/puppet-admin-api/v1/environment-cache`
+    -   [JRuby pool](./admin-api/v1/jruby-pool.html), at `/puppet-admin-api/v1/jruby-pool`
 
 ### Error responses
 

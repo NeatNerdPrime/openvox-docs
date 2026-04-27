@@ -16,7 +16,7 @@ added '.json' extension. For example, the "install" task in a module "apache" co
 consist of the executable file `install.rb` and the metadata file
 `install.json`. This task would have the display name "apache::install".
 
-> Note: Tasks file contents in versioned code can be retrieved using the [`static_file_content`](./static_file_content.markdown) endpoint.
+> Note: Tasks file contents in versioned code can be retrieved using the [`static_file_content`](./static_file_content.html) endpoint.
 
 ### Does not return entries for task files with invalid names
 

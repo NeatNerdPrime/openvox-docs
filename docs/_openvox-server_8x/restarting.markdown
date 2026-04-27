@@ -43,7 +43,7 @@ OS distributions which use systemd service configurations:
 
 ## Restarting Puppet Server to pick up changes
 
-There are three ways to trigger your Puppet Server environment to refresh and pick up changes you've made. A request to the [HTTP Admin API to flush the JRuby pool](./admin-api/v1/jruby-pool.markdown) is the quickest, but picks up only certain types of changes. A HUP signal or service reload is also quick, and applies additional changes. Other changes require a full Puppet Server restart.
+There are three ways to trigger your Puppet Server environment to refresh and pick up changes you've made. A request to the [HTTP Admin API to flush the JRuby pool](./admin-api/v1/jruby-pool.html) is the quickest, but picks up only certain types of changes. A HUP signal or service reload is also quick, and applies additional changes. Other changes require a full Puppet Server restart.
 
 > **Note:** Changes to Puppet Server's [logging configuration in `logback.xml`][logback.xml] don't require a server restart. Puppet Server recognizes and applies them automatically, though it can take a minute or so for this to happen. However, you can restart the service to force it to recognize those changes.
 
@@ -54,12 +54,12 @@ There are three ways to trigger your Puppet Server environment to refresh and pi
 * Changes to the Ruby code for Puppet's [core dependencies][], such as Puppet, Facter, and Hiera.
 * Changes to Puppet modules in an [environment][] where you've enabled [environment
   caching][]. You can also achieve this by making a request to the
-  [Admin API endpoint for flushing the environment cache](./admin-api/v1/environment-cache.markdown).
+  [Admin API endpoint for flushing the environment cache](./admin-api/v1/environment-cache.html).
 * Changes to the CA CRL file.  For example, a `puppetserver ca clean`
 
 ### Changes applied after a HUP signal, service reload, or full Server restart
 
-* Changes to Puppet Server [configuration files](./configuration.markdown) in its `conf.d` directory.
+* Changes to Puppet Server [configuration files](./configuration.html) in its `conf.d` directory.
 * Changes to the CA CRL file.  For example, a `puppetserver ca clean`
 
 ### Changes that require a full Server restart

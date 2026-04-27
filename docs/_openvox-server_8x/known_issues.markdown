@@ -72,4 +72,4 @@ SSL connection failures have been seen when the Puppet Server master tries to
 make SSL requests to servers via the same virtual ip address.  This has been
 seen when the servers present different certificates during the SSL handshake.
 For more information on the issue, see
-[this page](./ssl_server_certificate_change_and_virtual_ips.markdown).
+[this page](./ssl_server_certificate_change_and_virtual_ips.html).

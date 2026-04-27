@@ -4,7 +4,7 @@ title: "Puppet Server Configuration Files: webserver.conf"
 canonical: "/puppetserver/latest/config_file_webserver.html"
 ---
 
-The `webserver.conf` file configures the Puppet Server `webserver` service. For an overview, see [Puppet Server Configuration](./configuration.markdown). To configure the mount points for the Puppet administrative API web applications, see the [`web-routes.conf` documentation](./config_file_web-routes.markdown).
+The `webserver.conf` file configures the Puppet Server `webserver` service. For an overview, see [Puppet Server Configuration](./configuration.html). To configure the mount points for the Puppet administrative API web applications, see the [`web-routes.conf` documentation](./config_file_web-routes.html).
 
 ## Examples
 
@@ -39,4 +39,4 @@ webserver: {
 }
 ~~~
 
-Configuring an external CA requires additional steps, which are described in [External CA Configuration](./external_ca_configuration.markdown).
+Configuring an external CA requires additional steps, which are described in [External CA Configuration](./external_ca_configuration.html).

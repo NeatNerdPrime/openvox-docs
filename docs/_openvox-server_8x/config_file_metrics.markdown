@@ -4,7 +4,7 @@ title: "Puppet Server Configuration Files: metrics.conf"
 canonical: "/puppetserver/latest/config_file_metrics.html"
 ---
 
-The `metrics.conf` file configures Puppet Server's [metrics services](./puppet_server_metrics.markdown) and [v2 metrics API](./metrics-api/v2/metrics_api.markdown).
+The `metrics.conf` file configures Puppet Server's [metrics services](./puppet_server_metrics.html) and [v2 metrics API](./metrics-api/v2/metrics_api.html).
 
 ## Settings
 
@@ -14,7 +14,7 @@ All settings in the file are contained in a HOCON `metrics` section.
 
 -   `registries`: A section that contains settings to control which metrics are reported, and how they're reported.
     -   `<REGISTRY NAME>`: A section named for a registry that contains its settings. In Puppet Server's case, this section should be `puppetserver`.
-        -   `metrics-allowed`: An array of metrics to report. See the [metrics documentation](./puppet_server_metrics.markdown) for details about individual metrics.
+        -   `metrics-allowed`: An array of metrics to report. See the [metrics documentation](./puppet_server_metrics.html) for details about individual metrics.
         -   `reporters`: Can contain `jmx` and `graphite` sections with a single Boolean `enabled` setting to enable or disable each reporter type.
 -   `reporters`: Configures reporters that distribute metrics to external services or viewers.
     -   `graphite`: Contains settings for the Graphite reporter.

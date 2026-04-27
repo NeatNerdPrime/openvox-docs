@@ -66,11 +66,11 @@ The `jruby-metrics` section of the [status API][] endpoint also lists the `reque
 
 #### Adding compile masters
 
-If you don't have the additional capacity on your master to add more JRubies, you'll want to add another compile master to your Server infrastructure. See [Scaling Puppet Server with compile masters](./scaling_puppet_server.markdown).
+If you don't have the additional capacity on your master to add more JRubies, you'll want to add another compile master to your Server infrastructure. See [Scaling Puppet Server with compile masters](./scaling_puppet_server.html).
 
 ### HTTP request delays
 
-If JRuby metrics appear to be stable, performance issues might originate from lag in server requests, which also have a cascading effect on other metrics. HTTP metrics in the [status API][], and the requests graph in the [Grafana dashboard](./puppet_server_metrics.markdown), can help you determine when and where request times have increased.
+If JRuby metrics appear to be stable, performance issues might originate from lag in server requests, which also have a cascading effect on other metrics. HTTP metrics in the [status API][], and the requests graph in the [Grafana dashboard](./puppet_server_metrics.html), can help you determine when and where request times have increased.
 
 HTTP metrics include the total time for the server to handle the request, including waiting for a JRuby instance to become available. When JRuby borrow time increases, wait time also increases, so when borrow time for *one* type of request increases, wait times for *all* requests increases.
 
@@ -89,7 +89,7 @@ Puppet Server also requests facts as HTTP requests while handling a node request
 
 ### Memory leaks and usage
 
-A memory leak or increased memory pressure can stress Puppet Server's available resources. In this case, the Java VM will spend more time doing garbage collection, causing the GC time and GC CPU % metrics to increase. These metrics are available from the [status API][] endpoint, as well as in the mbeans metrics available from both the [`/metrics/v1/mbeans`](./metrics-api/v1/metrics_api.markdown) or [`/metrics/v2/`](./metrics-api/v2/metrics_api.markdown) endpoints.
+A memory leak or increased memory pressure can stress Puppet Server's available resources. In this case, the Java VM will spend more time doing garbage collection, causing the GC time and GC CPU % metrics to increase. These metrics are available from the [status API][] endpoint, as well as in the mbeans metrics available from both the [`/metrics/v1/mbeans`](./metrics-api/v1/metrics_api.html) or [`/metrics/v2/`](./metrics-api/v2/metrics_api.html) endpoints.
 
 If you can't identify the source of a memory leak, setting the `max-requests-per-instance` setting in [`puppetserver.conf`][puppetserver.conf] to something other than the default of 0 limits the number of requests a JRuby handles during its lifetime and enables automatic JRuby flushing. Enabling this setting reduces overall performance, but if you enable it and no longer see signs of persistent memory leaks, check your module code for inefficiencies or memory-consuming bugs.
 

@@ -247,7 +247,7 @@ Released December 6 2022
 
   Specifically, the the normal (write) `[database]` `username` must
   have the right to terminate the `[read-database]` `username`'s
-  queries.  The [recommended configuration](./configure_postgres.markdown)
+  queries.  The [recommended configuration](./configure_postgres.html)
   has been updated to include a suitable `grant puppetdb_read to puppetdb`.
   ([PDB-5559](https://tickets.puppetlabs.com/browse/PDB-5559))
 
@@ -261,7 +261,7 @@ Released December 6 2022
 
   Specifically, the the normal `migrator-username` must have the
   ability to terminate the `[read-database]` `username`'s connections,
-  which the [recommended configuration](./configure_postgres.markdown)
+  which the [recommended configuration](./configure_postgres.html)
   accomplishes by granting the write user's role to the migrator via
   the `grant puppetdb to puppetdb_migrator`, allowing the migrator to
   terminate the read user's connections indirectly via the `grant

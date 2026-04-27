@@ -44,7 +44,7 @@ values in the `master` section. Puppet Server honors the following
 * ssl_client_verify_header
 * trusted_oid_mapping_file
 
-However, for some tasks, such as configuring the web server or an external Certificate Authority (CA), Puppet Server has separate configuration files and settings. These files and settings are described below. For more information about differences between Puppet Server and the Ruby Puppet master's use of `puppet.conf` settings, see  [Puppet Server: Differing Behavior in `puppet.conf`](./puppet_conf_setting_diffs.markdown).
+However, for some tasks, such as configuring the web server or an external Certificate Authority (CA), Puppet Server has separate configuration files and settings. These files and settings are described below. For more information about differences between Puppet Server and the Ruby Puppet master's use of `puppet.conf` settings, see  [Puppet Server: Differing Behavior in `puppet.conf`](./puppet_conf_setting_diffs.html).
 
 ## Configuration Files
 
@@ -52,23 +52,23 @@ Puppet Server's configuration files and settings (with the exception of the [log
 
 At startup, Puppet Server reads all the `.conf` files in the `conf.d` directory. You must restart Puppet Server for any changes to those files to take effect. The `conf.d` directory contains the following files and settings:
 
-* [`global.conf`](./config_file_global.markdown)
-* [`webserver.conf`](./config_file_webserver.markdown)
-* [`web-routes.conf`](./config_file_web-routes.markdown)
-* [`puppetserver.conf`](./config_file_puppetserver.markdown)
-* [`auth.conf`](./config_file_auth.markdown)
-* [`ca.conf`](./config_file_ca.markdown)
-* [`master.conf`](./config_file_master.markdown) ([deprecated][])
+* [`global.conf`](./config_file_global.html)
+* [`webserver.conf`](./config_file_webserver.html)
+* [`web-routes.conf`](./config_file_web-routes.html)
+* [`puppetserver.conf`](./config_file_puppetserver.html)
+* [`auth.conf`](./config_file_auth.html)
+* [`ca.conf`](./config_file_ca.html)
+* [`master.conf`](./config_file_master.html) ([deprecated][])
 
-The [`product.conf`](./config_file_product.markdown) file is optional and is not included by default. You can create that file in the `conf.d` directory in order to configure product-related settings, such as automatic update checking and analytics data collection.
+The [`product.conf`](./config_file_product.html) file is optional and is not included by default. You can create that file in the `conf.d` directory in order to configure product-related settings, such as automatic update checking and analytics data collection.
 
 ## Logging
 
 Puppet Server's logging is routed through the JVM [Logback](http://logback.qos.ch/) library. The default Logback configuration file is at `/etc/puppetserver/logback.xml` or `/etc/puppetlabs/puppetserver/logback.xml`. You can edit this file to change the logging behavior, or specify a different Logback config file in [`global.conf`](#globalconf).
 
-For more information on the `logback.xml` file, see [its documentation](./config_file_logbackxml.markdown) and the [Logback documentation](http://logback.qos.ch/manual/configuration.html). For advanced logging configuration tips, such as configuring Logstash or outputting logs in JSON format, see [the Advanced Logging Configuration guide](./config_logging_advanced.markdown).
+For more information on the `logback.xml` file, see [its documentation](./config_file_logbackxml.html) and the [Logback documentation](http://logback.qos.ch/manual/configuration.html). For advanced logging configuration tips, such as configuring Logstash or outputting logs in JSON format, see [the Advanced Logging Configuration guide](./config_logging_advanced.html).
 
-For some tips on advanced logging configuration, including information about configuring your system to write logs in a JSON format suitable for sending to logstash or other external logging systems, see the [Advanced Logging Configuration](./config_logging_advanced.markdown) documentation.
+For some tips on advanced logging configuration, including information about configuring your system to write logs in a JSON format suitable for sending to logstash or other external logging systems, see the [Advanced Logging Configuration](./config_logging_advanced.html) documentation.
 
 ### HTTP Traffic
 
@@ -124,7 +124,7 @@ Any files with a `.cfg` extension in either of these locations are combined to f
 
 The CA-related configuration settings are set in `/etc/puppetlabs/puppetserver/services.d/ca.cfg`. If services added in future versions have user-configurable settings, the configuration files will also be in this directory. When upgrading Puppet Server 2.5.0 and newer with a package manager, it should not overwrite files already in this directory.
 
-> **Note:** If you're upgrading from Puppet Server 2.4.x or earlier to Server 2.5 or newer, read and act on the [bootstrap upgrade notes](./bootstrap_upgrade_notes.markdown) **before upgrading**.
+> **Note:** If you're upgrading from Puppet Server 2.4.x or earlier to Server 2.5 or newer, read and act on the [bootstrap upgrade notes](./bootstrap_upgrade_notes.html) **before upgrading**.
 
 In the `ca.cfg` file, find and modify these lines as directed to enable or disable the service:
 

@@ -11,13 +11,13 @@ canonical: "/puppetserver/latest/services_master_puppetserver.html"
 
 Puppet is configured in an agent-master architecture, in which a master node controls configuration information for a fleet of managed agent nodes. Puppet Server performs the role of the master node. Puppet Server is a Ruby and Clojure application that runs on the Java Virtual Machine (JVM) and provides the same services as the classic Puppet master application. It mostly does this by running the existing Puppet master code in several JRuby interpreters, but it replaces some parts of the classic application with new services written in Clojure.
 
-This page describes the generic requirements and run environment for Puppet Server; for practical instructions, see the docs for [installing](./install_from_packages.markdown) and [configuring](./configuration.markdown) it.
+This page describes the generic requirements and run environment for Puppet Server; for practical instructions, see the docs for [installing](./install_from_packages.html) and [configuring](./configuration.html) it.
 
 ## Supported Platforms
 
 Puppet provides Puppet Server packages for Red Hat Enterprise Linux, RHEL-derived distros, Fedora, Debian, and Ubuntu.
 
-If we don't provide a package for your system, you can run Puppet Server from source on any x86_64 Linux server with JDK 1.8 or 11. See [Running from Source](./dev_running_from_source.markdown) for more details. Other POSIX compatible servers or versions of Java are unsupported by Puppet, although they may work. Join our [community Slack](https://slack.puppet.com/) for help with non-supported operating systems, architectures, or JRE versions.
+If we don't provide a package for your system, you can run Puppet Server from source on any x86_64 Linux server with JDK 1.8 or 11. See [Running from Source](./dev_running_from_source.html) for more details. Other POSIX compatible servers or versions of Java are unsupported by Puppet, although they may work. Join our [community Slack](https://slack.puppet.com/) for help with non-supported operating systems, architectures, or JRE versions.
 
 Note that Puppet Server is versioned separately from Puppet itself. Major Puppet Server releases are compatible with the same major Puppet release, such as Puppet 6.x and Puppet Server 6.x, but might have different minor or patch versions, such as Puppet 6.9 and Puppet Server 6.6. For a list of the maintained versions of Puppet, Puppet Server, and Puppet DB, see [Puppet releases and lifecycles](https://puppet.com/docs/puppet/latest/about_agent.html).
 
@@ -35,7 +35,7 @@ From a user's perspective, it mostly acts like a single monolithic service. Most
 
 Puppet Server uses a Jetty-based web server embedded in the service's JVM process. You don't need to do anything special to configure or enable the web server; it works out of the box. It performs well under production-level loads.
 
-The web server's settings can be modified in [`webserver.conf`](./config_file_webserver.markdown). You might need to edit this file if you're [using an external CA][external_ca] or running Puppet on a non-standard port.
+The web server's settings can be modified in [`webserver.conf`](./config_file_webserver.html). You might need to edit this file if you're [using an external CA][external_ca] or running Puppet on a non-standard port.
 
 ### Puppet Master Service
 
@@ -45,8 +45,8 @@ for more information on the basic APIs.
 
 - For docs on the Puppet Server-specific APIs hosted by the master service, see:
 
-    - [The `environment_classes` endpoint](./puppet-api/v3/environment_classes.markdown)
-    - [The `environment_modules` endpoint](./puppet-api/v3/environment_modules.markdown)
+    - [The `environment_classes` endpoint](./puppet-api/v3/environment_classes.html)
+    - [The `environment_modules` endpoint](./puppet-api/v3/environment_modules.html)
 
 ### Certificate Authority Service
 
@@ -66,27 +66,27 @@ Puppet Server includes an administrative API for triggering maintenance tasks.
 Right now, the main administrative task is forcing expiration of all environment caches. This lets you deploy new code to long-timeout environments without having to do a lengthy full restart of the service.
 
 - For API docs, see:
-    - [The `environment-cache` endpoint](./admin-api/v1/environment-cache.markdown)
-    - [The `jruby-pool` endpoint](./admin-api/v1/jruby-pool.markdown)
+    - [The `environment-cache` endpoint](./admin-api/v1/environment-cache.html)
+    - [The `jruby-pool` endpoint](./admin-api/v1/jruby-pool.html)
 - For details about environment caching, see [the Puppet environments documentation](https://puppet.com/docs/puppet/latest/environments_about.html#environments-limitations).
 
 ### JRuby Interpreters
 
 Most of Puppet Server's work — compiling catalogs, receiving reports, etc. — is still done by Ruby code. But instead of using the operating system's MRI Ruby runtime, Puppet Server runs Puppet in JRuby, an implementation of the Ruby interpreter that runs on the JVM.
 
-Because we don't use the system Ruby, you can't use the system `gem` command to install Ruby Gems for use by the Puppet master. Instead, Puppet Server includes a separate `puppetserver gem` command for installing any libraries that your Puppet extensions might require. See [the "Using Ruby Gems" page](./gems.markdown) for details.
+Because we don't use the system Ruby, you can't use the system `gem` command to install Ruby Gems for use by the Puppet master. Instead, Puppet Server includes a separate `puppetserver gem` command for installing any libraries that your Puppet extensions might require. See [the "Using Ruby Gems" page](./gems.html) for details.
 
-> **Note:** To set custom arguments to be passed into the Java process for the `puppetserver ruby` command with the `JAVA_ARGS_CLI` environment variable, either temporarily on the command line or persistently by adding it to the sysconfig/default file (typically located at `/etc/sysconfig/puppetserver` or `/etc/defaults/puppetserver`). The `JAVA_ARGS_CLI` environment variable also controls the arguments used when running the `puppetserver gem` and `puppetserver irb` [subcommands](./subcommands.markdown).
+> **Note:** To set custom arguments to be passed into the Java process for the `puppetserver ruby` command with the `JAVA_ARGS_CLI` environment variable, either temporarily on the command line or persistently by adding it to the sysconfig/default file (typically located at `/etc/sysconfig/puppetserver` or `/etc/defaults/puppetserver`). The `JAVA_ARGS_CLI` environment variable also controls the arguments used when running the `puppetserver gem` and `puppetserver irb` [subcommands](./subcommands.html).
 
 Additionally, if you need to test or debug code that will be used by Puppet Server, we include `puppetserver ruby` and `puppetserver irb` commands that execute Ruby code in a JRuby environment.
 
 To handle parallel requests from agent nodes, Puppet Server maintains several separate JRuby interpreters, all independently running Puppet's application code, and distributes agent requests among them. Today, agent requests are distributed more or less randomly, without regard to their environment; this may change in the future.
 
-You can configure the JRuby interpreters in the `jruby-puppet` section of [the `puppetserver.conf` file.](./config_file_puppetserver.markdown)
+You can configure the JRuby interpreters in the `jruby-puppet` section of [the `puppetserver.conf` file.](./config_file_puppetserver.html)
 
 #### Tuning Guide
 
-You can maximize Puppet Server's performance by tuning your JRuby configuration. To learn more about tuning your configuration, see our Puppet Server [Tuning Guide](./tuning_guide.markdown).
+You can maximize Puppet Server's performance by tuning your JRuby configuration. To learn more about tuning your configuration, see our Puppet Server [Tuning Guide](./tuning_guide.html).
 
 ### User
 
@@ -100,7 +100,7 @@ All of the Puppet master's files and directories must be readable and writable b
 
 By default, Puppet's HTTPS traffic uses port 8140. The OS and firewall must allow Puppet Server's JVM process to accept incoming connections on this port.
 
-You can change the port in `webserver.conf` if necessary. See the [Configuration](./config_file_webserver.markdown) page for details.
+You can change the port in `webserver.conf` if necessary. See the [Configuration](./config_file_webserver.html) page for details.
 
 Puppet Server completely ignores the `masterport` setting in the puppet.conf file.
 
@@ -120,7 +120,7 @@ Finally, there's a special "daemon" log file used only for errors that happen be
 
 By default, Puppet Server handles SSL termination automatically.
 
-In network configurations that require external SSL termination (e.g. with a hardware load balancer), you'll need to configure a few other things. See the [External SSL Termination](./external_ssl_termination.markdown) page for details. In summary, you'll need to:
+In network configurations that require external SSL termination (e.g. with a hardware load balancer), you'll need to configure a few other things. See the [External SSL Termination](./external_ssl_termination.html) page for details. In summary, you'll need to:
 
 * Configure Puppet Server to use HTTP instead of HTTPS.
 * Configure Puppet Server to accept SSL information via insecure HTTP headers.
@@ -142,6 +142,6 @@ Puppet Server's `conf.d` directory contains:
 * `auth.conf`: Authentication rules for Puppet Server endpoints.
 * `ca.conf`: Settings for the Certificate Authority service.
 
-For detailed information about Puppet Server settings and the `conf.d` directory, refer to the [Configuration](./configuration.markdown) page.
+For detailed information about Puppet Server settings and the `conf.d` directory, refer to the [Configuration](./configuration.html) page.
 
-As mentioned above, Puppet Server also uses Puppet's usual config files, including most of the settings in [`puppet.conf`](https://puppet.com/docs/puppet/latest/config_file_main.html). However, Puppet Server treats some `puppet.conf` settings differently, and you should be aware of [these differences](./puppet_conf_setting_diffs.markdown).
+As mentioned above, Puppet Server also uses Puppet's usual config files, including most of the settings in [`puppet.conf`](https://puppet.com/docs/puppet/latest/config_file_main.html). However, Puppet Server treats some `puppet.conf` settings differently, and you should be aware of [these differences](./puppet_conf_setting_diffs.html).

@@ -110,7 +110,7 @@ $ puppetserver gem install pry --no-ri --no-rdoc
 // Would run 'gem' with a maximum Java heap of 8g
 ~~~
 
-For more information, see [Puppet Server and Gems](./gems.markdown).
+For more information, see [Puppet Server and Gems](./gems.html).
 
 ## ruby
 

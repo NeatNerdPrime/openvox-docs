@@ -14,7 +14,7 @@ canonical: "/puppetserver/latest/config_file_puppetserver.html"
 [file resource]: https://puppet.com/docs/puppet/latest/type.html#file
 [`static_file_content`]: ./puppet-api/v3/static_file_content.markdown
 
-The `puppetserver.conf` file contains settings for Puppet Server software. For an overview, see [Puppet Server Configuration](./configuration.markdown).
+The `puppetserver.conf` file contains settings for Puppet Server software. For an overview, see [Puppet Server Configuration](./configuration.html).
 
 ## Settings
 
@@ -62,7 +62,7 @@ The `puppetserver.conf` file contains settings for Puppet Server software. For a
 
     * `borrow-timeout`: Optional. The timeout in milliseconds, when attempting to borrow an instance from the JRuby pool. The default is 1200000.
 
-    * `environment-class-cache-enabled`: Optional. Used to control whether the master service maintains a cache in conjunction with the use of the [`environment_classes` API](./puppet-api/v3/environment_classes.markdown).
+    * `environment-class-cache-enabled`: Optional. Used to control whether the master service maintains a cache in conjunction with the use of the [`environment_classes` API](./puppet-api/v3/environment_classes.html).
 
         If this setting is set to `true`, Puppet Server maintains the cache. It also returns an Etag header for each GET request to the API. For subsequent GET requests that use the prior Etag value in an If-None-Match header, when the class information available for an environment has not changed, Puppet Server returns an HTTP 304 (Not Modified) response with no body.
 

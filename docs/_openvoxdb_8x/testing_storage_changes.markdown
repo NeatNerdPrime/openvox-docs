@@ -10,7 +10,7 @@ tooling to help test its performance.
 ## The load testing tool
 
 The load testing (aka benchmark) tool is useful for generating sample data and
-for loading the storage engine. See [the docs](load_testing_tool.markdown) for
+for loading the storage engine. See [the docs](load_testing_tool.html) for
 information on its use.
 
 ## Fact storage benchmark

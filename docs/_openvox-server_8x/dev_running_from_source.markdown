@@ -295,14 +295,14 @@ Installing Ruby Gems for Development
 
 The gems that are vendored with the puppetserver OS packages will be automatically
 installed into your dev environment by the `./dev-setup` script.  If you wish
-to install additional gems, please see the [Gems](./gems.markdown) document for
+to install additional gems, please see the [Gems](./gems.html) document for
 detailed information.
 
 Debugging
 ------
 
 For more information about debugging both Clojure and JRuby code, please see
-[Puppet Server: Debugging](./dev_debugging.markdown) documentation.
+[Puppet Server: Debugging](./dev_debugging.html) documentation.
 
 Running PuppetDB
 -----

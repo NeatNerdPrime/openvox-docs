@@ -177,7 +177,7 @@ that of another attribute), it must be namespaced using
 `["parameter", <parameter name>]`.
 
 For easy reference, the full set of queryable attributes can be found in [the resource
-endpoint documentation](./v4/resources.markdown).
+endpoint documentation](./v4/resources.html).
 
 ### Regular expressions
 

@@ -12,7 +12,7 @@ HTTP client metrics available in Puppet Server 5 allows users to measure how lon
 
 All of these metrics are of the form `puppetlabs.<SERVER ID>.http-client.experimental.with-metric-id.<METRIC ID>.full-response`.
 
-> **Note:** The `<METRIC ID>` describes what the metric measures. A metric ID is represented in the [status endpoint](./status-api/v1/services.markdown) as an array of strings, and in the metric itself the strings are joined together with periods. For instance, the metric ID of `[puppetdb resource search]` is `puppetdb.resource.search`, so the full metric name would be `puppetlabs.<server-id>.http-client.experimental.with-metric-id.puppetdb.resource.search.full-response`.
+> **Note:** The `<METRIC ID>` describes what the metric measures. A metric ID is represented in the [status endpoint](./status-api/v1/services.html) as an array of strings, and in the metric itself the strings are joined together with periods. For instance, the metric ID of `[puppetdb resource search]` is `puppetdb.resource.search`, so the full metric name would be `puppetlabs.<server-id>.http-client.experimental.with-metric-id.puppetdb.resource.search.full-response`.
 
 You can configure PuppetDB to be a backend for [configuration files](https://puppet.com/docs/puppetdb/latest/connect_puppet_master.html#step-2-edit-configuration-files) (through the `storeconfigs` setting), and you can configure Puppet Server to send reports to an external report processing service. If you configure either of these, then during the course of handling a Puppet agent run, Puppet Server makes several calls to external services to retrieve or store information.
 
@@ -29,7 +29,7 @@ You can configure PuppetDB to be a backend for [configuration files](https://pup
 
 ## Configuring
 
-HTTP client metrics are enabled by default, but can be disabled by setting `metrics-enabled` to `false` in the `http-client` section of [`puppetserver.conf`](./config_file_puppetserver.markdown).
+HTTP client metrics are enabled by default, but can be disabled by setting `metrics-enabled` to `false` in the `http-client` section of [`puppetserver.conf`](./config_file_puppetserver.html).
 
 These metrics also depend on the `server-id` setting in the `metrics` section of `puppetserver.conf`. This defaults to `localhost`, and while `localhost` can collect metrics, change this setting to something unique to avoid metric naming collisions when exporting metrics to an external tool, such as Graphite.
 

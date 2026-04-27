@@ -93,7 +93,7 @@ If you [use `SRV` records for agents](#using-dns-srv-records), you can use the `
 
 ## Creating and configuring compilers
 
-To add a compiler to your deployment, begin by [installing and configuring Puppet Server](./install_from_packages.markdown) on it.
+To add a compiler to your deployment, begin by [installing and configuring Puppet Server](./install_from_packages.html) on it.
 
 Before running `puppet agent` or `puppet master` on the new server:
 

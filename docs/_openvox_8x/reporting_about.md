@@ -53,4 +53,4 @@ Puppet report processors handle these points of data:
 * Log messages that were generated during the run.
 * Metrics about the run, such as its duration and how many resources were in a given state.
 
-For detailed information about Puppet's report data, see [the report format documentation](./format_report.markdown).
+For detailed information about Puppet's report data, see [the report format documentation](./format_report.html).

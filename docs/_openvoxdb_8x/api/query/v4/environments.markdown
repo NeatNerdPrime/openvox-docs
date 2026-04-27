@@ -36,7 +36,7 @@ This will return all environments known to PuppetDB.
 
 ### Query operators
 
-See [the AST query language page](./ast.markdown)
+See [the AST query language page](./ast.html)
 
 ### Query fields
 

@@ -40,9 +40,9 @@ module.
 > * These instructions are for
 >   [platforms with official PuppetDB packages][requirements]. To install on
 >   other systems, follow
->   [our instructions for installing from source](./install_from_source.markdown).
+>   [our instructions for installing from source](./install_from_source.html).
 > * If this is a production deployment,
->   [review the scaling recommendations](./scaling_recommendations.markdown) before
+>   [review the scaling recommendations](./scaling_recommendations.html) before
 >   installing. You should ensure that your PuppetDB server will be able to
 >   comfortably handle your site's load.
 

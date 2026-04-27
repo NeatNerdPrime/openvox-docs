@@ -8,7 +8,7 @@ Puppet Server’s logging is routed through the Java Virtual Machine's [Logback 
 
 > **Note:** This document covers basic, commonly modified options for Puppet Server logs. Logback is a powerful library with many options. For detailed information on configuring Logback, see the [Logback Configuration Manual](http://logback.qos.ch/manual/configuration.html).
 >
-> For advanced logging configuration tips specific to Puppet Server, such as configuring Logstash or outputting logs in JSON format, see [Advanced Logging Configuration](./config_logging_advanced.markdown).
+> For advanced logging configuration tips specific to Puppet Server, such as configuring Logstash or outputting logs in JSON format, see [Advanced Logging Configuration](./config_logging_advanced.html).
 
 ## Puppet Server logging
 
@@ -69,6 +69,6 @@ Due to a [bug in Logback](https://tickets.puppetlabs.com/browse/TK-426), the `sc
 
 ## HTTP request logging
 
-Puppet Server logs HTTP traffic separately, and this logging is configured in a different Logback configuration file located at `/etc/puppetlabs/puppetserver/request-logging.xml`. To specify a different Logback configuration file, change the `access-log-config` setting in Puppet Server's [`webserver.conf`](./config_file_webserver.markdown) file.
+Puppet Server logs HTTP traffic separately, and this logging is configured in a different Logback configuration file located at `/etc/puppetlabs/puppetserver/request-logging.xml`. To specify a different Logback configuration file, change the `access-log-config` setting in Puppet Server's [`webserver.conf`](./config_file_webserver.html) file.
 
 The HTTP request log uses the same Logback configuration format and settings as the Puppet Server log. It also lets you configure what it logs using patterns, which follow Logback's [`PatternLayout` format](http://logback.qos.ch/manual/layouts.html#AccessPatternLayout).

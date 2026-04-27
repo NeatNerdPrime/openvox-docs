@@ -21,7 +21,7 @@ Server to recognize it, you'll need to set `allow-header-cert-info: true`
 in the `authorization` config section of the
 `/etc/puppetlabs/puppetserver/conf.d/auth.conf` file.
 
-See [Puppet Server Configuration](./configuration.markdown) for more
+See [Puppet Server Configuration](./configuration.html) for more
 information on the `puppetserver.conf` and `auth.conf` files.
 
 Note: This assumes the default behavior of Puppet 5 and greater of using

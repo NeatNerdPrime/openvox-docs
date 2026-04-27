@@ -86,4 +86,4 @@ The catalog response body conforms to the [catalog schema](./catalog.json).
 
 All requests made to the catalog API are authorized using the Trapperkeeper-based `auth.conf`.
 For more information about the Puppet Server authorization process and configuration settings,
-see the [`auth.conf` documentation](../../config_file_auth.markdown).
+see the [`auth.conf` documentation](../../config_file_auth.html).

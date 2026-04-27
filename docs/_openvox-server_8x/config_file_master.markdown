@@ -10,13 +10,13 @@ canonical: "/puppetserver/latest/config_file_master.html"
 [deprecated]: ./deprecated_features.markdown
 [`puppetserver.conf`]: ./config_file_puppetserver.markdown
 
-The `master.conf` file configures how Puppet Server handles [deprecated][] authorization methods for master endpoints. For an overview, see [Puppet Server Configuration](./configuration.markdown).
+The `master.conf` file configures how Puppet Server handles [deprecated][] authorization methods for master endpoints. For an overview, see [Puppet Server Configuration](./configuration.html).
 
 > **Deprecation Note:** This file contains only the `allow-header-cert-info` parameter, and is deprecated as of Puppet Server 2.2 in favor of authorization settings that are configured in the [new `auth.conf`][] file. Because this setting is deprecated, a default `master.conf` file is no longer included in the Puppet Server package.
 
 In `master.conf`, the `allow-header-cert-info` setting determines whether Puppet Server should use authorization info from the `X-Client-Verify`, `X-Client-DN`, and `X-Client-Cert` HTTP headers. Its default value is `false`.
 
-The `allow-header-cert-info` setting is used to enable [external SSL termination](./external_ssl_termination.markdown). If the setting's value is set to `true`, Puppet Server will ignore any certificate presented to the Jetty web server, and will rely on header data to authorize requests. This is very dangerous unless you've secured your network to prevent any untrusted access to Puppet Server.
+The `allow-header-cert-info` setting is used to enable [external SSL termination](./external_ssl_termination.html). If the setting's value is set to `true`, Puppet Server will ignore any certificate presented to the Jetty web server, and will rely on header data to authorize requests. This is very dangerous unless you've secured your network to prevent any untrusted access to Puppet Server.
 
 When using the `allow-header-cert-info` setting in `master.conf`, you can change Puppet's `ssl_client_verify_header` parameter to use another header name instead of `X-Client-Verify`. The `ssl_client_header` parameter can rename `X-Client-DN`. The `X-Client-Cert` header can't be renamed.
 

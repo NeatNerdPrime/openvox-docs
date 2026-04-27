@@ -733,8 +733,8 @@ Waggett, Robert Roland, Scot Kreienkamp, Vadym Chepkov, and Zak Kent
   entire JSON file [PDB-2634](https://tickets.puppetlabs.com/browse/PDB-2634). 
   
   For examples of using dot notation in PQL and AST, see the following: 
-  - [Puppet Query Language (PQL) examples](./api/query/examples-pql.markdown) 
-  - [AST query language (AST)](./api/query/v4/ast.markdown)
+  - [Puppet Query Language (PQL) examples](./api/query/examples-pql.html) 
+  - [AST query language (AST)](./api/query/v4/ast.html)
 
 ### Bug fixes
 
@@ -764,10 +764,10 @@ Rob Browning, Robert Roland, and Zak Kent
 
 ### New features and improvements
 
-- **New experimental `catalog-input-contents` endpoint.** Use the [`catalog-input-contents`](./api/query/v4/catalog_input_contents.markdown) endpoint to query for the most recent
+- **New experimental `catalog-input-contents` endpoint.** Use the [`catalog-input-contents`](./api/query/v4/catalog_input_contents.html) endpoint to query for the most recent
 catalog inputs that PuppetDB has received for any nodes. ([PDB-4371](https://tickets.puppetlabs.com/browse/PDB-4371)
 
-- **Submit `inputs` to a catalog.** PuppetDB can now optionally store "inputs", such as Hiera keys, during catalog compilation. See the [command's wire format](api/wire_format/catalog_inputs_format_v1.markdown) for more information on how to submit them. [PDB-4372](https://tickets.puppetlabs.com/browse/PDB-4372)
+- **Submit `inputs` to a catalog.** PuppetDB can now optionally store "inputs", such as Hiera keys, during catalog compilation. See the [command's wire format](api/wire_format/catalog_inputs_format_v1.html) for more information on how to submit them. [PDB-4372](https://tickets.puppetlabs.com/browse/PDB-4372)
 
 ### Bug fixes
 
