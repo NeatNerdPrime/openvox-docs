@@ -1,0 +1,15 @@
+- nav_key: openfact_5x
+  collections: openfact_latest|openfact_5x
+  base: /openfact/latest/
+
+- nav_key: openvox_8x
+  collections: openvox_latest|openvox_8x
+  base: /openvox/latest/
+
+- nav_key: openvox-server_8x
+  collections: openvox-server_latest|openvox-server_8x
+  base: /openvox-server/latest/
+
+- nav_key: openvoxdb_8x
+  collections: openvoxdb_latest|openvoxdb_8x
+  base: /openvoxdb/latest/

@@ -11,12 +11,24 @@
   <nav class="nav" id="VPSidebarNav" aria-labelledby="sidebar-aria-label" tabindex="-1">
     <span class="visually-hidden" id="sidebar-aria-label">Sidebar Navigation</span>
 
-    {% assign nav_items = site.data.nav[page.nav] %}
-    {% assign nav_collection_dir = page.collection | prepend: '_' | append: '/' %}
-    {% assign nav_page_subpath = page.relative_path | remove_first: nav_collection_dir | replace: '.md', '.html' | replace: '.markdown', '.html' %}
-    {% assign nav_base = page.url | remove: nav_page_subpath %}
-    {% for item in nav_items %}
-      {% include nav-item.html item=item level=0 %}
+    {%- assign current_nav_collection_dir = page.collection | prepend: '_' | append: '/' -%}
+    {%- assign current_nav_page_subpath = page.relative_path | remove_first: current_nav_collection_dir | replace: '.md', '.html' | replace: '.markdown', '.html' -%}
+    {%- assign current_nav_base = page.url | remove: current_nav_page_subpath -%}
+
+    {% for nav_entry in site.data.nav_map %}
+      {%- assign nav_key = nav_entry.nav_key -%}
+      {%- assign is_current = false -%}
+      {%- if nav_key == page.nav -%}
+        {%- assign is_current = true -%}
+        {%- assign nav_base = current_nav_base -%}
+      {%- else -%}
+        {%- assign nav_base = nav_entry.base -%}
+      {%- endif -%}
+      <div data-nav-key="{{ nav_key }}" data-nav-collections="{{ nav_entry.collections }}"{% unless is_current %} hidden{% endunless %}>
+        {% for item in site.data.nav[nav_key] %}
+          {% include nav-item.html item=item level=0 %}
+        {% endfor %}
+      </div>
     {% endfor %}
   </nav>
 </aside>

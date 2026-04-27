@@ -32,6 +32,22 @@
 
 <script>
   (function () {
+    function syncSidebarNavGroups() {
+      var frameState = document.getElementById('vp-page-state');
+      if (!frameState) return;
+      var currentCollection = frameState.getAttribute('data-collection') || '';
+      document.querySelectorAll('[data-nav-key]').forEach(function (group) {
+        var collections = (group.getAttribute('data-nav-collections') || '').split('|');
+        group.hidden = collections.indexOf(currentCollection) < 0;
+      });
+    }
+    document.addEventListener('turbo:frame-load', function (event) {
+      if (!event.target || event.target.id !== 'vp-content-frame') return;
+      syncSidebarNavGroups();
+    });
+  })();
+
+  (function () {
     function init() {
       if (document.getElementById('under-construction-banner')) return;
 
