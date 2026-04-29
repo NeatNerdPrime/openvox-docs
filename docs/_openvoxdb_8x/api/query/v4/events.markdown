@@ -6,16 +6,16 @@ canonical: "/puppetdb/latest/api/query/v4/events.html"
 
 # Events endpoint
 
-[curl]: ../curl.markdown#using-curl-from-localhost-non-sslhttp
-[report]: ./reports.markdown
-[ast]: ./ast.markdown
-[paging]: ./paging.markdown
-[query]: query.markdown
+[curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
+[report]: ./reports.html
+[ast]: ./ast.html
+[paging]: ./paging.html
+[query]: query.html
 [8601]: http://en.wikipedia.org/wiki/ISO_8601
-[subqueries]: ./ast.markdown#subquery-operators
-[environments]: ./environments.markdown
-[reports]: ./reports.markdown
-[rich_data]: query.markdown#rich-data
+[subqueries]: ./ast.html#subquery-operators
+[environments]: ./environments.html
+[reports]: ./reports.html
+[rich_data]: query.html#rich-data
 
 Puppet agent nodes submit reports after their runs, and the Puppet Server forwards these to PuppetDB. Each report includes:
 

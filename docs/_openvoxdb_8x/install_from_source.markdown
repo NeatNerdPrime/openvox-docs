@@ -6,11 +6,11 @@ layout: default
 # Installing from source
 
 [leiningen]: https://github.com/technomancy/leiningen#installation
-[configure_postgres]: ./configure.markdown#using-postgresql
-[configure_heap]: ./configure.markdown#configuring-the-java-heap-size
-[module]: ./install_via_module.markdown
-[postgres_ssl]: ./postgres_ssl.markdown
-[packages]: ./install_from_packages.markdown
+[configure_postgres]: ./configure.html#using-postgresql
+[configure_heap]: ./configure.html#configuring-the-java-heap-size
+[module]: ./install_via_module.html
+[postgres_ssl]: ./postgres_ssl.html
+[packages]: ./install_from_packages.html
 [running_tests]: ./CONTRIBUTING.md#running-the-tests
 
 > **Note:** If you are running Puppet Enterprise version 3.0 or later, you do not need to install PuppetDB, as it is already installed as part of PE.

@@ -6,21 +6,21 @@ canonical: "/puppetdb/latest/configure.html"
 
 # Configuring PuppetDB
 
-[configure-postgres]: ./configure_postgres.markdown
+[configure-postgres]: ./configure_postgres.html
 [java-patterns]: https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html
 [logback]: http://logback.qos.ch/manual/configuration.html
-[dashboard]: ./maintain_and_tune.markdown#monitor-the-performance-dashboard
+[dashboard]: ./maintain_and_tune.html#monitor-the-performance-dashboard
 [pe-dashboard]: https://support.puppet.com/hc/en-us/articles/208484488-Enable-and-view-the-PuppetDB-performance-dashboard-for-Puppet-Enterprise-3-3-2-to-2019-1
-[repl]: ./repl.markdown
+[repl]: ./repl.html
 [pg_trgm]: http://www.postgresql.org/docs/current/static/pgtrgm.html
-[postgres_ssl]: ./postgres_ssl.markdown
-[migration-coordination]: ./migration_coordination.markdown
-[module]: ./install_via_module.markdown
-[puppetdb.conf]: ./connect_puppet_server.markdown#edit-puppetdbconf
-[ha]: ./ha.markdown
+[postgres_ssl]: ./postgres_ssl.html
+[migration-coordination]: ./migration_coordination.html
+[module]: ./install_via_module.html
+[puppetdb.conf]: ./connect_puppet_server.html#edit-puppetdbconf
+[ha]: ./ha.html
 [node-ttl]: #node-ttl
-[admin-cmd]: ./api/admin/v1/cmd.markdown
-[query-timeout-parameter]: ./api/query/v4/overview.markdown#url-parameters
+[admin-cmd]: ./api/admin/v1/cmd.html
+[query-timeout-parameter]: ./api/query/v4/overview.html#url-parameters
 
 PuppetDB has three main groups of settings:
 

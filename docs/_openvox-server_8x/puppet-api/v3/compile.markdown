@@ -5,7 +5,7 @@ canonical: "/puppetserver/latest/puppet-api/v3/compile.html"
 ---
 
 [PCore Generic Data]: https://github.com/puppetlabs/puppet-specifications/blob/a87c9967ebd7071e0a548920f3262ac24cc3f4cd/language/data-types/pcore-generic-data.md
-[`auth.conf` documentation]: ../../config_file_auth.markdown
+[`auth.conf` documentation]: ../../config_file_auth.html
 [v4 catalog schema]: ../v4/catalog.json
 
 The compile endpoint allows compilation of arbitrary pcore serialized Puppet

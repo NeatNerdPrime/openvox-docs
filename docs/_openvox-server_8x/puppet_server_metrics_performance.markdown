@@ -4,12 +4,12 @@ title: "Applying metrics to improve performance"
 canonical: "/puppetserver/latest/puppet_server_metrics_performance.html"
 ---
 
-[metrics]: ./puppet_server_metrics.markdown
-[tuning guide]: ./tuning_guide.markdown
-[status API]: ./status-api/v1/services.markdown
+[metrics]: ./puppet_server_metrics.html
+[tuning guide]: ./tuning_guide.html
+[status API]: ./status-api/v1/services.html
 [sample Grafana dashboard]: ./sample-puppetserver-metrics-dashboard.json
-[puppetserver.conf]: ./config_file_puppetserver.markdown
-[HTTP client metrics]: ./http_client_metrics.markdown
+[puppetserver.conf]: ./config_file_puppetserver.html
+[HTTP client metrics]: ./http_client_metrics.html
 
 Puppet Server produces [several types of metrics][metrics] that administrators can use to identify performance bottlenecks or capacity issues. Interpreting this data is largely up to you and depends on many
 factors unique to your installation and usage, but there are some common trends in metrics that you can use to make Puppet Server function better.

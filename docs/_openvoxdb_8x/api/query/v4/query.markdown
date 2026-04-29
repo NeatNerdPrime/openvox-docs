@@ -7,15 +7,15 @@ canonical: "/puppetdb/latest/api/query/v4/query.html"
 # Query structure
 
 [prefix]: http://en.wikipedia.org/wiki/Polish_notation
-[jetty]: ../../../configure.markdown#jetty-http-settings
+[jetty]: ../../../configure.html#jetty-http-settings
 [urlencode]: http://en.wikipedia.org/wiki/Percent-encoding
-[ast]: ./ast.markdown
-[tutorial]: ../tutorial.markdown
-[curl]: ../curl.markdown
-[paging]: ./paging.markdown
-[entities]: ./entities.markdown
-[root]: ./overview.markdown
-[pql]: ./pql.markdown
+[ast]: ./ast.html
+[tutorial]: ../tutorial.html
+[curl]: ../curl.html
+[paging]: ./paging.html
+[entities]: ./entities.html
+[root]: ./overview.html
+[pql]: ./pql.html
 
 ## Summary
 

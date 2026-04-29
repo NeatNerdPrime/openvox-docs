@@ -4,7 +4,7 @@ title: "Puppet Server: Status API: Simple"
 canonical: "/puppetserver/latest/status-api/v1/simple.html"
 ---
 
-[`auth.conf`]: ../../config_file_auth.markdown
+[`auth.conf`]: ../../config_file_auth.html
 
 The `simple` endpoint of Puppet Server's Status API provides a simple
 indication of whether Puppet Server is running on a server. It's designed for

@@ -6,24 +6,24 @@ canonical: "/puppetdb/latest/api/query/v4/ast.html"
 
 # AST query language
 
-[root]: ./overview.markdown
-[catalogs]: ./catalogs.markdown
-[contact]: ../../../pdb_support_guide.markdown#contact-us
-[edges]: ./edges.markdown
-[environments]: ./environments.markdown
-[events]: ./events.markdown
-[facts]: ./facts.markdown
-[fact-contents]: ./fact-contents.markdown
-[fact-paths]: ./fact-paths.markdown
-[inventory]: ./inventory.markdown
-[nodes]: ./nodes.markdown
+[root]: ./overview.html
+[catalogs]: ./catalogs.html
+[contact]: ../../../pdb_support_guide.html#contact-us
+[edges]: ./edges.html
+[environments]: ./environments.html
+[events]: ./events.html
+[facts]: ./facts.html
+[fact-contents]: ./fact-contents.html
+[fact-paths]: ./fact-paths.html
+[inventory]: ./inventory.html
+[nodes]: ./nodes.html
 [pg-regex]: https://www.postgresql.org/docs/11/functions-matching.html#FUNCTIONS-POSIX-REGEXP
-[producers]: ./producers.markdown
-[query]: query.markdown
-[reports]: ./reports.markdown
-[resources]: ./resources.markdown
-[entities]: ./entities.markdown
-[pql]: ./pql.markdown
+[producers]: ./producers.html
+[query]: query.html
+[reports]: ./reports.html
+[resources]: ./resources.html
+[entities]: ./entities.html
+[pql]: ./pql.html
 [urlencode]: http://en.wikipedia.org/wiki/Percent-encoding
 [to-char]: http://www.postgresql.org/docs/11/static/functions-formatting.html
 

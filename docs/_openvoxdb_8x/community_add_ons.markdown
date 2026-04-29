@@ -8,7 +8,7 @@ canonical: "/puppetdb/latest/community_add_ons.html"
 **None of the following projects are published by or endorsed by Puppet.** They are linked to here for informational purposes only.
 
 [nagios]: https://github.com/jasonhancock/nagios-puppetdb
-[dashboard]: ./maintain_and_tune.markdown#monitor-the-performance-dashboard
+[dashboard]: ./maintain_and_tune.html#monitor-the-performance-dashboard
 [query]: https://github.com/dalen/puppet-puppetdbquery
 [exports]: http://forge.puppetlabs.com/zack/exports
 [exported]: https://puppet.com/docs/puppet/latest/lang_exported.html

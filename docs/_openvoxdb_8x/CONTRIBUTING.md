@@ -3,7 +3,7 @@ title: "Contributing to PuppetDB"
 layout: default
 ---
 
-[configure_postgres]: ./configure.markdown#using-postgresql
+[configure_postgres]: ./configure.html#using-postgresql
 
 # Contributing to PuppetDB
 

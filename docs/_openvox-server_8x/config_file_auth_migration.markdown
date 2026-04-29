@@ -4,8 +4,8 @@ title: "Puppet Server Configuration Files: Migrating to the HOCON auth.conf Form
 canonical: "/puppetserver/latest/config_file_auth_migration.html"
 ---
 
-[Puppet `auth.conf`]: https://puppet.com/docs/puppet/latest/config_file_auth.markdown
-[Backward Compatibility with Puppet 3 Agents]: ./compatibility_with_puppet_agent.markdown
+[Puppet `auth.conf`]: https://puppet.com/docs/puppet/latest/config_file_auth.html
+[Backward Compatibility with Puppet 3 Agents]: ./compatibility_with_puppet_agent.html
 
 Puppet Server 2.2.0 introduced a significant change in how it manages authentication to API endpoints. The older [Puppet `auth.conf`][] file and whitelist-based authorization method were deprecated in the same
 release and are now removed in Puppet Server 7. Puppet Server's current `auth.conf` file format (which is different than the old auth.conf) is illustrated below in examples.

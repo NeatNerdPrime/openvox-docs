@@ -5,8 +5,8 @@ canonical: "/puppetserver/latest/config_file_ca.html"
 ---
 
 [`trapperkeeper-authorization`]: https://github.com/puppetlabs/trapperkeeper-authorization
-[new `auth.conf`]: ./config_file_auth.markdown
-[deprecated]: ./deprecated_features.markdown
+[new `auth.conf`]: ./config_file_auth.html
+[deprecated]: ./deprecated_features.html
 
 The `ca.conf` file configures settings for the Puppet Server Certificate Authority (CA) service. For an overview, see [Puppet Server Configuration](./configuration.html).
 

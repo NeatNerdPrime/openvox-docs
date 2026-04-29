@@ -8,7 +8,7 @@ layout: default
 # Installing PuppetDB via Puppet module
 
 [module]: http://forge.puppet.com/puppetlabs/puppetdb
-[config_with_module]: ./configure.markdown#playing-nice-with-the-puppetdb-module
+[config_with_module]: ./configure.html#playing-nice-with-the-puppetdb-module
 
 You can install and configure all of PuppetDB's components and prerequisites (including PuppetDB itself, PostgreSQL, firewall rules on RedHat-like systems, and the PuppetDB-termini for your Puppet Server) using
 [the PuppetDB module][module] from the Puppet Forge.

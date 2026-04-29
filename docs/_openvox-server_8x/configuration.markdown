@@ -4,7 +4,7 @@ title: "Puppet Server Configuration"
 canonical: "/puppetserver/latest/configuration.html"
 ---
 
-[deprecated]: ./deprecated_features.markdown
+[deprecated]: ./deprecated_features.html
 
 Puppet Server automatically loads the settings in the `main` and `master` sections of the configuration file. If there are duplicates, it prefers the values in the `master` section. Puppet Server honors the
 following `puppet.conf` settings:

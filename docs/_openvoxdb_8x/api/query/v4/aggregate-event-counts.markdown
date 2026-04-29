@@ -6,10 +6,10 @@ canonical: "/puppetdb/latest/api/query/v4/aggregate-event-counts.html"
 
 # Aggregate event counts endpoint
 
-[event-counts]: ./event-counts.markdown
-[events]: ./events.markdown
-[curl]: ../curl.markdown
-[query]: query.markdown
+[event-counts]: ./event-counts.html
+[events]: ./events.html
+[curl]: ../curl.html
+[query]: query.html
 
 > **Experimental endpoint**: The aggregate-event-counts endpoint is designated as experimental. It may be altered or removed in a future release.
 

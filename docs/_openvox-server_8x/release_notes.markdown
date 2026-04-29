@@ -5,10 +5,10 @@ canonical: "/puppetserver/latest/release_notes.html"
 ---
 
 [Trapperkeeper]: https://github.com/puppetlabs/trapperkeeper
-[service bootstrapping]: ./configuration.markdown#service-bootstrapping
-[auth.conf]: ./config_file_auth.markdown
-[puppetserver.conf]: ./config_file_puppetserver.markdown
-[product.conf]: ./config_file_product.markdown
+[service bootstrapping]: ./configuration.html#service-bootstrapping
+[auth.conf]: ./config_file_auth.html
+[puppetserver.conf]: ./config_file_puppetserver.html
+[product.conf]: ./config_file_product.html
 
 ## Puppet Server 6.13.0
 

@@ -6,25 +6,25 @@ canonical: "/puppetdb/latest/api/query/v4/entities.html"
 
 # Entities
 
-[aggregate-event-counts]: aggregate-event-counts.markdown
-[catalogs]: catalogs.markdown
-[edges]: edges.markdown
-[environments]: environments.markdown
-[event-counts]: event-counts.markdown
-[events]: events.markdown
-[fact-names]: fact-names.markdown
-[facts]: facts.markdown
-[fact-contents]: fact-contents.markdown
-[fact-paths]: fact-paths.markdown
-[inventory]: ./inventory.markdown
-[nodes]: ./nodes.markdown
-[producers]: producers.markdown
-[query]: query.markdown
-[reports]: reports.markdown
-[resources]: resources.markdown
-[root]: overview.markdown
-[from]: ast.markdown#context-operators
-[subquery]: ast.markdown#subquery-operators
+[aggregate-event-counts]: aggregate-event-counts.html
+[catalogs]: catalogs.html
+[edges]: edges.html
+[environments]: environments.html
+[event-counts]: event-counts.html
+[events]: events.html
+[fact-names]: fact-names.html
+[facts]: facts.html
+[fact-contents]: fact-contents.html
+[fact-paths]: fact-paths.html
+[inventory]: ./inventory.html
+[nodes]: ./nodes.html
+[producers]: producers.html
+[query]: query.html
+[reports]: reports.html
+[resources]: resources.html
+[root]: overview.html
+[from]: ast.html#context-operators
+[subquery]: ast.html#subquery-operators
 
 The PuppetDB API provides access to a series of data entities that map to the Puppet ecosystem
 and the data that PuppetDB stores.

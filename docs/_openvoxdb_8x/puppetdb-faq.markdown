@@ -5,14 +5,14 @@ subtitle: "Frequently asked questions"
 ---
 # Frequently asked questions
 
-[maintaining_tuning]: ./maintain_and_tune.markdown
-[connect_puppet_apply]: ./connect_puppet_apply.markdown
-[support_guide]: ./pdb_support_guide.markdown
+[maintaining_tuning]: ./maintain_and_tune.html
+[connect_puppet_apply]: ./connect_puppet_apply.html
+[support_guide]: ./pdb_support_guide.html
 [puppetdb3]: /puppetdb/3.2/migrate.html
-[threads]: ./configure.markdown#threads
-[concurrent-writes]: ./configure.markdown#concurrent-writes
-[mq metrics]: ./api/metrics/v2/jolokia.markdown#message-queue-metrics
-[java heap]: ./configure.markdown#configuring-the-java-heap-size
+[threads]: ./configure.html#threads
+[concurrent-writes]: ./configure.html#concurrent-writes
+[mq metrics]: ./api/metrics/v2/jolokia.html#message-queue-metrics
+[java heap]: ./configure.html#configuring-the-java-heap-size
 
 ## Can I migrate my data from ActiveRecord storeconfigs?
 

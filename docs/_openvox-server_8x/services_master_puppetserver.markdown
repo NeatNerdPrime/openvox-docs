@@ -4,7 +4,7 @@ title: "Puppet's Services: Puppet Server"
 canonical: "/puppetserver/latest/services_master_puppetserver.html"
 ---
 
-[external_ca]: ./external_ca_configuration.markdown
+[external_ca]: ./external_ca_configuration.html
 
 Puppet is configured in an agent-master architecture, in which a master node controls configuration information for a fleet of managed agent nodes. Puppet Server performs the role of the master node. Puppet
 Server is a Ruby and Clojure application that runs on the Java Virtual Machine (JVM) and provides the same services as the classic Puppet master application. It mostly does this by running the existing Puppet

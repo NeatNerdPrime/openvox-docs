@@ -6,14 +6,14 @@ canonical: "/puppetdb/latest/maintain_and_tune.markdown"
 
 # Maintaining and tuning
 
-[configure_heap]: ./configure.markdown#configuring-the-java-heap-size
-[threads]: ./configure.markdown#command-processing-settings
-[memrec]: ./scaling_recommendations.markdown#bottleneck-java-heap-size
-[puppetdb_report_processor]: ./connect_puppet_server.markdown#enabling-report-storage
-[node_ttl]: ./configure.markdown#node-ttl
-[report_ttl]: ./configure.markdown#report-ttl
+[configure_heap]: ./configure.html#configuring-the-java-heap-size
+[threads]: ./configure.html#command-processing-settings
+[memrec]: ./scaling_recommendations.html#bottleneck-java-heap-size
+[puppetdb_report_processor]: ./connect_puppet_server.html#enabling-report-storage
+[node_ttl]: ./configure.html#node-ttl
+[report_ttl]: ./configure.html#report-ttl
 [resources_type]: https://puppet.com/docs/puppet/latest/type.html#resources
-[logback]: ./configure.markdown#the-logback-logging-config-file
+[logback]: ./configure.html#the-logback-logging-config-file
 [dashboard]: #monitor-the-performance-dashboard
 
 PuppetDB requires a relatively small amount of maintenance and tuning. However, you should become familiar with the occasional tasks outlined in this guide.

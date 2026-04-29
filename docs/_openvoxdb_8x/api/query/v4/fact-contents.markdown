@@ -6,15 +6,15 @@ canonical: "/puppetdb/latest/api/query/v4/fact-contents.html"
 
 # Fact-contents endpoint
 
-[curl]: ../curl.markdown#using-curl-from-localhost-non-sslhttp
-[paging]: ./paging.markdown
-[query]: query.markdown
-[subqueries]: ./ast.markdown#subquery-operators
-[ast]: ./ast.markdown
-[environments]: ./environments.markdown
-[facts]: ./facts.markdown
-[factsets]: ./factsets.markdown
-[nodes]: ./nodes.markdown
+[curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
+[paging]: ./paging.html
+[query]: query.html
+[subqueries]: ./ast.html#subquery-operators
+[ast]: ./ast.html
+[environments]: ./environments.html
+[facts]: ./facts.html
+[factsets]: ./factsets.html
+[nodes]: ./nodes.html
 
 The `/fact-contents` endpoint provides selective access to factset
 subtrees via `fact path`s.  Note that the `inventory` endpoint will

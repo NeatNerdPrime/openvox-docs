@@ -6,8 +6,8 @@ canonical: "/puppetdb/latest/api/query/v4/managed-packages.html"
 
 # Managed Packages endpoints
 
-[curl]: ../curl.markdown#using-curl-from-localhost-non-sslhttp
-[paging]: ./paging.markdown
+[curl]: ../curl.html#using-curl-from-localhost-non-sslhttp
+[paging]: ./paging.html
 
 > **PE-only**: The Managed Packages endpoints are only available for Puppet
 > Enterprise.

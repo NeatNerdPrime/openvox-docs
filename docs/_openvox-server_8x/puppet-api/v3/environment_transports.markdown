@@ -5,10 +5,10 @@ canonical: "/puppetserver/latest/puppet-api/v3/environment_transports.html"
 ---
 
 [Resource API Transports]: https://puppet.com/docs/puppet/latest/about_the_resource_api.html#resource-api-transports
-[environment cache API]: ../../admin-api/v1/environment-cache.markdown
-[environment classes API]: ./environment_classes.markdown
+[environment cache API]: ../../admin-api/v1/environment-cache.html
+[environment classes API]: ./environment_classes.html
 [transports schema]: ./environment_transports.json
-[`auth.conf` documentation]: ../../config_file_auth.markdown
+[`auth.conf` documentation]: ../../config_file_auth.html
 
 The environment transports API returns a JSON object representing the
 requested environment and schemas for all available [Resource API Transports][].

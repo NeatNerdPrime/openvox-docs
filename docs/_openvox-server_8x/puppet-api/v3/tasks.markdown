@@ -4,7 +4,7 @@ title: "Puppet Server: Puppet API: Tasks"
 canonical: "/puppetserver/latest/puppet-api/v3/tasks.html"
 ---
 
-[`auth.conf`]: ../../config_file_auth.markdown
+[`auth.conf`]: ../../config_file_auth.html
 
 The tasks API provides access to task information stored in modules. Tasks are files stored in `tasks` subdirectory of a module. A task consists of an executable file, with an optional metadata file with the
 same name with an added '.json' extension. For example, the "install" task in a module "apache" could consist of the executable file `install.rb` and the metadata file `install.json`. This task would have the

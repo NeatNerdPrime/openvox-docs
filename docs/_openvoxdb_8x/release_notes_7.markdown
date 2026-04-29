@@ -4,12 +4,12 @@ layout: default
 canonical: "/puppetdb/latest/release_notes.html"
 ---
 
-[configure-postgres]: ./configure.markdown#using-postgresql
-[drop-joins]: ./api/query/v4/query.markdown#experimental-query-optimization
-[facts]: ./api/query/v4/facts.markdown
-[api-overview]: ./api/query/v4/overview.markdown
-[fact-contents]: ./api/query/v4/fact-contents.markdown
-[known-issues]: ./known_issues.markdown
+[configure-postgres]: ./configure.html#using-postgresql
+[drop-joins]: ./api/query/v4/query.html#experimental-query-optimization
+[facts]: ./api/query/v4/facts.html
+[api-overview]: ./api/query/v4/overview.html
+[fact-contents]: ./api/query/v4/fact-contents.html
+[known-issues]: ./known_issues.html
 
 ---
 

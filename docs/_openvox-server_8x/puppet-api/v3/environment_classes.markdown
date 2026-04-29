@@ -9,8 +9,8 @@ canonical: "/puppetserver/latest/puppet-api/v3/environment_classes.html"
 [defined types]: https://puppet.com/docs/puppet/latest/lang_defined_types.html
 [`environment_timeout`]: https://puppet.com/docs/puppet/latest/config_file_environment.html#environmenttimeout
 [`manifest` setting]: https://puppet.com/docs/puppet/latest/config_file_environment.html#manifest
-[`auth.conf`]: ../../config_file_auth.markdown
-[environment cache API]: ../../admin-api/v1/environment-cache.markdown
+[`auth.conf`]: ../../config_file_auth.html
+[environment cache API]: ../../admin-api/v1/environment-cache.html
 [Etag]: https://tools.ietf.org/html/rfc7232#section-2.3
 
 The environment classes API serves as a replacement for the Puppet resource type API for [classes][], which was removed in Puppet 5.

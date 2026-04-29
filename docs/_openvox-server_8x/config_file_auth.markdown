@@ -5,7 +5,7 @@ canonical: "/puppetserver/latest/config_file_auth.html"
 ---
 
 [Puppet `auth.conf`]: https://puppet.com/docs/puppet/latest/config_file_auth.html
-[deprecated]: ./deprecated_features.markdown
+[deprecated]: ./deprecated_features.html
 [short names]: https://puppet.com/docs/puppet/6.17/ssl_attributes_extensions.html#puppet_registered_ids
 
 Puppet Server's `auth.conf` file contains rules for authorizing access to Puppet Server's HTTP API endpoints. For an overview, see [Puppet Server Configuration](./configuration.html).
