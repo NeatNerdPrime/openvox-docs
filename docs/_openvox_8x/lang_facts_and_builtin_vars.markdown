@@ -6,16 +6,16 @@ title: "Language: Facts and built-in variables"
 [definedtype]: ./lang_defined_types.html
 [environment]: ./environments.html
 [topscope]: ./lang_scope.html#top-scope
-[core_facts]: {{facter}}/core_facts.html
-[facter]: {{facter}}
-[customfacts]: {{facter}}/custom_facts.html
-[external facts]: {{facter}}/custom_facts.html#external-facts
-[facterconfig]: {{facter}}/configuring_facter.html
+[core_facts]: /openfact/latest/core_facts.html
+[facter]: /openfact/latest
+[customfacts]: /openfact/latest/custom_facts.html
+[external facts]: /openfact/latest/custom_facts.html#external-facts
+[facterconfig]: /openfact/latest/configuring_facter.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
 [noop]: ./configuration.html#noop
 [environment_setting]: ./configuration.html#environment
 [certname]: ./configuration.html#certname
-[puppetdb_facts]: {{puppetdb}}/api/index.html
+[puppetdb_facts]: /openvoxdb/latest/api/index.html
 [localscope]: ./lang_scope.html#local-scopes
 [trusted_on]: ./config_important_settings.html#getting-new-features-early
 [scope]: ./lang_scope.html

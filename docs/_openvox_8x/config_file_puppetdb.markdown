@@ -3,10 +3,10 @@ layout: default
 title: "Config files: puppetdb.conf"
 ---
 
-[puppetdb_connection]: {{puppetdb}}/puppetdb_connection.html
+[puppetdb_connection]: /openvoxdb/latest/puppetdb_connection.html
 
 
-The `puppetdb.conf` file configures how Puppet should connect to one or more [PuppetDB]({{puppetdb}}/) servers. It is only used if you are using PuppetDB and have [connected your Puppet master to it]({{puppetdb}}/connect_puppet_master.html).
+The `puppetdb.conf` file configures how Puppet should connect to one or more [PuppetDB](/openvoxdb/latest/) servers. It is only used if you are using PuppetDB and have [connected your Puppet master to it](/openvoxdb/latest/connect_puppet_master.html).
 
 ## PuppetDB documentation
 
@@ -37,5 +37,5 @@ The `puppetdb.conf` file uses the same INI-like format as `puppet.conf`, but onl
 * The `server` setting must be set to the hostname of the PuppetDB server.
 * The `port` setting must be set to the port of the PuppetDB server.
 
-See the [PuppetDB manual]({{puppetdb}}/) for more information.
+See the [PuppetDB manual](/openvoxdb/latest/) for more information.
 

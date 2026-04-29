@@ -6,7 +6,7 @@ title: "Language: Reserved words and acceptable names"
 [settings]: ./config_about_settings.html
 [tags]: ./lang_tags.html
 [built_in]: ./lang_facts_and_builtin_vars.html
-[facts]: {{facter}}/core_facts.html
+[facts]: /openfact/latest/core_facts.html
 [capture]: ./lang_data_regexp.html#regex-capture-variables
 [conditional]: ./lang_conditional.html
 [topscope]: ./lang_scope.html#top-scope

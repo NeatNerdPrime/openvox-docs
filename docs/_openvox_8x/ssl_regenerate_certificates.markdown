@@ -6,7 +6,7 @@ description: "This page describes the steps for regenerating certs under an open
 
 [split]: {{pe}}/trouble_regenerate_certs_split.html
 [monolithic]: {{pe}}/trouble_regenerate_certs_monolithic.html
-[puppetdb]: {{puppetdb}}/
+[puppetdb]: /openvoxdb/latest/
 [puppet dashboard]: /dashboard/1.2
 [mcollective]: /mcollective
 [ssldir]: ./dirs_ssldir.html

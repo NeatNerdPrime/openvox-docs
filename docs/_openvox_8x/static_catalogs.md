@@ -7,7 +7,7 @@ title: "Static catalogs"
 [catalog endpoint]: ./http_api/http_catalog.html
 [file metadata]: ./http_api/http_file_metadata.html
 [`file_content`]: ./http_api/http_file_content.html
-[`static_file_content`]: {{puppetserver}}/puppet-api/v3/static_file_content.html
+[`static_file_content`]: /openvox-server/latest/puppet-api/v3/static_file_content.html
 [resource_declaration]: ./lang_resources.html
 [file resources]: ./types/file.html
 [puppet catalog]: ./man/catalog.html
@@ -23,12 +23,12 @@ title: "Static catalogs"
 [`puppet.conf`]: ./config_file_main.html
 [`environment.conf`]: ./config_file_environment.html
 
-[Puppet Server]: {{puppetserver}}/
-[`puppetserver.conf`]: {{puppetserver}}/config_file_puppetserver.html
+[Puppet Server]: /openvox-server/latest/
+[`puppetserver.conf`]: /openvox-server/latest/config_file_puppetserver.html
 [Application Orchestration]: {{pe}}/app_orchestration_overview.html
 [file sync]: {{pe}}/cmgmt_filesync.html
 [Code Manager]: {{pe}}/code_mgr.html
-[`code_content`]: {{puppetserver}}/
+[`code_content`]: /openvox-server/latest/
 Puppet 4.4 and Puppet Server 2.3 introduced a new feature for [catalog compilation][catalogs]: **static catalogs**.
 
 > #### What's a catalog?

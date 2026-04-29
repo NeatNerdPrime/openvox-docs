@@ -629,7 +629,7 @@ rm nameserver
 
 It's just using normal [Puppet ERB templating](./lang_template.html) techniques, except that the output is a set of commands for Augeas to parse instead of the config file itself (the provider then splits on newlines).  This example shows both simple conditionals and loops, testing the variables available passed into the define.
 
-Because this template is evaluated during catalog compilation, you unfortunately can't use "get" Augeas functions to retrieve values from the config file itself. If you need to do this, you can write [custom facts]({{facter}}/custom_facts.html) that use Augeas to read values.
+Because this template is evaluated during catalog compilation, you unfortunately can't use "get" Augeas functions to retrieve values from the config file itself. If you need to do this, you can write [custom facts](/openfact/latest/custom_facts.html) that use Augeas to read values.
 
 ### Dynamically adding numbered children -- libvirtd.conf: sasl_allowed_usernames_list
 

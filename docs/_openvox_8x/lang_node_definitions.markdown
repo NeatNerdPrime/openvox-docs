@@ -3,24 +3,19 @@ layout: default
 title: "Language: Node definitions"
 ---
 
-[hiera]: {{hiera}}/
+<!-- markdownlint-disable MD013 -->
+
 [sitepp]: ./dirs_manifest.html
 [certname]: ./config_important_settings.html#basics
-[classes]: ./lang_classes.html
 [nodescope]: ./lang_scope.html#node-scope
 [topscope]: ./lang_scope.html#top-scope
-[extlookup]: ./function.html#extlookup
-[custom_functions]: /guides/custom_functions.html
 [regex]: ./lang_data_regexp.html
 [strings]: ./lang_data_string.html
-[inherit]: ./lang_classes.html#inheritance
-[modules]: ./modules_fundamentals.html
 [enc]: ./nodes_external.html
 [facts]: ./lang_variables.html#facts-and-built-in-variables
 [catalogs]: ./lang_summary.html#compilation-and-catalogs
 [strict]: ./configuration.html#stricthostnamechecking
 [conditional]: ./lang_conditional.html
-
 
 A **node definition** or **node statement** is a block of Puppet code that will only be included in matching nodes' [catalogs][]. This feature allows you to assign specific configurations to specific nodes.
 
@@ -30,11 +25,9 @@ Unlike more general conditional structures, node statements only match nodes by 
 
 ## Location
 
-
 Node definitions should go in [the main manifest][sitepp]. The main manifest can be a single file, or a directory containing many files.
 
 ## Syntax
-
 
 ``` puppet
 # <ENVIRONMENTS DIRECTORY>/<ENVIRONMENT>/manifests/site.pp
@@ -59,20 +52,19 @@ Node definitions look like class definitions. The general form of a node definit
 * Any mixture of class declarations, variables, resource declarations, collectors, conditional statements, chaining relationships, and functions
 * A closing curly brace
 
-> #### Aside: Best practices
+> ### Aside: Best practices
 >
 > Although node statements can contain almost any Puppet code, we recommend that you **only** use them to **set variables** and **declare classes.** Avoid using resource declarations, collectors, conditional statements, chaining relationships, and functions in them; all of these belong in classes or defined types.
 >
 > This will make it easier to switch between node definitions and an ENC.
 
-
-
 ## Naming
-
 
 Node statements match nodes by name. A node's name is its unique identifier; by default, this is its [certname][] setting, which in turn defaults to the node's fully qualified domain name.
 
+<!-- markdownlint-disable MD037 -->
 {% include_relative _nodename_certname.md %}
+<!-- markdownlint-enable MD037 -->
 
 A node statement's **name** must be one of the following:
 
@@ -81,7 +73,6 @@ A node statement's **name** must be one of the following:
 * The bare word `default`.
 
 You cannot create two node statements with the same name.
-
 
 ### Multiple names
 
@@ -123,9 +114,7 @@ node /^(foo|bar)\.example\.com$/ {
 
 The above example would match `foo.example.com` and `bar.example.com`, but no other nodes.
 
-
 ## Behavior
-
 
 If [the main manifest][sitepp] contains at least one node definition, it must have one for **every** node; compilation for a node will fail if one cannot be found. (Hence the usefulness of [the `default` node](#the-default-node).) If the main manifest contains **no** node definitions, this requirement is dropped.
 

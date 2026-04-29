@@ -5,7 +5,7 @@ title: "Directories: The cache directory (vardir)"
 
 [confdir]: ./dirs_confdir.html
 [config_ref]: ./configuration.html
-[puppetserver_conf]: {{puppetserver}}/config_file_puppetserver.html
+[puppetserver_conf]: /openvox-server/latest/config_file_puppetserver.html
 
 Puppet's cache directory, sometimes called `vardir`, contains dynamic or growing data that Puppet creates in the course of its normal operations. Some of this data can be mined for interesting analysis, or to integrate other tools with Puppet. Other parts are just infrastructure and can be ignored.
 

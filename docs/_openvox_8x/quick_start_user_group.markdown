@@ -6,7 +6,7 @@ subtitle: "Users and groups quick start guide"
 
 ## Before you begin
 
-> **Prerequisites**: This guide assumes you've already [installed Puppet]({{puppetserver}}/install_from_packages.html), and have installed at least one [*nix agent](./install_linux.html).
+> **Prerequisites**: This guide assumes you've already [installed Puppet](/openvox-server/latest/install_from_packages.html), and have installed at least one [*nix agent](./install_linux.html).
 
 > For this  walk-through, log in as root or administrator on your nodes.
 

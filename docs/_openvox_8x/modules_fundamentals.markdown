@@ -10,8 +10,8 @@ title: "Module fundamentals"
 
 [plugins]: ./plugins_in_modules.html
 
-[external facts]: {{facter}}/custom_facts.html#external-facts
-[custom facts]: {{facter}}/custom_facts.html
+[external facts]: /openfact/latest/custom_facts.html#external-facts
+[custom facts]: /openfact/latest/custom_facts.html
 [classes]: ./lang_classes.html
 [defined_types]: ./lang_defined_types.html
 [enc]: ./nodes_external.html
@@ -21,7 +21,7 @@ title: "Module fundamentals"
 [file_function]: ./function.html#file
 [reserved names]: ./lang_reserved.html
 [pdk]: {{pdk}}/pdk.html
-[declare]: {{puppet}}/lang_classes.html#declaring-classes
+[declare]: /openvox/latest/lang_classes.html#declaring-classes
 
 Modules are self-contained bundles of code and data with a specific directory structure. These reusable, shareable units of Puppet code are a basic building block for Puppet.
 

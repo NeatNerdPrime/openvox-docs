@@ -33,8 +33,8 @@ which stores them in the configured [`reportdir`][reportdir]. You can also turn 
 
 ## Practical reporting for beginners
 
-Puppet's reporting features are powerful, but there are simple ways to work with them. Puppet Enterprise includes [helpful reporting tools]({{pe}}/CM_reports.html) in the console. [PuppetDB]({{puppetdb}}/),
-with [its report processor enabled]({{puppetdb}}/connect_puppet_master.html#enabling-report-storage), can interface with third-party tools such as [Puppetboard](https://github.com/puppet-community/puppetboard)
+Puppet's reporting features are powerful, but there are simple ways to work with them. Puppet Enterprise includes [helpful reporting tools]({{pe}}/CM_reports.html) in the console. [PuppetDB](/openvoxdb/latest/),
+with [its report processor enabled](/openvoxdb/latest/connect_puppet_master.html#enabling-report-storage), can interface with third-party tools such as [Puppetboard](https://github.com/puppet-community/puppetboard)
 or [PuppetExplorer](https://github.com/spotify/puppetexplorer).
 
 Puppet has several basic built-in [report processors](/puppet/latest/report.html). For example, the `http` processor sends YAML dumps of reports via POST requests to a designated URL, while `log` saves received
@@ -48,9 +48,9 @@ system packages, or other Puppet modules.
 For access to more Puppet report data, you can write your own [custom report processor](./reporting_write_processors.html) to process and send any report data into whatever formats you can use.
 
 You can also query PuppetDB's stored report data and build your own tools to display it. PuppetDB doesn't collect everything that Puppet reports, but it provides an API for accessing useful data about Puppet's
-actions. For details about PuppetDB's reporting functions and API, see its [reports documentation]({{puppetdb}}/api/query/v4/reports.html). For details about the types of data PuppetDB collects, see the
-documentation for its [`events`]({{puppetdb}}/api/query/v4/events.html), [`event-counts`]({{puppetdb}}/api/query/v4/event-counts.html), and
-[`aggregate-event-counts`]({{puppetdb}}/api/query/v4/aggregate-event-counts.html) API endpoints.
+actions. For details about PuppetDB's reporting functions and API, see its [reports documentation](/openvoxdb/latest/api/query/v4/reports.html). For details about the types of data PuppetDB collects, see the
+documentation for its [`events`](/openvoxdb/latest/api/query/v4/events.html), [`event-counts`](/openvoxdb/latest/api/query/v4/event-counts.html), and
+[`aggregate-event-counts`](/openvoxdb/latest/api/query/v4/aggregate-event-counts.html) API endpoints.
 
 ## What data is in a report?
 

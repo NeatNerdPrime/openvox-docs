@@ -3,7 +3,7 @@ layout: default
 title: "Directories: Config directory (confdir)"
 ---
 
-[puppetserver_conf]: {{puppetserver}}/config_file_puppetserver.html
+[puppetserver_conf]: /openvox-server/latest/config_file_puppetserver.html
 
 Puppet's `confdir` is the main directory for Puppet's configuration. It contains config files and SSL data.
 

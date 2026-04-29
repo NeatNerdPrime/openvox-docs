@@ -24,7 +24,7 @@ Using this guide, you will learn how to do the following tasks:
 
 > Before starting this walk-through, complete the previous exercises in the [essential configuration tasks](./quick_start_essential_config.html). Log in as root or administrator on your nodes.
 
-> **Prerequisites**: This guide assumes you've already [installed Puppet]({{puppetserver}}/install_from_packages.html), and have installed at least one [*nix agent](./install_linux.html).
+> **Prerequisites**: This guide assumes you've already [installed Puppet](/openvox-server/latest/install_from_packages.html), and have installed at least one [*nix agent](./install_linux.html).
 
 > You should still be logged in as root or administrator on your nodes.
 

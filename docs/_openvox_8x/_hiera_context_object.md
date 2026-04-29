@@ -122,7 +122,7 @@ Returns the content of the specified file, as a string. If an optional block is 
 
 On repeated access to a given file, Hiera checks whether the file has changed on disk. If it hasn't, Hiera uses cached data instead of reading and parsing the file again.
 
-This method **does not** use the same per-data-source caches as `cache(key, value)` and friends. It uses a separate cache that lasts across multiple catalog compilations, and is tied to [Puppet Server's environment cache]({{puppetserver}}/admin-api/v1/environment-cache.html).
+This method **does not** use the same per-data-source caches as `cache(key, value)` and friends. It uses a separate cache that lasts across multiple catalog compilations, and is tied to [Puppet Server's environment cache](/openvox-server/latest/admin-api/v1/environment-cache.html).
 
 Since the cache can outlive a given node's catalog compilation, do not do any node-specific pre-processing (like calling `context.interpolate`) in this method's block.
 
