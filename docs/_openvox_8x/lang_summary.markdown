@@ -3,6 +3,8 @@ layout: default
 title: "Language: Basics"
 ---
 
+<!-- markdownlint-disable MD013 -->
+
 [site_manifest]: ./dirs_manifest.html
 [autoload]: ./lang_namespaces.html#autoloader-behavior
 [config]: ./config_file_main.html
@@ -11,7 +13,6 @@ title: "Language: Basics"
 [classes]: ./lang_classes.html
 [enc]: ./nodes_external.html
 [resources]: ./lang_resources.html
-[chaining]: ./lang_relationships.html#chaining-arrows
 [modules]: ./modules_fundamentals.html
 [package]: ./type.html#package
 [file]: ./type.html#file
@@ -19,13 +20,12 @@ title: "Language: Basics"
 [case]: ./lang_conditional.html#case-statements
 [fact]: ./lang_variables.html#facts-and-built-in-variables
 [variables]: ./lang_variables.html
-[relationships]: ./lang_relationships.html
 [ordering]: ./lang_relationships.html#ordering
 [notification]: ./lang_relationships.html#refreshing-and-notification
 [declared]: /references/glossary.html#declare
 [string_newline]: ./lang_data_string.html#line-breaks
 [node]: ./lang_node_definitions.html
-[hiera]: {{hiera}}/
+[hiera]: /openvox/latest/hiera_intro.html
 [compilation]: ./subsystem_catalog_compilation.html
 
 OpenVox uses its own configuration language, which was designed to be accessible to sysadmins. The OpenVox language does not require much formal programming experience and its syntax was inspired by the Nagios configuration file format.

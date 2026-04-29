@@ -3,6 +3,8 @@ layout: default
 title: "Language: Classes"
 ---
 
+<!-- markdownlint-disable MD013 -->
+
 [literal_types]: ./lang_data_type.html
 [sitedotpp]: ./dirs_manifest.html
 [collector_override]: ./lang_resources_advanced.html#amending-attributes-with-a-collector
@@ -10,12 +12,10 @@ title: "Language: Classes"
 [enc]: ./nodes_external.html
 [tags]: ./lang_tags.html
 [allowed]: ./lang_reserved.html#classes-and-defined-resource-types
-[reserved]: ./lang_reserved.html#reserved-parameter-names
 [function]: ./lang_functions.html
 [modules]: ./modules_fundamentals.html
 [contains]: ./lang_containment.html
 [contain_classes]: ./lang_containment.html#containing-classes
-[function]: ./lang_functions.html
 [multi_ref]: ./lang_data_resource_reference.html#multi-resource-references
 [add_attribute]: ./lang_resources_advanced.html#adding-or-modifying-attributes
 [undef]: ./lang_data_undef.html
@@ -26,7 +26,6 @@ title: "Language: Classes"
 [resource_reference]: ./lang_data_resource_reference.html
 [node]: ./lang_node_definitions.html
 [resource_declaration]: ./lang_resources.html
-[scope]: ./lang_scope.html
 [parent_scope]: ./lang_scope.html#scope-lookup-rules
 [definedtype]: ./lang_defined_types.html
 [metaparameters]: ./lang_resources.html#metaparameters
@@ -36,10 +35,10 @@ title: "Language: Classes"
 [setting_parameters]: #include-like-vs-resource-like
 [override]: #using-resource-like-declarations
 [ldap_nodes]: /guides/ldap_nodes.html
-[hiera]: {{hiera}}/
-[external_data]: {{hiera}}/puppet.html
-[array_search]: {{hiera}}/lookup_types.html#array-merge
-[hiera_hierarchy]: {{hiera}}/hierarchy.html
+[hiera]: /openvox/latest/hiera_intro.html
+[external_data]: /openvox/latest/hiera_automatic.html
+[array_search]: /openvox/latest/hiera_merging.html
+[hiera_hierarchy]: /openvox/latest/hiera_intro.html
 
 **Classes** are named blocks of Puppet code that are stored in [modules][] for later use and are not applied until they are invoked by name. They can be added to a node's [catalog][] by either **declaring** them in your manifests or **assigning** them from an [ENC][].
 
@@ -92,13 +91,13 @@ The general form of a class definition is:
 * The `class` keyword
 * The [name][allowed] of the class
 * An optional **parameter list,** which consists of:
-    * An opening parenthesis
-    * A comma-separated list of **parameters** (e.g. `String $myparam = "default value"`). Each parameter consists of:
-        * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`)
-        * A [variable][] name to represent the parameter, including the `$` prefix
-        * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified)
-    * An optional trailing comma after the last parameter
-    * A closing parenthesis
+  * An opening parenthesis
+  * A comma-separated list of **parameters** (e.g. `String $myparam = "default value"`). Each parameter consists of:
+    * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`)
+    * A [variable][] name to represent the parameter, including the `$` prefix
+    * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified)
+  * An optional trailing comma after the last parameter
+  * A closing parenthesis
 * Optionally, the `inherits` keyword followed by a single class name
 * An opening curly brace
 * A block of arbitrary Puppet code, which generally contains at least one [resource declaration][resource_declaration]
@@ -167,7 +166,7 @@ Inheritance causes three things to happen:
 >
 > `class example (String $my_param = $example::params::myparam) inherits example::params { ... }`
 >
->   This pattern works by guaranteeing that the params class is evaluated before Puppet attempts to evaluate the main class's parameter list. It is especially useful when you want your default values to change based on system facts and other data, since it lets you isolate and encapsulate all that conditional logic.
+> This pattern works by guaranteeing that the params class is evaluated before Puppet attempts to evaluate the main class's parameter list. It is especially useful when you want your default values to change based on system facts and other data, since it lets you isolate and encapsulate all that conditional logic.
 >
 > **In nearly all other cases, inheritance is unnecessary complexity.** If you need some class's resources declared before proceeding further, you can [include](#using-include) it inside another class's definition. If you need to read internal data from another class, you should generally use [qualified variable names][qualified_var] instead of assigning parent scopes. If you need to use an "anti-class" pattern (e.g. to disable a service that is normally enabled), you can use a class parameter to override the standard behavior.
 >

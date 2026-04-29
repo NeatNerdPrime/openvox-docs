@@ -13,7 +13,7 @@ title: "Puppet's services: Puppet apply"
 [modules]: ./modules_fundamentals.html
 [enc]: ./nodes_external.html
 [http_report]: ./report.html#http
-[puppetdb]: {{puppetdb}}/
+[puppetdb]: /openvoxdb/latest/
 [report handlers]: ./report.html
 [reports_setting]: ./configuration.html#reports
 [report]: ./reporting_about.html

@@ -8,7 +8,7 @@ title: "Configuration: How Puppet is configured"
 [puppet.conf]: ./config_file_main.html
 [auth.conf]: ./config_file_auth.html
 [puppetdb.conf]: ./config_file_puppetdb.html
-[puppetserver_config]: {{puppetserver}}/configuration.html
+[puppetserver_config]: /openvox-server/latest/configuration.html
 
 Puppet's commands and services can be extensively configured, and its settings can be specified in a variety of places.
 

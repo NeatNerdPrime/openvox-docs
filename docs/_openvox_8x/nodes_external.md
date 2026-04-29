@@ -15,7 +15,7 @@ Depending on the external data sources you use in your infrastructure, building 
 
 An external node classifier is an executable that Puppet Server or Puppet apply can call; it doesn't have to be written in Ruby. Its only argument is the name of the node to be classified, and it returns a YAML document describing the node.
 
-Inside the ENC, you can reference any data source you want, including [PuppetDB]({{puppetdb}}). But from Puppet's perspective, it just puts in a node name and gets back a hash of information.
+Inside the ENC, you can reference any data source you want, including [PuppetDB](/openvoxdb/latest). But from Puppet's perspective, it just puts in a node name and gets back a hash of information.
 
 ENCs can co-exist with standard node definitions in `site.pp`, and the classes declared in each source are merged together.
 

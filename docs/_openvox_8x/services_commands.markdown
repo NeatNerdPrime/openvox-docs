@@ -3,8 +3,10 @@ layout: default
 title: "Puppet's commands"
 ---
 
-[facter_cli]: {{facter}}
-[hiera_cli]: {{hiera}}/command_line.html
+<!-- markdownlint-disable MD013 -->
+
+[facter_cli]: /openfact/latest
+[hiera_cli]: /openvox/latest/hiera_quick.html#testing-hiera-data-on-the-command-line
 [arch]: ./architecture.html
 [agent_unix]: ./services_agent_unix.html
 [agent_windows]: ./services_agent_windows.html
@@ -30,15 +32,13 @@ title: "Puppet's commands"
 [help_man]: ./man/help.html
 [man_man]: ./man/man.html
 [all_manpages]: ./man/
-[about_server]: {{puppetserver}}/services_master_puppetserver.html
-[server_vs_passenger]: {{puppetserver}}/puppetserver_vs_passenger.html
-[subcommands]: {{puppetserver}}/subcommands.html
-
+[about_server]: /openvox-server/latest/services_master_puppetserver.html
+[server_vs_passenger]: /openvox-server/latest/puppetserver_vs_passenger.html
+[subcommands]: /openvox-server/latest/subcommands.html
 
 Puppet's command line interface consists of a single `puppet` command with many subcommands.
 
 [Puppet Server][about_server] and Puppet's companion utilities, [Facter][facter_cli] and [Hiera][hiera_cli], have their own command line interfaces, which differ slightly from Puppet's.
-
 
 ## Core services
 
@@ -94,7 +94,6 @@ For more information, see:
 * [Puppet Apply][apply]
 * [Puppet Apply's Man Page][apply_man]
 
-
 ## Administrative tools
 
 ### Puppet cert
@@ -136,7 +135,6 @@ For more information, see:
 * [Short List of Important Settings][]
 * [Puppet Config's Man Page][config_man]
 
-
 ## Accessories
 
 ### Puppet parser
@@ -155,7 +153,6 @@ For more information, see:
 
 * [Puppet Help's Man Page][help_man]
 * [Puppet Man's Man Page][man_man]
-
 
 ## Full list of subcommands
 

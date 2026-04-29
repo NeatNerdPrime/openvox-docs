@@ -4,7 +4,7 @@ title: "Code and data directory (codedir)"
 ---
 
 [codedir]: ./configuration.html#codedir
-[puppetserver_conf]: {{puppetserver}}/config_file_puppetserver.html
+[puppetserver_conf]: /openvox-server/latest/config_file_puppetserver.html
 
 Puppet's `codedir` is the main directory for Puppet code and data. It contains environments (which contain your manifests and modules), a global modules directory for all environments, and your Hiera data.
 

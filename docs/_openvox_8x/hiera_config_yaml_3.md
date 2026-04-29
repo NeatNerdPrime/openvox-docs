@@ -3,6 +3,8 @@ layout: default
 title: "Hiera: Legacy config file syntax (hiera.yaml v3)"
 ---
 
+<!-- markdownlint-disable MD013 -->
+
 [hierarchy]: ./hiera_hierarchy.html
 [layers]: ./hiera_layers.html
 [v4]: ./hiera_config_yaml_4.html
@@ -10,24 +12,22 @@ title: "Hiera: Legacy config file syntax (hiera.yaml v3)"
 [merge]: ./hiera_merging.html
 [confdir]: ./dirs_confdir.html
 [yaml]: http://www.yaml.org/YAML_for_ruby.html
-[custom_backends]: {{hiera}}/custom_backends.html
-[puppetserver_gem]: {{puppetserver}}/gems.html#installing-and-removing-gems
+[custom_backends]: /openvox/latest/hiera_custom_backends.html
+[puppetserver_gem]: /openvox-server/latest/gems.html#installing-and-removing-gems
 [deep_merge_gem_docs]: https://github.com/danielsdeleo/deep_merge/blob/master/README.md
 [interpolate]: ./hiera_interpolation.html
-
 
 Hiera's config file is called hiera.yaml. It configures the [hierarchy][] for a given [layer][layers] of data.
 
 This version of Puppet supports three formats for hiera.yaml --- you can use any of them, although [v4][] and v3 are deprecated. This page is about version 3, the legacy version.
 
-Format | Allowed in                    | Description
--------|-------------------------------|------------
-[v5][] | All three data layers         | The main version of hiera.yaml, which supports all Hiera 5 features.
-[v4][] | Environment and module layers | Deprecated. A transitional format, used in the rough draft of Hiera 5 (when we were calling it "Puppet lookup"). Doesn't support custom backends.
-v3     | Global layer                  | Deprecated. The classic version of hiera.yaml, which has some problems.
+| Format | Allowed in | Description |
+| ------ | ---------- | ----------- |
+| [v5][] | All three data layers | The main version of hiera.yaml, which supports all Hiera 5 features. |
+| [v4][] | Environment and module layers | Deprecated. A transitional format, used in the rough draft of Hiera 5 (when we were calling it "Puppet lookup"). Doesn't support custom backends. |
+| v3 | Global layer | Deprecated. The classic version of hiera.yaml, which has some problems. |
 
-
-## Important: version 3 is deprecated.
+## Important: version 3 is deprecated
 
 Version 3 of hiera.yaml is deprecated, and we plan to remove support for it in Puppet 6.
 
@@ -94,7 +94,6 @@ If the config file exists but has no data, Hiera uses the following default sett
 
 ## Global settings
 
-
 hiera.yaml v3 can contain any the following settings. If absent, they use default values as shown above. **Note that each setting must be a Ruby symbol with a colon (`:`) prefix.**
 
 ### `:hierarchy`
@@ -149,16 +148,17 @@ A hash of deep merging options for `hiera_hash`, if `:merge_behavior` is set to 
 
 For example:
 
-    :merge_behavior: deeper
-    :deep_merge_options:
-      :knockout_prefix: '--'
+``` yaml
+:merge_behavior: deeper
+:deep_merge_options:
+  :knockout_prefix: '--'
+```
 
 Available options are documented in [the `deep_merge` gem][deep_merge_gem_docs].
 
 **Default value:** An empty hash of options.
 
 ## Backend-specific settings
-
 
 Any backend can define its own settings and read them from hiera.yaml. If present, the value of a given backend's key must be a **hash,** whose keys are the settings it uses.
 
@@ -173,4 +173,3 @@ The directory in which to find data source files. This must be a string.
 You can [interpolate variables][interpolate] into the datadir using `%{variable}` interpolation tokens. This allows you to, for example, point it at `"/etc/puppetlabs/code/hieradata/%{::environment}"` to keep your production and development data entirely separate.
 
 **Default value:** `"/etc/puppetlabs/code/environments/%{environment}/hieradata"` on \*nix, and `"C:\ProgramData\PuppetLabs\code\environments\%{environment}\hieradata"` on Windows.
-

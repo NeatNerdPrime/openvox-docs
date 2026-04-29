@@ -78,7 +78,7 @@ Configure Puppet Server in three steps:
    ```
 
    Setting a static value keeps Puppet from getting confused if the machine's hostname ever changes. The value must be whatever certname you'll use to issue the server's certificate. It must not be blank.
-3. Put the credentials from your external CA on disk in the correct locations. These locations must match what's configured in your [webserver.conf file]({{puppetserver}}/config_file_webserver.html). If you haven't changed those settings, you can run the following commands to find the default locations:
+3. Put the credentials from your external CA on disk in the correct locations. These locations must match what's configured in your [webserver.conf file](/openvox-server/latest/config_file_webserver.html). If you haven't changed those settings, you can run the following commands to find the default locations:
 
    Credential                         | File location
    -----------------------------------|-------------------------------------------
@@ -105,5 +105,5 @@ Root certificate revocation list  | `puppet config print hostcrl --section agent
 ## Option 2: Puppet Server functioning as an intermediate CA
 
 Puppet Server can operate as an intermediate CA to an external root CA. Please
-refer to [Using Puppet Server as an intermediate certificate authority]({{puppetserver}}/intermediate_ca_configuration.html)
+refer to [Using Puppet Server as an intermediate certificate authority](/openvox-server/latest/intermediate_ca_configuration.html)
 for a complete walk through of setting it up.

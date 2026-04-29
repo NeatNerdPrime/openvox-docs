@@ -13,7 +13,7 @@ title: "Puppet's services: The Rack Puppet master"
 [pem format]: /background/ssl/cert_anatomy.html#pem-file
 [trusted]: ./lang_facts_and_builtin_vars.html#trusted-facts
 [webrick]: ./services_master_webrick.html
-[puppet server]: {{puppetserver}}/services_master_puppetserver.html
+[puppet server]: /openvox-server/latest/services_master_puppetserver.html
 [deprecate]: http://links.puppetlabs.com/deprecate-rack-webrick-servers
 
 > ## Important: Deprecation warning
