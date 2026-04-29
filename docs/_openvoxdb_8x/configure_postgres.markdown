@@ -1,8 +1,8 @@
-[config]: ./configure.markdown
+[config]: ./configure.html
 [pg_trgm]: http://www.postgresql.org/docs/current/static/pgtrgm.html
-[postgres_ssl]: ./postgres_ssl.markdown
-[migration_coordination]: ./migration_coordination.markdown
-[module]: ./install_via_module.markdown
+[postgres_ssl]: ./postgres_ssl.html
+[migration_coordination]: ./migration_coordination.html
+[module]: ./install_via_module.html
 
 # Using PostgreSQL
 

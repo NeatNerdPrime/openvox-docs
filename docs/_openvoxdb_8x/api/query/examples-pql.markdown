@@ -6,8 +6,8 @@ layout: default
 # Examples
 
 [pg-regex]: https://www.postgresql.org/docs/11/functions-matching.html#FUNCTIONS-POSIX-REGEXP
-[tutorial]: ./tutorial-pql.markdown
-[reference]: ./v4/pql.markdown
+[tutorial]: ./tutorial-pql.html
+[reference]: ./v4/pql.html
 
 ## Example Queries
 

@@ -7,16 +7,16 @@ canonical: "/puppetdb/latest/connect_puppet_server.html"
 # Connecting Puppet Servers to PuppetDB
 
 [puppetdb_download]: http://downloads.puppetlabs.com/puppetdb
-[puppetdb_conf]: ./puppetdb_connection.markdown
+[puppetdb_conf]: ./puppetdb_connection.html
 [routes_yaml]: https://puppet.com/docs/puppet/latest/config_file_routes.html
 [exported]: https://puppet.com/docs/puppet/latest/lang_exported.html
-[install_via_module]: ./install_via_module.markdown
+[install_via_module]: ./install_via_module.html
 [report_processors]: https://puppet.com/docs/puppet/latest/reporting_about.html
-[event]: ./api/query/v4/events.markdown
-[report]: ./api/query/v4/reports.markdown
-[store_report]: ./api/command/v1/commands.markdown#store-report-version-7
-[report_format]: ./api/wire_format/report_format_v5.markdown
-[puppetdb_server_urls]: ./puppetdb_connection.markdown#serverurls
+[event]: ./api/query/v4/events.html
+[report]: ./api/query/v4/reports.html
+[store_report]: ./api/command/v1/commands.html#store-report-version-7
+[report_format]: ./api/wire_format/report_format_v5.html
+[puppetdb_server_urls]: ./puppetdb_connection.html#serverurls
 [package_repos]: https://puppet.com/docs/puppet/latest/install_puppet.html#enable_the_puppet_platform_repository
 
 

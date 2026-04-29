@@ -4,9 +4,9 @@ layout: default
 canonical: "/puppetdb/latest/release_notes.html"
 ---
 
-[benchmark]: ./load_testing_tool.markdown
-[query-timeout-parameter]: ./api/query/v4/overview.markdown#url-parameters
-[terminus-config]: ./puppetdb_connection.markdown
+[benchmark]: ./load_testing_tool.html
+[query-timeout-parameter]: ./api/query/v4/overview.html#url-parameters
+[terminus-config]: ./puppetdb_connection.html
 
 ---
 

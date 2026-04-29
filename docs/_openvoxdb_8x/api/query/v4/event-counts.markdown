@@ -6,10 +6,10 @@ canonical: "/puppetdb/latest/api/query/v4/event-counts.html"
 
 # Event counts endpoint
 
-[events]: ./events.markdown
-[paging]: ./paging.markdown
-[curl]: ../curl.markdown
-[query]: query.markdown
+[events]: ./events.html
+[paging]: ./paging.html
+[curl]: ../curl.html
+[query]: query.html
 
 > **Experimental endpoint**: The event-counts endpoint is designated as experimental. It may be altered or removed in a future release.
 

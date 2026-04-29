@@ -4,15 +4,15 @@ layout: default
 canonical: "/puppetdb/latest/release_notes.markdown"
 ---
 
-[configure_postgres]: configure.markdown#using-postgresql
+[configure_postgres]: configure.html#using-postgresql
 [kahadb_corruption]: /puppetdb/4.2/trouble_kahadb_corruption.html
 [pg_trgm]: http://www.postgresql.org/docs/current/static/pgtrgm.html
-[upgrading]: api/query/v4/upgrading-from-v3.markdown
+[upgrading]: api/query/v4/upgrading-from-v3.html
 [puppetdb-module]: https://forge.puppetlabs.com/puppetlabs/puppetdb
 [migrate]: /puppetdb/3.2/migrate.html
-[pqltutorial]: api/query/tutorial-pql.markdown
+[pqltutorial]: api/query/tutorial-pql.html
 [stockpile]: https://github.com/puppetlabs/stockpile
-[queue_support_guide]: pdb_support_guide.markdown#message-queue
+[queue_support_guide]: pdb_support_guide.html#message-queue
 
 ---
 

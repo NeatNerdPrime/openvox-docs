@@ -7,11 +7,11 @@ canonical: "/puppetdb/latest/api/query/curl.html"
 # API curl tips
 
 [curl]: http://curl.haxx.se/docs/manpage.html
-[dashboard]: ../../maintain_and_tune.markdown#monitor-the-performance-dashboard
-[allowlist]: ../../configure.markdown#certificate-allowlist
-[entities]: ./v4/entities.markdown
-[pql]: ./tutorial-pql.markdown
-[pdb-cli]: ../../pdb_client_tools.markdown
+[dashboard]: ../../maintain_and_tune.html#monitor-the-performance-dashboard
+[allowlist]: ../../configure.html#certificate-allowlist
+[entities]: ./v4/entities.html
+[pql]: ./tutorial-pql.html
+[pdb-cli]: ../../pdb_client_tools.html
 
 You can use [`curl`][curl] to directly interact with PuppetDB's REST API. This is useful for testing, prototyping, and quickly fetching arbitrary data.
 

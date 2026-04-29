@@ -4,9 +4,9 @@ title: "Puppet Server: Restarting the Server"
 canonical: "/puppetserver/latest/restarting.html"
 ---
 
-[logback.xml]: ./config_file_logbackxml.markdown
+[logback.xml]: ./config_file_logbackxml.html
 [Hiera]: https://puppet.com/docs/puppet/latest/hiera_intro.html
-[gems]: ./gems.markdown
+[gems]: ./gems.html
 [core dependencies]: https://puppet.com/docs/puppet/latest/about_agent.html#what-are-puppet-agent-and-puppet-server
 [environment]: https://puppet.com/docs/puppet/latest/environments_about.html
 [environment caching]: https://puppet.com/docs/puppet/latest/configuration.html#environmenttimeout

@@ -4,7 +4,7 @@ layout: default
 canonical: "/puppetdb/latest/release_notes.html"
 ---
 
-[facts]: api/query/v4/facts.markdown
+[facts]: api/query/v4/facts.html
 
 ---
 

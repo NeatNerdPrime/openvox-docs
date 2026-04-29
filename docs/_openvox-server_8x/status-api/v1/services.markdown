@@ -4,7 +4,7 @@ title: "Puppet Server: Status API: Services"
 canonical: "/puppetserver/latest/status-api/v1/services.html"
 ---
 
-[`auth.conf`]: ../../config_file_auth.markdown
+[`auth.conf`]: ../../config_file_auth.html
 
 The `services` endpoint of Puppet Server's Status API provides information about services running on Puppet Server. As of Puppet Server 2.6.0, the endpoint provides information about memory usage similar to the
 data produced by the Java MemoryMXBean, as well as basic data on the `pupppetserver` process's state and uptime. See the

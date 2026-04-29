@@ -7,10 +7,10 @@ canonical: "/puppetserver/latest/config_file_puppetserver.html"
 [configuration directory]: https://puppet.com/docs/puppet/latest/dirs_confdir.html
 [code directory]: https://puppet.com/docs/puppet/latest/dirs_codedir.html
 [cache directory]: https://puppet.com/docs/puppet/latest/dirs_vardir.html
-[`auth.conf` documentation]: ./config_file_auth.markdown
+[`auth.conf` documentation]: ./config_file_auth.html
 [static catalogs]: https://puppet.com/docs/puppet/latest/static_catalogs.html
 [file resource]: https://puppet.com/docs/puppet/latest/type.html#file
-[`static_file_content`]: ./puppet-api/v3/static_file_content.markdown
+[`static_file_content`]: ./puppet-api/v3/static_file_content.html
 
 The `puppetserver.conf` file contains settings for Puppet Server software. For an overview, see [Puppet Server Configuration](./configuration.html).
 

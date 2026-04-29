@@ -3,10 +3,10 @@ title: "High Availability (HA)"
 layout: default
 ---
 
-[configure]: ./configure.markdown
+[configure]: ./configure.html
 [pe-configure]: https://puppet.com/docs/pe/latest/config_puppetdb.html
-[logging]: ./logging.markdown
-[metrics]: ./api/metrics/v2/jolokia.markdown
+[logging]: ./logging.html
+[metrics]: ./api/metrics/v2/jolokia.html
 
 # Configuring PuppetDB for High Availability
 

@@ -4,7 +4,7 @@ title: "Puppet Server: HTTP Client Metrics"
 canonical: "/puppetserver/latest/http_client_metrics.html"
 ---
 
-[status API]: ./status-api/v1/services.markdown
+[status API]: ./status-api/v1/services.html
 
 HTTP client metrics available in Puppet Server 5 allows users to measure how long it takes for Puppet Server to make requests to and receive responses from other services, such as PuppetDB.
 

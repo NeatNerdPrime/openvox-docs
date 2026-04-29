@@ -6,10 +6,10 @@ canonical: "/puppetdb/latest/api/overview.html"
 
 # API overview
 
-[commands]: ./command/v1/commands.markdown
-[termini]: ../connect_puppet_server.markdown
-[ast]: ./query/v4/ast.markdown
-[pql]: ./query/v4/pql.markdown
+[commands]: ./command/v1/commands.html
+[termini]: ../connect_puppet_server.html
+[ast]: ./query/v4/ast.html
+[pql]: ./query/v4/pql.html
 
 Because PuppetDB collects lots of data from Puppet, it's an ideal platform for new tools and applications that use that data. You can use the HTTP API described in these pages to interact with PuppetDB's data.
 

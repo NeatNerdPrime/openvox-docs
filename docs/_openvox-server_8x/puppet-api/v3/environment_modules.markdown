@@ -4,8 +4,8 @@ title: "Puppet Server: Puppet API: Environment Modules"
 canonical: "/puppetserver/latest/puppet-api/v3/environment_modules.html"
 ---
 
-[`auth.conf`]: ../../config_file_auth.markdown
-[`puppetserver.conf`]: ../../config_file_puppetserver.markdown
+[`auth.conf`]: ../../config_file_auth.html
+[`puppetserver.conf`]: ../../config_file_puppetserver.html
 
 The environment modules API will return information about what modules are
 installed for the requested environment.

@@ -5,17 +5,17 @@ layout: default
 
 # Installing from packages
 
-[connect_server]: ./connect_puppet_server.markdown
-[connect_apply]: ./connect_puppet_apply.markdown
-[ssl_script]: ./maintain_and_tune.markdown#redo-ssl-setup-after-changing-certificates
-[configure_postgres]: ./configure.markdown#using-postgresql
-[configure_jetty]: ./configure.markdown#jetty-http-settings
-[requirements]: ./overview.markdown#standard-install-rhel-centos-debian-and-ubuntu
-[install_module]: ./install_via_module.markdown
+[connect_server]: ./connect_puppet_server.html
+[connect_apply]: ./connect_puppet_apply.html
+[ssl_script]: ./maintain_and_tune.html#redo-ssl-setup-after-changing-certificates
+[configure_postgres]: ./configure.html#using-postgresql
+[configure_jetty]: ./configure.html#jetty-http-settings
+[requirements]: ./overview.html#standard-install-rhel-centos-debian-and-ubuntu
+[install_module]: ./install_via_module.html
 [module]: http://forge.puppet.com/puppetlabs/puppetdb
-[postgres_ssl]: ./postgres_ssl.markdown
+[postgres_ssl]: ./postgres_ssl.html
 [package_repos]: https://puppet.com/docs/puppet/latest/install_puppet.html#enable_the_puppet_platform_repository
-[known-issues]: ./known_issues.markdown
+[known-issues]: ./known_issues.html
 
 > **Note:** If you are running Puppet Enterprise version 3.0 or later, you do not need to install PuppetDB, as it is already installed as part of PE.
 

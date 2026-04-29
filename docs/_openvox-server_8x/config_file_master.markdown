@@ -4,9 +4,9 @@ title: "Puppet Server Configuration Files: master.conf"
 canonical: "/puppetserver/latest/config_file_master.html"
 ---
 
-[new `auth.conf`]: ./config_file_auth.markdown
-[deprecated]: ./deprecated_features.markdown
-[`puppetserver.conf`]: ./config_file_puppetserver.markdown
+[new `auth.conf`]: ./config_file_auth.html
+[deprecated]: ./deprecated_features.html
+[`puppetserver.conf`]: ./config_file_puppetserver.html
 
 The `master.conf` file configures how Puppet Server handles [deprecated][] authorization methods for master endpoints. For an overview, see [Puppet Server Configuration](./configuration.html).
 
