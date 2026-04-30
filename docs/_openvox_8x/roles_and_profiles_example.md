@@ -3,7 +3,8 @@ layout: default
 title: "Roles and profiles example"
 ---
 
-This example demonstrates a complete roles and profiles workflow. Use it to understand the roles and profiles method as a whole. Additional examples show how to design advanced configurations by refactoring this example code to a higher level of complexity.
+This example demonstrates a complete roles and profiles workflow. Use it to understand the roles and profiles method as a whole. Additional examples show how
+to design advanced configurations by refactoring this example code to a higher level of complexity.
 
 ## Configure Jenkins master servers with roles and profiles
 
@@ -29,7 +30,8 @@ If you're new to using roles and profiles, do some additional setup before writi
 
 For our example, we want to manage Jenkins itself. The standard module for that is `rtyler/jenkins`.
 
-Jenkins requires Java, and the `rtyler` module can manage it automatically. But we want finer control over Java, so we're going to disable that. So, we need a Java module, and `puppetlabs/java` is a good choice.
+Jenkins requires Java, and the `rtyler` module can manage it automatically. But we want finer control over Java, so we're going to disable that. So, we need a
+Java module, and `puppetlabs/java` is a good choice.
 
 That's enough to start with. We can refactor and expand when we have those working.
 
@@ -67,7 +69,9 @@ class profile::jenkins::master (
 }
 ```
 
-This is pretty simple, but is already benefiting us: our interface for configuring Jenkins has gone from 30 or so parameters on the Jenkins class (and many more on the Java class) down to three. Notice that we've hardcoded the `configure_firewall` and `install_java` parameters, and have reused the value of `$jenkins_port` in three places.
+This is pretty simple, but is already benefiting us: our interface for configuring Jenkins has gone from 30 or so parameters on the Jenkins class (and many more
+on the Java class) down to three. Notice that we've hardcoded the `configure_firewall` and `install_java` parameters, and have reused the value of
+`$jenkins_port` in three places.
 
 ### Set data for the profile
 
@@ -111,7 +115,8 @@ To write roles, we consider the machines we'll be managing and decide what else 
 Our Jenkins masters don't serve any other purpose. But we have some profiles (code not shown) that we expect every machine in our fleet to have:
 
 - `profile::base` must be assigned to every machine, including workstations. It manages basic policies, and uses some conditional logic to include OS-specific profiles as needed.
-- `profile::server` must be assigned to every machine that provides a service over the network. It makes sure ops can log into the machine, and configures things like timekeeping, firewalls, logging, and monitoring.
+- `profile::server` must be assigned to every machine that provides a service over the network. It makes sure ops can log into the machine, and configures
+  things like timekeeping, firewalls, logging, and monitoring.
 
 So a role to manage one of our Jenkins masters should include those classes as well.
 
@@ -131,7 +136,8 @@ Puppet has several ways to assign classes to nodes, so use whichever tool you fe
 
 - The node classifier, which lets you group nodes based on their facts and assign classes to those groups.
 - The main manifest, which can use node statements or conditional logic to assign classes.
-- [Hiera](./hiera_intro.html) or Puppet lookup — use [the `lookup` function](./hiera_automatic.html#puppet-lookup) to do a unique array merge on a special `classes` key, and pass the resulting array to the `include` function:
+- [Hiera](./hiera_intro.html) or Puppet lookup — use [the `lookup` function](./hiera_automatic.html#puppet-lookup) to do a unique array merge on a special
+  `classes` key, and pass the resulting array to the `include` function:
 
 ```puppet
 # /etc/puppetlabs/code/environments/production/manifests/site.pp

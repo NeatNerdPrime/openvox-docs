@@ -3,7 +3,8 @@ layout: default
 title: "Designing advanced profiles"
 ---
 
-In this advanced example, we iteratively refactor our basic roles and profiles example to handle real-world concerns. The final result is — with only minor differences — the Jenkins profile we use in production here at Puppet.
+In this advanced example, we iteratively refactor our basic roles and profiles example to handle real-world concerns. The final result is — with only minor
+differences — the Jenkins profile we use in production here at Puppet.
 
 Along the way, we'll explain our choices and point out some of the common trade-offs you'll encounter as you design your own profiles.
 
@@ -39,11 +40,16 @@ class profile::jenkins::master (
 
 We want to manage Jenkins masters *and* Jenkins agent nodes. We won't cover agent profiles in detail, but the first issue we encountered is that they also need Java.
 
-We could copy and paste the Java class declaration; it's small, so keeping multiple copies up-to-date might not be too burdensome. But instead, we decided to break Java out into a separate profile. This way we can manage it once, then include the Java profile in both the agent and master profiles.
+We could copy and paste the Java class declaration; it's small, so keeping multiple copies up-to-date might not be too burdensome. But instead, we decided to
+break Java out into a separate profile. This way we can manage it once, then include the Java profile in both the agent and master profiles.
 
-> **Note:** This is a common trade-off. Keeping a chunk of code in only one place (often called the DRY — "don't repeat yourself" — principle) makes it more maintainable and less vulnerable to rot. But it has a cost: your individual profile classes become less readable, and you must view more files to see what a profile actually does. To reduce that readability cost, try to break code out in units that make inherent sense. In this case, the Java profile's job is simple enough to guess by its name — your colleagues don't have to read its code to know that it manages Java 8. Comments can also help.
+> **Note:** This is a common trade-off. Keeping a chunk of code in only one place (often called the DRY — "don't repeat yourself" — principle) makes it more
+> maintainable and less vulnerable to rot. But it has a cost: your individual profile classes become less readable, and you must view more files to see what a
+> profile actually does. To reduce that readability cost, try to break code out in units that make inherent sense. In this case, the Java profile's job is simple
+> enough to guess by its name — your colleagues don't have to read its code to know that it manages Java 8. Comments can also help.
 
-First, decide how configurable Java should be on Jenkins machines. After looking at our past usage, we realized that we only use two options: either we install Oracle's Java 8 distribution, or we default to OpenJDK 7, which the Jenkins module manages. This means we can:
+First, decide how configurable Java should be on Jenkins machines. After looking at our past usage, we realized that we only use two options: either we install
+Oracle's Java 8 distribution, or we default to OpenJDK 7, which the Jenkins module manages. This means we can:
 
 - Make our new Java profile really simple: hardcode Java 8 and take no configuration.
 - Replace the two Java parameters from `profile::jenkins::master` with one Boolean parameter (whether to let Jenkins handle Java).
@@ -158,11 +164,20 @@ The Jenkins module has a `jenkins::sysconfig` defined type for managing system p
   # Set java params, like heap min and max sizes. See
   # https://wiki.jenkins-ci.org/display/JENKINS/Features+controlled+by+system+properties
   jenkins::sysconfig { 'JAVA_ARGS':
-    value => "-Xms${heap}m -Xmx${heap}m -Djava.awt.headless=true -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+    value => join([
+      "-Xms${heap}m",
+      "-Xmx${heap}m",
+      '-Djava.awt.headless=true',
+      '-XX:+UseConcMarkSweepGC',
+      '-XX:+CMSClassUnloadingEnabled',
+      "-Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+    ], ' '),
   }
 ```
 
-> **Note:** Rule 4 again — we couldn't hardcode this, because we have some smaller Jenkins masters that can't spare the extra memory. But since our production masters are always on more powerful machines, we can calculate the heap based on the machine's memory size, which we can access as a fact. This lets us avoid extra configuration.
+> **Note:** Rule 4 again — we couldn't hardcode this, because we have some smaller Jenkins masters that can't spare the extra memory. But since our production
+> masters are always on more powerful machines, we can calculate the heap based on the machine's memory size, which we can access as a fact. This lets us avoid
+> extra configuration.
 
 ### Diff of second refactor
 
@@ -184,7 +199,14 @@ The Jenkins module has a `jenkins::sysconfig` defined type for managing system p
 +  # Set java params, like heap min and max sizes. See
 +  # https://wiki.jenkins-ci.org/display/JENKINS/Features+controlled+by+system+properties
 +  jenkins::sysconfig { 'JAVA_ARGS':
-+    value => "-Xms${heap}m -Xmx${heap}m -Djava.awt.headless=true -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
++    value => join([
++      "-Xms${heap}m",
++      "-Xmx${heap}m",
++      '-Djava.awt.headless=true',
++      '-XX:+UseConcMarkSweepGC',
++      '-XX:+CMSClassUnloadingEnabled',
++      "-Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
++    ], ' '),
 +  }
 +
  }
@@ -192,9 +214,11 @@ The Jenkins module has a `jenkins::sysconfig` defined type for managing system p
 
 ## Third refactor: Pin the version
 
-We dislike surprise upgrades, so we pin Jenkins to a specific version. We do this with a direct package URL instead of by adding Jenkins to our internal package repositories. Your organization might choose to do it differently.
+We dislike surprise upgrades, so we pin Jenkins to a specific version. We do this with a direct package URL instead of by adding Jenkins to our internal package
+repositories. Your organization might choose to do it differently.
 
-First, we add a parameter to control upgrades. Now we can set a new value in `.../data/groups/ci/dev.yaml` while leaving `.../data/groups/ci.yaml` alone — our dev machines will get the new Jenkins version first, and we can ensure everything works as expected before upgrading our prod machines.
+First, we add a parameter to control upgrades. Now we can set a new value in `.../data/groups/ci/dev.yaml` while leaving `.../data/groups/ci.yaml` alone — our
+dev machines will get the new Jenkins version first, and we can ensure everything works as expected before upgrading our prod machines.
 
 ```puppet
 class profile::jenkins::master (
@@ -252,15 +276,23 @@ This was a good time to explicitly manage the Jenkins *service,* so we did that 
 
 ## Fourth refactor: Manually manage the user account
 
-We manage a lot of user accounts in our infrastructure, so we handle them in a unified way. The `profile::server` class pulls in `virtual::users`, which has a lot of virtual resources we can selectively realize depending on who needs to log into a given machine.
+We manage a lot of user accounts in our infrastructure, so we handle them in a unified way. The `profile::server` class pulls in `virtual::users`, which has a
+lot of virtual resources we can selectively realize depending on who needs to log into a given machine.
 
-> **Note:** This has a cost — it's action at a distance, and you need to read more files to see which users are enabled for a given profile. But we decided the benefit was worth it: since all user accounts are written in one or two files, it's easy to see all the users that might exist, and ensure that they're managed consistently.
+> **Note:** This has a cost — it's action at a distance, and you need to read more files to see which users are enabled for a given profile. But we decided the
+> benefit was worth it: since all user accounts are written in one or two files, it's easy to see all the users that might exist, and ensure that they're managed
+> consistently.
 
-We're accepting difficulty in one place (where we can comfortably handle it) to banish difficulty in another place (where we worry it would get out of hand). Making this choice required that we know our colleagues and their comfort zones, and that we know the limitations of our existing code base and supporting services.
+We're accepting difficulty in one place (where we can comfortably handle it) to banish difficulty in another place (where we worry it would get out of hand).
+Making this choice required that we know our colleagues and their comfort zones, and that we know the limitations of our existing code base and supporting
+services.
 
-So, for this example, we'll change the Jenkins profile to work the same way; we'll manage the `jenkins` user alongside the rest of our user accounts. While we're doing that, we'll also manage a few directories that can be problematic depending on how Jenkins is packaged.
+So, for this example, we'll change the Jenkins profile to work the same way; we'll manage the `jenkins` user alongside the rest of our user accounts. While we're
+doing that, we'll also manage a few directories that can be problematic depending on how Jenkins is packaged.
 
-Some values we need are used by Jenkins agents as well as masters, so we're going to store them in a params class, which is a class that sets shared variables and manages no resources. This is a heavyweight solution, so you should wait until it provides real value before using it. In our case, we had a lot of OS-specific agent profiles (not shown in these examples), and they made a params class worthwhile.
+Some values we need are used by Jenkins agents as well as masters, so we're going to store them in a params class, which is a class that sets shared variables and
+manages no resources. This is a heavyweight solution, so you should wait until it provides real value before using it. In our case, we had a lot of OS-specific
+agent profiles (not shown in these examples), and they made a params class worthwhile.
 
 > **Note:** Just as before, "don't repeat yourself" is in tension with "keep it readable." Find the balance that works for you.
 
@@ -370,7 +402,8 @@ Three things to notice in the code above:
 
 ## Fifth refactor: Manage more dependencies
 
-Jenkins always needs Git installed (since we use Git for source control at Puppet), and it needs SSH keys to access private Git repos and run commands on Jenkins agent nodes. We also have a standard list of Jenkins plugins we use, so we manage those too.
+Jenkins always needs Git installed (since we use Git for source control at Puppet), and it needs SSH keys to access private Git repos and run commands on
+Jenkins agent nodes. We also have a standard list of Jenkins plugins we use, so we manage those too.
 
 Managing Git is pretty easy:
 
@@ -382,7 +415,8 @@ Managing Git is pretty easy:
 
 SSH keys are less easy, because they are sensitive content. We can't check them into version control with the rest of our Puppet code, so we put them in a custom mount point on one specific Puppet server.
 
-Since this server is different from our normal Puppet servers, we made a rule about accessing it: you must look up the hostname from data instead of hardcoding it. This lets us change it in only one place if the secure server ever moves.
+Since this server is different from our normal Puppet servers, we made a rule about accessing it: you must look up the hostname from data instead of hardcoding
+it. This lets us change it in only one place if the secure server ever moves.
 
 ```puppet
   $secure_server = lookup('puppetlabs::ssl::secure_server')
@@ -411,7 +445,8 @@ Since this server is different from our normal Puppet servers, we made a rule ab
   }
 ```
 
-Plugins are also a bit tricky, because we have a few Jenkins masters where we want to manually configure plugins. So we'll put the base list in a separate profile, and use a parameter to control whether we use it.
+Plugins are also a bit tricky, because we have a few Jenkins masters where we want to manually configure plugins. So we'll put the base list in a separate
+profile, and use a parameter to control whether we use it.
 
 ```puppet
 class profile::jenkins::master (
@@ -473,7 +508,14 @@ class profile::jenkins::master::plugins {
 
    # Because our account::user class manages the '${master_config_dir}' directory
 @@ -69,4 +84,29 @@ class profile::jenkins::master (
-     value => "-Xms${heap}m -Xmx${heap}m -Djava.awt.headless=true -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+     value => join([
+       "-Xms${heap}m",
+       "-Xmx${heap}m",
+       '-Djava.awt.headless=true',
+       '-XX:+UseConcMarkSweepGC',
+       '-XX:+CMSClassUnloadingEnabled',
+       "-Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+     ], ' '),
    }
 
 +  # Deploy the SSH keys that Jenkins needs to manage its agent machines and
@@ -508,7 +550,8 @@ class profile::jenkins::master::plugins {
 
 Backing up is usually a good idea.
 
-We can use our homegrown `backup` module, which provides a `backup::job` resource type (`profile::server` takes care of its prerequisites). But we should make backups optional, so people don't accidentally post junk to our backup server if they're setting up an ephemeral Jenkins instance to test something.
+We can use our homegrown `backup` module, which provides a `backup::job` resource type (`profile::server` takes care of its prerequisites). But we should make
+backups optional, so people don't accidentally post junk to our backup server if they're setting up an ephemeral Jenkins instance to test something.
 
 ```puppet
 class profile::jenkins::master (
@@ -529,7 +572,8 @@ Also, our teams gave us some conflicting requests for Jenkins logs:
 - Some people want it to use syslog, like most other services.
 - Others want a distinct log file so syslog doesn't get spammed, and they want the file to rotate more quickly than it does by default.
 
-That implies a new parameter. We'll make one called `$jenkins_logs_to_syslog` and default it to `undef`. If you set it to a standard syslog facility (like `daemon.info`), Jenkins will log there instead of its own file.
+That implies a new parameter. We'll make one called `$jenkins_logs_to_syslog` and default it to `undef`. If you set it to a standard syslog facility (like
+`daemon.info`), Jenkins will log there instead of its own file.
 
 We'll use `jenkins::sysconfig` and our homegrown `logrotate::job` to do the work:
 
@@ -575,7 +619,14 @@ class profile::jenkins::master (
  ) {
 
 @@ -84,6 +86,15 @@ class profile::jenkins::master (
-     value => "-Xms${heap}m -Xmx${heap}m -Djava.awt.headless=true -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+     value => join([
+       "-Xms${heap}m",
+       "-Xmx${heap}m",
+       '-Djava.awt.headless=true',
+       '-XX:+UseConcMarkSweepGC',
+       '-XX:+CMSClassUnloadingEnabled',
+       "-Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+     ], ' '),
    }
 
 +  # Forward jenkins master logs to syslog.
@@ -624,9 +675,11 @@ class profile::jenkins::master (
 
 ## Seventh refactor: Use a reverse proxy for HTTPS
 
-We want the Jenkins web interface to use HTTPS, which we'll accomplish with an Nginx reverse proxy. We'll also standardize the ports: the Jenkins app will always bind to its default port, and the proxy will always serve over 443 for HTTPS and 80 for HTTP.
+We want the Jenkins web interface to use HTTPS, which we'll accomplish with an Nginx reverse proxy. We'll also standardize the ports: the Jenkins app will always
+bind to its default port, and the proxy will always serve over 443 for HTTPS and 80 for HTTP.
 
-If we want to keep vanilla HTTP available, we'll provide an `$ssl` parameter. If set to `false` (the default), you can access Jenkins via both HTTP and HTTPS. We'll also add a `$site_alias` parameter, so the proxy can listen on a hostname other than the node's main FQDN.
+If we want to keep vanilla HTTP available, we'll provide an `$ssl` parameter. If set to `false` (the default), you can access Jenkins via both HTTP and HTTPS.
+We'll also add a `$site_alias` parameter, so the proxy can listen on a hostname other than the node's main FQDN.
 
 ```puppet
 class profile::jenkins::master (
@@ -699,7 +752,10 @@ Then, we declare that profile in our main profile:
 >
 > Because `profile::jenkins::master::proxy` is a "private" profile that belongs solely to `profile::jenkins::master`. It will never be declared by any role or any other profile.
 >
-> This is the only exception to rule 1: if you're separating out code *for the sole purpose of readability* — that is, if you could paste the private profile's contents into the main profile for the exact same effect — you can use a resource-like declaration on the private profile. This lets you consolidate your data lookups and make the private profile's inputs more visible, while keeping the main profile a little cleaner. If you do this, you must make sure to document that the private profile is private.
+> This is the only exception to rule 1: if you're separating out code *for the sole purpose of readability* — that is, if you could paste the private profile's
+> contents into the main profile for the exact same effect — you can use a resource-like declaration on the private profile. This lets you consolidate your data
+> lookups and make the private profile's inputs more visible, while keeping the main profile a little cleaner. If you do this, you must make sure to document
+> that the private profile is private.
 >
 > If there is any chance that this code will be reused by another profile, obey rule 1.
 
@@ -903,7 +959,14 @@ class profile::jenkins::master (
   # Set java params, like heap min and max sizes. See
   # https://wiki.jenkins-ci.org/display/JENKINS/Features+controlled+by+system+properties
   jenkins::sysconfig { 'JAVA_ARGS':
-    value => "-Xms${heap}m -Xmx${heap}m -Djava.awt.headless=true -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+    value => join([
+      "-Xms${heap}m",
+      "-Xmx${heap}m",
+      '-Djava.awt.headless=true',
+      '-XX:+UseConcMarkSweepGC',
+      '-XX:+CMSClassUnloadingEnabled',
+      "-Dhudson.model.DirectoryBrowserSupport.CSP=\\\"default-src 'self'; img-src 'self'; style-src 'self';\\\"",
+    ], ' '),
   }
 
   # Forward jenkins master logs to syslog.
