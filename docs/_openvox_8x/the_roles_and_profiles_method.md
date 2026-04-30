@@ -31,6 +31,8 @@ These extra layers of indirection might seem like they add complexity, but they 
 configuration you care most about. A better interface makes hierarchical data easier to use, makes system configurations easier to read, and makes refactoring
 easier.
 
+![Diagram showing roles, profiles, and component modules as layers between the node classifier and managed resources](./images/roles_and_profiles_overview.png)
+
 In short, from top to bottom:
 
 - Your node classifier assigns one role class to a group of nodes. The role manages a whole system configuration, so no other classes are needed. The node classifier does not configure the role in any way.
