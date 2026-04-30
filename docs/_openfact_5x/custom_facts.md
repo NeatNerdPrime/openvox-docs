@@ -7,6 +7,8 @@ title: "Custom facts walkthrough"
 [Adding plug-ins to a module]: /openvox/latest/plugins_in_modules.html
 [Facts overview]: ./fact_overview.html
 [openvoxdb]: /openvoxdb/latest
+[Win32 API]: https://docs.microsoft.com/en-us/windows/win32/api/
+[Fiddle]: https://github.com/ruby/fiddle
 
 You can add custom facts by adding snippets of Ruby code to the OpenVox server. OpenVox then uses [Plugins in Modules][] to distribute the facts to all agents.
 
@@ -99,7 +101,7 @@ OpenVox gets information about a system from OpenFact, and the most simple way f
 get that information is by executing shell commands. You can then parse and manipulate the
 output from those commands using standard Ruby code.
 
-> **Note:** However, it is important to also ceck if any of the OpenVox agent bundled Ruby Libraries can be used.
+> **Note:** However, it is important to also check if any of the OpenVox agent bundled Ruby Libraries can be used.
 
 The OpenFact API gives you a few ways to
 execute shell commands:
@@ -134,13 +136,13 @@ To get the output of `uname --hardware-platform` to single out a specific type o
 
 ## Accessing other facts
 
-You can write a custom fact that uses other facts by accessing `Facter.value(:somefact)`.
+You can write a custom fact that uses other facts by accessing `Facter.value(:somefact)`. When accessing parts of a structured fact, one must append the key name: `Facter.value(:os)['family']`.
 If the fact fails to resolve or is not present, OpenFact returns `nil`.
 
 For example:
 
 ``` ruby
-Facter.add(:osfamily) do
+Facter.add(:my_osfamily) do
   setcode do
     distid = Facter.value(:os)['family']
     case distid
@@ -163,6 +165,7 @@ Facts have a few properties that you can use to customize how they are evaluated
 
 One of the more commonly used properties is the `confine` statement, which
 restricts the fact to only run on systems that matches another given fact.
+However, this should be done cautiously to avoid introducing cyclic dependencies between facts.
 
 An example of the confine statement would be something like the following:
 
@@ -183,7 +186,37 @@ available on the given system. Since this is only available on Linux systems,
 we use the `confine` statement to ensure that this fact isn't needlessly run on
 systems that don't support this type of enumeration.
 
-> **Note:** More information on other ways to confine. e.g. files present can be found a the [Facts overview]
+In our next example the application has different config paths for different OS.
+
+RedHat - /etc/sysconfig/application
+Debian - /etc/default/application
+
+Example with access to another fact:
+
+```ruby
+Facter.add(:betadots_application_version) do
+  confine do
+    app_cfg_file = case Facter.value('os')['family']
+                   when 'RedHat'
+                     '/etc/sysconfig/application'
+                   when 'Debian'
+                     '/etc/default/application'
+                   else
+                     'notexisting'
+                   end
+
+    File.exist?(app_cfg_file)
+  end
+
+  setcode do
+    Facter::Core::Execution.execute('/opt/app/bin/app config')
+  end
+end
+```
+
+The example retrieves the os fact and uses the family key to compare the OS, then applies logic to determine which application config path to check for.
+
+> **Note:** More information on other ways to confine can be found in the [Facts overview]
 
 ### Custom facts precedence
 
@@ -237,7 +270,21 @@ end
 ### Custom facts execution timeouts
 
 Although this version of OpenFact does not support overall timeouts on resolutions, you can pass a timeout
-to `Facter::Core::Execution#execute`:
+to `Facter::Core::Execution#execute` or specify the timeout per fact.
+
+Timeout for the whole fact:
+
+```ruby
+Facter.add('<name>', {timeout: 5}) do
+  ...
+end
+```
+
+Timeout per execute method
+
+```ruby
+Facter::Core::Execution::execute('<cmd>', options = {:timeout => 5})
+```
 
 ``` ruby
 Facter.add(:sleep) do
@@ -251,6 +298,37 @@ Facter.add(:sleep) do
   end
 end
 ```
+
+For example, if an application returns its configuration via /opt/app/bin/app config and this commands is sometimes running very long, you can set a timeout:
+
+```ruby
+Facter.add(:application_config) do
+  confine do
+    File.exist?('/opt/app/bin/app')
+  end
+
+  setcode do
+    Facter::Core::Execution.execute('/opt/app/bin/app config', {:timeout => 5})
+  end
+end
+```
+
+> Please note that Facter::Core::Execution::exec has been deprecated in favor of Facter::Core::Execution::execute. This is important when migrating from older versions of Facter.
+
+### Logging
+
+It's often useful to include logging within custom facts to help with troubleshooting and development. You can log messages using Puppet's built-in logging mechanism:
+
+```ruby
+Facter.add(:application_version) do
+  setcode do
+    Facter.debug("Custom fact 'application_version' running")
+    ...
+  end
+end
+```
+
+Logging levels include `debug`, `info`, `warn`, `error`, and `fatal`.
 
 ## Structured custom facts
 
@@ -303,6 +381,30 @@ end
 If the `chunk` blocks all return arrays or hashes, you can omit the `aggregate` block. If you do, OpenFact automatically merges all of your data into one array or hash and uses that as the fact's value.
 
 For more examples of aggregate resolutions, see the [aggregate resolutions](./fact_overview.html#writing-facts-with-aggregate-resolutions) section of the [Fact overview] page.
+
+## Windows Facts
+
+Windows-based systems support custom facts just like Linux or other Unix-like systems.
+The main difference is that many Windows-specific tasks (such as checking installed software or reading from the registry) may require platform-specific Ruby code.
+
+Within the Facter::Core::Execution.execute usually powershell commands are used.
+
+Here's an example of a Windows custom fact that retrieves the version of Internet Explorer:
+
+```ruby
+Facter.add(:internet_explorer_version) do
+  confine kernel: 'windows'
+
+  setcode do
+    Facter::Core::Execution.execute('reg query "HKLM\Software\Microsoft\Internet Explorer" /v svcVersion')
+  end
+end
+```
+
+In this example, we use the `reg query` command to check the Internet Explorer version in the Windows registry.
+
+Please note that the [Win32 API] calls are deprecated since ruby 1.9.
+Please consider using [Fiddle] or other Ruby-based libraries for interacting with the system.
 
 ## Viewing fact values
 

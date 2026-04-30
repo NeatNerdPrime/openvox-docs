@@ -79,7 +79,7 @@ Simple facts are typically made up of the following parts:
     * Can take either a string or a block.
     * If given a string, OpenFact executes it as a shell command. If the command succeeds, the output of the command is the value of the fact. If the command fails, the next suitable resolution is evaluated.
     * If given a block, the block's return value is the value of the fact unless the block returns `nil`. If `nil` is returned, the next suitable resolution is evalutated.
-    * Can execute shell commands within a `setcode` block, using the `Facter::Core::Execution.exec` function.
+    * Can execute shell commands within a `setcode` block, using the `Facter::Core::Execution.execute` function.
     * If multiple `setcode` statements are evaluated for a single resolution, only the last `setcode` block is used.
 
 ## Writing structured facts
@@ -92,10 +92,9 @@ Structured facts can have [simple](#main-components-of-simple-resolutions) or [a
 ``` ruby
 Facter.add(:interfaces_array) do
   setcode do
-   interfaces = Facter.value(:interfaces)
-   # the 'interfaces' fact returns a single comma-delimited string, e.g., "lo0,eth0,eth1"
-   # this splits the value into an array of interface names
-   interfaces.split(',')
+    interfaces = Facter.value(:networking)['interfaces'].keys
+    # the 'networking' fact provdes a list of interface hashes with the interface name as key.
+    # using the keys functon on the hash provoides an array of interface names.
   end
 end
 ```
@@ -108,13 +107,57 @@ Facter.add(:interfaces_hash) do
     interfaces_hash = {}
 
     Facter.value(:interfaces_array).each do |interface|
-      ipaddress = Facter.value("ipaddress_#{interface}")
+      ipaddress = Facter.value(:networking)['interfaces'][interface]['ip']
       if ipaddress
         interfaces_hash[interface] = ipaddress
       end
     end
 
     interfaces_hash
+  end
+end
+```
+
+### Example: Provide OpenVox Agent certificate extensions as hash
+
+```ruby
+Facter.add(:cert_extension) do
+  setcode do
+    require 'openssl'
+    require 'puppet'
+    require 'puppet/ssl/oids'
+
+    # set variables
+    extension_hash = {}
+    certdir = Puppet.settings[:certdir]
+    certname = Puppet.settings[:certname]
+    certificate_file = "#{certdir}/#{certname}.pem"
+
+    # get puppet ssl oids
+    oids = {}
+    Puppet::SSL::Oids::PUPPET_OIDS.each do |o|
+      oids[o[0]] = o[1]
+    end
+
+    # read the certificate
+    cert = OpenSSL::X509::Certificate.new File.read certificate_file
+
+    # cert extensions differs if we run via agent (numeric) or via facter (names)
+    # in either way we want to remove pp_preshared_key from the list
+    cert.extensions.each do |extension|
+      case extension.oid.to_s
+      when %r{^1\.3\.6\.1\.4\.1\.34380\.1\.1}
+        short_name = oids[extension.oid]
+        value = extension.value[2..-1]
+        extension_hash[short_name] = value unless short_name == 'pp_preshared_key'
+      when %r{^pp_}
+        short_name = extension.oid
+        value = extension.value[2..-1]
+        extension_hash[short_name] = value unless short_name == 'pp_preshared_key'
+      end
+    end
+
+    extension_hash
   end
 end
 ```
@@ -212,11 +255,11 @@ The fact's output is organized by network interface into hashes, each containing
 ``` ruby
 Facter.add(:total_free_memory_mb, :type => :aggregate) do
   chunk(:physical_memory) do
-    Facter.value(:memoryfree_mb)
+    Facter.value(:memory)['system']['available_bytes']
   end
 
   chunk(:virtual_memory) do
-    Facter.value(:swapfree_mb)
+    Facter.value(:memory)['swap']['available_bytes']
   end
 
   aggregate do |chunks|
