@@ -4,14 +4,14 @@ toc_levels: 1
 title: "Configuring OpenFact with facter.conf"
 ---
 
-The `facter.conf` file is a configuration file that allows you to cache and block fact groups, and manage how OpenFact interacts with your system. There are three sections: `facts`, `global` and `cli`.
+The `facter.conf` file is a configuration file that allows you to cache and block fact groups, and manage how OpenFact interacts with your system. There are three sections: `facts`, `global`, `cli` and `facts-group`.
 All sections are optional and can be listed in any order within the file.
 
 When you run OpenFact from the Ruby API, only the `facts` section and limited `global` settings are loaded.
 
 Example facter.conf file:
 
-~~~yaml
+~~~hocon
 facts : {
     blocklist : [ "file system", "EC2" ],
     ttls : [
@@ -31,6 +31,9 @@ cli : {
     trace     : true,
     verbose   : false,
     log-level : "warn"
+}
+fact-groups : {
+ custom-group-name : ["os.name", "networking.ip"],
 }
 ~~~
 
@@ -79,13 +82,28 @@ file system
 
 If you want to block any of these groups, add the group name to the `facts` section of `facter.conf`, with the `blocklist` setting.
 
-~~~yaml
+~~~hocon
 facts : {
     blocklist : [ "file system" ],
 }
 ~~~
 
 Here, the "file system" group has been added, so the `mountpoints`, `filesystems`, and `partitions` facts will all be prevented from loading.
+
+Within the `blocklist` and `ttls` settings, one can specify fact names:
+
+~~~hocon
+facts : {
+   blocklist : [ "disks", "memory.swap" ],
+}
+~~~
+
+~~~hocon
+ttls : [
+   { "mountpoints" : 30 days },
+   { "memory.swap" : 6 hours },
+]
+~~~~
 
 ### `global`
 
@@ -111,3 +129,14 @@ The `cli` section of `facter.conf` contains settings that affect OpenFact’s co
 | `trace` | If true, OpenFact prints stacktraces from errors arising in your custom facts. | `false` |
 | `verbose` | If true, OpenFact outputs its most detailed messages. | `false` |
 | `log-level` | Sets the minimum level of message severity that gets logged. Valid options: “none”, “fatal”, “error”, “warn”, “info”, “debug”, “trace”. | “warn” |
+
+### `facts-groups`
+
+If you have a need to define your own group of facts beacuse you want to manage a larger set of facts within `blocklist` or `ttls` you can make use of the `facts-groups` setting.
+Please note that you can not specify external facts here. Structured facts can be provided using the dot notation.
+
+~~~hocon
+fact-groups : {
+ custom-group-name : ["os.name", "networking.ip"],
+}
+~~~
