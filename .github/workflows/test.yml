@@ -15,7 +15,7 @@ jobs:
     steps:
       # needs fetch-depth because the packaging dem reads old git tags
       - name: Checkout current PR
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Install Ruby version 3.3
@@ -29,3 +29,15 @@ jobs:
         run: bundle exec rake rubocop
       - name: Validate code
         run: bundle exec jekyll build
+
+  tests:
+    if: always()
+    needs:
+      - rake_checks
+    runs-on: ubuntu-24.04
+    name: Test suite
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
