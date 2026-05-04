@@ -11,7 +11,6 @@ title: "Puppet's commands"
 [agent_unix]: ./services_agent_unix.html
 [agent_windows]: ./services_agent_windows.html
 [agent_man]: ./man/agent.html
-[master_man]: ./man/master.html
 [apply]: ./services_apply.html
 [apply_man]: ./man/apply.html
 [puppet forge]: https://forge.puppetlabs.com
