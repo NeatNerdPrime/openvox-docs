@@ -6,9 +6,9 @@ title: "OpenVox Server: Services overview"
 [external_ca]: ./intermediate_ca.html
 
 OpenVox is configured in an agent-server architecture, in which a primary server manages configuration for a fleet of managed agent nodes.
-OpenVox Server performs the role of the primary server. It is a Ruby and Clojure application that runs on the Java Virtual Machine (JVM).
-It runs OpenVox's catalog compilation and related work inside JRuby interpreters, with supporting services written in Clojure,
-all coordinated by the Trapperkeeper service framework.
+OpenVox Server performs the role of the primary server: it compiles catalogs, serves files, manages certificates, and receives reports from agents.
+It is a Ruby and Clojure application that runs on the Java Virtual Machine (JVM), executing catalog compilation inside JRuby interpreters
+with supporting services written in Clojure, coordinated by the Trapperkeeper service framework.
 
 This page describes the run environment and architecture of OpenVox Server. For practical instructions, see the docs for [installing](./install_from_packages.html) and [configuring](./configuration.html) it.
 
@@ -23,21 +23,22 @@ OpenVox Server releases are versioned separately from OpenVox (the agent). Major
 
 ## Controlling the Service
 
-The OpenVox Server service name is `puppetserver`. Use the standard commands for your OS to manage it:
+The OpenVox Server service name is `puppetserver`. On systemd-based platforms:
 
 ```shell
-service puppetserver start
-service puppetserver stop
-service puppetserver restart
-service puppetserver status
+systemctl start puppetserver
+systemctl stop puppetserver
+systemctl restart puppetserver
+systemctl status puppetserver
+systemctl enable puppetserver   # start automatically on boot
 ```
+
+On older SysV-style init systems, use `service puppetserver start|stop|restart|status` instead.
 
 ## OpenVox Server's Run Environment
 
 OpenVox Server consists of several related services that share state and route requests among themselves. These services run inside a single JVM process using the Trapperkeeper service framework.
-
-From a user's perspective, it mostly acts like a single monolithic service. Most of the architectural complexity is wrapped and hidden;
-the main exception is the handful of extra config files that manage different internal services.
+The main visible consequence of this architecture is the set of separate config files that manage the different internal services.
 
 ### Embedded Web Server
 
@@ -67,12 +68,14 @@ The relevant endpoints are `certificate`, `certificate_request`, `certificate_re
 Signing and revoking certificates over the network is disallowed by default. You can use [`auth.conf`](./config_file_auth.html) to allow specific certificate owners to issue commands.
 
 The CA service stores credentials as `.pem` files under `/etc/puppetlabs/puppetserver/ca/`. Use the `puppetserver ca` command to list, sign, and revoke certificates.
+See [`ca.conf`](./config_file_ca.html) for CA configuration options.
 
 ### Admin API Service
 
 OpenVox Server includes an administrative API for triggering maintenance tasks.
 
-The primary use is forcing expiration of all environment caches, which lets you deploy new code to long-timeout environments without a full service restart.
+The primary use case is deploying new Puppet code without restarting the service: the environment cache endpoint expires all cached environments,
+causing OpenVox Server to pick up code changes on the next agent run.
 
 For API docs, see:
 
@@ -126,7 +129,7 @@ By default, OpenVox Server sends nothing to syslog. All log messages follow the 
 
 Logback archives log files when they exceed 200 MB, and automatically deletes the oldest logs when the total size of all server logs exceeds 1 GB.
 
-Logback is highly configurable; see [the configuration docs](./configuration.html#logging) for details on customizing log output.
+Logback is highly configurable via [`logback.xml`](./config_file_logbackxml.html); see [the configuration docs](./configuration.html#logging) for details on customizing log output.
 
 Errors that occur before logging is set up, or that cause the logging system to fail, appear in `journalctl` on systemd-based platforms.
 
