@@ -6,7 +6,7 @@ canonical: "/openvox-server/latest/release_notes.html"
 
 ## OpenVox Server 8.13.0
 
-Released <!-- TODO: fill in date when released -->.
+Released TBD.
 
 This is an enhancement and bug-fix release of OpenVox Server.
 
