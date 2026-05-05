@@ -11,7 +11,6 @@ title: "Puppet's commands"
 [agent_unix]: ./services_agent_unix.html
 [agent_windows]: ./services_agent_windows.html
 [agent_man]: ./man/agent.html
-[master_man]: ./man/master.html
 [apply]: ./services_apply.html
 [apply_man]: ./man/apply.html
 [puppet forge]: https://forge.puppetlabs.com
@@ -28,7 +27,7 @@ title: "Puppet's commands"
 [parser_man]: ./man/parser.html
 [help_man]: ./man/help.html
 [all_manpages]: ./man/overview.html
-[about_server]: /openvox-server/latest/services_master_puppetserver.html
+[about_server]: /openvox-server/latest/services_puppetserver.html
 [server_vs_passenger]: /openvox-server/latest/puppetserver_vs_passenger.html
 [subcommands]: /openvox-server/latest/subcommands.html
 
