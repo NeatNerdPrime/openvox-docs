@@ -55,7 +55,7 @@ A collector with an empty search expression will match **every** resource of the
 
 {% include alert.html type="warning" content="Do not use unbounded resource collectors without search expressions to limit which resources match.
 They have a side effect of _realizing_ any matching virtual resources whether declared in your own code or in third party modules.
-Using unbounded collectors may result in many unexpected resources being managed and may have catastrophic consequences." %}
+Using unbounded collectors may result in many unexpected resources being managed and may have unforeseeable consequences like undesired configuration changes." %}
 
 Parentheses can be used to improve readability and to modify the priority/grouping of `and`/`or`. You can
 create arbitrarily complex expressions using the following four operators:
