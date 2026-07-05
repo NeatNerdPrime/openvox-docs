@@ -163,7 +163,7 @@ This example applies all internal yum repository resources before applying any i
 
 {% include alert.html type="warning" content="Do not use unbounded resource collectors without search expressions to limit which resources match.
 They have a side effect of _realizing_ any matching virtual resources whether declared in your own code or in third party modules.
-Using unbounded collectors may result in many unexpected resources being managed and may have catastrophic consequences." %}
+Using unbounded collectors may result in many unexpected resources being managed and may have unforeseeable consequences like undesired configuration changes." %}
 
 ### Capturing resource references for generated resources
 
