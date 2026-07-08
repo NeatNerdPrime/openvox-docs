@@ -963,6 +963,22 @@ Under this guidance, parameter defaults rarely belong in `common.yaml`: a static
 
 Reserve `Optional[T] = undef` for parameters where `undef` is a genuine runtime value, such as a parameter that switches an optional feature off. In that case, `undef` is a meaningful state the user can select.
 
+For example, chrony's `smoothtime` parameter is declared `Optional[String] $smoothtime = undef`:
+
+```puppet
+Optional[String] $smoothtime = undef,
+```
+
+and its config template emits the directive only when a value is set:
+
+```text
+<% if $chrony::smoothtime { -%>
+smoothtime <%= $chrony::smoothtime %>
+<% } -%>
+```
+
+Here `undef` genuinely means the feature is off, so `Optional[T] = undef` is the right choice.
+
 Avoid declaring a parameter `Optional` just to defer its default to Hiera when the parameter will always receive a value. Doing so misleads users into thinking `undef` is a supported state when it isn't, and it weakens the type assertion. Declare the real type and give the parameter its actual default instead.
 
 ### Exported resources
