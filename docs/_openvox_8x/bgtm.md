@@ -200,13 +200,15 @@ Where you put a parameter's default value depends on whether that value is the s
 * **Static defaults that are identical across every supported OS** belong inline in the parameter declaration in `init.pp`.
 * **OS-specific defaults** belong in module Hiera data with a per-OS hierarchy, resolved through automatic parameter lookup.
 
-Keeping static defaults inline puts the value right where the parameter is declared, which is what module reviewers expect and what keeps the default easy to find.
+Keeping static defaults inline puts the value right where the parameter is declared, which is what module reviewers expect and what keeps the default easy to find. When defaults live only in Hiera, someone reading `init.pp` can't tell whether a parameter has a default elsewhere or must be supplied.
 
 Inline defaults also render in generated reference documentation with any toolchain. Defaults placed only in `data/common.yaml` are invisible to upstream [puppet-strings](https://github.com/puppetlabs/puppet-strings/issues/250), though OpenVox's [openvox-strings](https://github.com/voxpupuli/openvox-strings/pull/27) can now read them.
 
 Give each default a single home. Duplicating a value between `init.pp` and module Hiera data means two sources of truth that can drift apart.
 
 Reserve `Optional[T] = undef` for parameters where `undef` is a genuine runtime value, such as a parameter that toggles an optional feature off. Avoid declaring a parameter `Optional` simply to defer its default to Hiera when the parameter will always receive a value, since that misleads users into thinking `undef` is a supported state.
+
+If a parameter is genuinely required and has no sensible default, give it no default at all so that catalog compilation fails clearly when the value is missing, rather than using `Optional[T] = undef`.
 
 For more on the mechanics of parameter defaults and Hiera data in modules, see the [Puppet language style guide](./style_guide.html#parameter-defaults).
 

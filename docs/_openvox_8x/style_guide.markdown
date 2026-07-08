@@ -894,7 +894,7 @@ Where a default value lives depends on whether it varies by operating system.
 
 When a parameter's default is the same on every supported operating system, declare it inline in the parameter list.
 
-Keeping static defaults inline puts the value right where the parameter is declared, which keeps it easy to find and is the convention module reviewers expect.
+Keeping static defaults inline puts the value right where the parameter is declared, which keeps it easy to find and is the convention module reviewers expect. When defaults live only in Hiera, someone reading `init.pp` can't tell whether a parameter has a default elsewhere or must be supplied.
 
 Inline defaults also render in generated reference documentation with any toolchain. Defaults placed only in `data/common.yaml` are invisible to upstream [puppet-strings](https://github.com/puppetlabs/puppet-strings/issues/250), though OpenVox's [openvox-strings](https://github.com/voxpupuli/openvox-strings/pull/27) can now read them.
 
@@ -980,6 +980,8 @@ smoothtime <%= $chrony::smoothtime %>
 Here `undef` genuinely means the feature is off, so `Optional[T] = undef` is the right choice.
 
 Avoid declaring a parameter `Optional` just to defer its default to Hiera when the parameter will always receive a value. Doing so misleads users into thinking `undef` is a supported state when it isn't, and it weakens the type assertion. Declare the real type and give the parameter its actual default instead.
+
+If a parameter is genuinely required and has no sensible default, give it no default at all. A required parameter without a default fails catalog compilation with a clear error when the user omits it, which is safer than papering over the requirement with `Optional[T] = undef`.
 
 ### Exported resources
 
