@@ -31,7 +31,6 @@ title: "Language: Data types: Data type syntax"
 [catalogentry]: ./lang_data_abstract.html#catalogentry
 [any]: ./lang_data_abstract.html#any
 [callable]: ./lang_data_abstract.html#callable
-[stdlib]: https://forge.puppetlabs.com/puppetlabs/stdlib
 
 Each value in the Puppet language has a data type, like "string." There is also a set of values _whose data type is "data type."_
 
@@ -53,13 +52,13 @@ The general form of a data type is:
 
 * An upper-case word matching one of the known data types.
 * Sometimes, a **set of parameters,** which consists of:
-    * An opening square bracket (`[`) after the type's name. (There can't be any space between the name and the bracket.)
-    * A comma-separated list of values or expressions --- arbitrary whitespace is allowed, but you can't have a trailing comma after the final value.
-    * A closing square bracket (`]`).
+  * An opening square bracket (`[`) after the type's name. (There can't be any space between the name and the bracket.)
+  * A comma-separated list of values or expressions --- arbitrary whitespace is allowed, but you can't have a trailing comma after the final value.
+  * A closing square bracket (`]`).
 
 For example:
 
-``` puppet
+```puppet
 Variant[Boolean, Enum['true', 'false', 'running', 'stopped']]
 ```
 
@@ -81,7 +80,7 @@ Generally, your code expects each parameter to be a specific kind of data. You c
 
 For example:
 
-``` puppet
+```puppet
 class ntp (
   Boolean $service_manage = true,
   Boolean $autoupdate     = false,
@@ -96,7 +95,7 @@ If you tried to set `$autoupdate` to a string like `"true"`, Puppet would raise 
 
 Abstract data types can let you write more sophisticated and flexible restrictions. For example, this `$puppetdb_service_status` parameter would accept values of `true`, `false`, `"true"`, `"false"`, `"running"`, and `"stopped"`, and raise an error for any other value:
 
-``` puppet
+```puppet
 class puppetdb::server (
   Variant[Boolean, Enum['true', 'false', 'running', 'stopped']]
     $puppetdb_service_status = $puppetdb::params::puppetdb_service_status,
@@ -110,7 +109,7 @@ class puppetdb::server (
 
 [Case statements][] and [selector expressions][] both allow data types as their _cases._ Puppet will choose a data type case if the control expression resolves to a value of that data type. For example:
 
-``` puppet
+```puppet
 $enable_real = $enable ? {
   Boolean => $enable,
   String  => str2bool($enable),
@@ -191,7 +190,9 @@ You can use parameters to restrict which values `Type` will match.
 
 The full signature for `Type` is:
 
-    Type[<ANY DATA TYPE>]
+```puppet
+Type[<ANY DATA TYPE>]
+```
 
 All of these parameters are optional. They must be listed in order; if you need to specify a later parameter, you must specify values for any prior ones.
 
@@ -207,4 +208,4 @@ Position | Parameter        | Data Type | Default Value | Description
 
 ## Related topics
 
--   [Type aliases](./lang_type_aliases.html)
+* [Type aliases](./lang_type_aliases.html)

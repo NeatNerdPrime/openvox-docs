@@ -191,15 +191,15 @@ Do not use `/* */` comments in Puppet code.
 **Good:**
 
 ```puppet
-# Configures NTP
-file { '/etc/ntp.conf': ... }
+# Configures chrony
+file { '/etc/chrony.conf': ... }
 ```
 
 **Bad:**
 
 ```puppet
-/* Creates file /etc/ntp.conf */
-file { '/etc/ntp.conf': ... }
+/* Creates file /etc/chrony.conf */
+file { '/etc/chrony.conf': ... }
 ```
 
 #### Documentation comments
@@ -625,6 +625,7 @@ file {
     owner  => 'root',
 }
 ```
+
 ### Defined resource types
 
 Since defined resource types can have multiple instances, resource names must have a unique variable to avoid duplicate declarations.
@@ -711,7 +712,7 @@ Documentation [comments](#documentation-comments) for OpenVox Strings should be 
 1. Following lines, if applicable: Define parameters. Parameters should be [typed](./lang_data_type.html).
 1. Next lines: Includes and validation come after parameters are defined. Includes may come before or after validation, but should be grouped separately, with all includes and requires in one group and all validations in another.
    * Validations should validate any parameters and fail catalog compilation if any
-    parameters are invalid. See [ntp](https://github.com/puppetlabs/puppetlabs-ntp/blob/master/manifests/init.pp#L212:L274) for an example.
+    parameters are invalid. See [chrony](https://github.com/voxpupuli/puppet-chrony/blob/master/manifests/init.pp#L371-L373) for an example.
 1. Next lines, if applicable: Should declare local variables and perform variable munging.
 1. Next lines: Should declare resource defaults.
 1. Next lines:  Should override resources if necessary.
@@ -732,9 +733,9 @@ In `init.pp`:
 # filtered out if present
 #
 class myservice (
-  Enum['running', 'stopped'] $service_ensure,
+  Enum['running', 'stopped'] $service_ensure    = 'running',
   String                     $tempfile_contents,
-  Optional[Array[String[1]]] $package_list = undef,
+  Optional[Array[String[1]]] $package_list      = undef,
 ) {
   # Example of additional assertion with a better error message than just saying that
   # there was a type mismatch for $package_list.
@@ -776,21 +777,12 @@ version: 5
 defaults:
   data_hash: yaml_data
 
-# The default values can be merged if you want to extend with additional packages
-# If not, use 'default_hierarchy' instead of 'hierarchy'
-#
 hierarchy:
 - name: 'Per Operating System'
   path: 'os/%{os.name}.yaml'
-- name: 'Common'
-  path: 'common.yaml'
 ```
 
-In module `data/common.yaml`:
-
-```yaml
-myservice::service_ensure: running
-```
+The static `service_ensure` default lives inline in `init.pp`, so only the OS-specific `package_list` needs data files.
 
 In module `data/os/centos.yaml`:
 
@@ -809,13 +801,15 @@ myservice::package_list:
 
 ### Public and private
 
-We recommend that you split your module into public and private classes and defined types where possible. Public classes or defined types should contain the parts of the module meant to be configured or customized by the user, while private classes should contain things you do not expect the user to change via parameters. Separating into public and private classes or defined types helps build reusable and readable code.
+We recommend that you split your module into public and private classes and defined types where possible.
+Public classes or defined types should contain the parts of the module meant to be configured or customized by the user, while private classes should contain things you do not expect the user to change via parameters. Separating into public and private classes or defined types helps build reusable and readable code.
 
 You should help indicate to the user which classes are which by making sure all public classes have complete [comments](#comments) and denoting public and private classes in your documentation. Use the documentation tags "@api private" and "@api public" to make this clear.
 
 ### Chaining arrow syntax
 
-Most of the time, use [relationship metaparameters](./lang_relationships.html#syntax-relationship-metaparameters) rather than [chaining arrows](./lang_relationships.html#syntax-chaining-arrows). When you have many [interdependent or order-specific items](https://github.com/puppetlabs/puppetlabs-mysql/blob/3.1.0/manifests/server.pp#L64-L72), chaining syntax may be used. A chain operator should appear on the same line as its right-hand operand. Chaining arrows must be used left to right.
+Most of the time, use [relationship metaparameters](./lang_relationships.html#syntax-relationship-metaparameters) rather than [chaining arrows](./lang_relationships.html#syntax-chaining-arrows).
+When you have many [interdependent or order-specific items](https://github.com/puppetlabs/puppetlabs-mysql/blob/3.1.0/manifests/server.pp#L64-L72), chaining syntax may be used. A chain operator should appear on the same line as its right-hand operand. Chaining arrows must be used left to right.
 
 **Good:**
 
@@ -892,41 +886,102 @@ class ntp (
 
 ### Parameter defaults
 
-Adding default values to the parameters in classes and defined types makes your module easier to use. Use Hiera data in the module and rely on automatic parameter lookup for class parameters. See the documentation about [automatic parameter lookup](./hiera_automatic.html#puppet-lookup) for detailed information.
+Adding default values to the parameters in classes and defined types makes your module easier to use. Take care to declare the data type of parameters, as this provides automatic type assertions.
 
-Take care to declare the data type of parameters, as this provides automatic type assertions.
+Where a default value lives depends on whether it varies by operating system.
+
+#### Static defaults
+
+When a parameter's default is the same on every supported operating system, declare it inline in the parameter list.
+
+Keeping static defaults inline puts the value right where the parameter is declared, which keeps it easy to find and is the convention module reviewers expect. When defaults live only in Hiera, someone reading `init.pp` can't tell whether a parameter has a default elsewhere or must be supplied.
+
+Inline defaults also render in generated reference documentation with any toolchain. Defaults placed only in `data/common.yaml` are invisible to upstream [puppet-strings](https://github.com/puppetlabs/puppet-strings/issues/250), though OpenVox's [openvox-strings](https://github.com/voxpupuli/openvox-strings/pull/27) can now read them.
 
 **Good:**
 
 ```puppet
-# parameter defaults provided via APL > puppet 4.9.0
 class my_module (
-  String $source,
-  String $config,
+  String[1] $ensure  = 'present',
+  Integer[0] $port   = 8080,
+  Boolean $manage    = true,
 ) {
   # body of class
 }
 ```
 
-with a `hiera.yaml` in the root of the module:
+#### OS-specific defaults
+
+Typically one or two operating systems need a different value while the rest share a common one. Keep the common value as the inline default and use module Hiera data only to override it for the operating systems that differ.
+
+Automatic parameter lookup takes precedence over the inline default when a matching key exists, so you supply data only for the exceptions rather than for every supported OS. See the documentation about [automatic parameter lookup](./hiera_automatic.html#puppet-lookup) for detailed information.
+
+**Good:**
+
+The common `config` default stays inline; only nodes in the Red Hat family override it through Hiera:
+
+```puppet
+class my_module (
+  String[1] $source = 'default source value',
+  String[1] $config = '/etc/mymodule/mymodule.conf',
+) {
+  # body of class
+}
+```
+
+with a `hiera.yaml` in the root of the module that adds a per-OS hierarchy level:
 
 ```yaml
 ---
 version: 5
-default_hierarchy:
-- name: 'defaults'
-  path: 'defaults.yaml'
+defaults:
   data_hash: yaml_data
+hierarchy:
+  - name: 'OS family'
+    paths:
+      - '%{facts.os.name}.yaml'
+      - '%{facts.os.family}.yaml'
 ```
 
-and with the file `data/defaults.yaml`:
+and an override for just the deviating OS in `data/RedHat.yaml`:
 
 ```yaml
-mymodule::source: 'default source value'
-mymodule::config: 'default config value'
+mymodule::config: '/etc/sysconfig/mymodule'
 ```
 
-This places the values in the defaults hierarchy, which means that the defaults are not merged into overriding values. If you want to merge the defaults into those values, change the `default_hierarchy` to `hierarchy`.
+Nodes in the Red Hat family pick up the Hiera value; every other operating system falls through to the inline default. No `common.yaml` entry is needed, because the inline default already covers the common case.
+
+The [puppet-chrony](https://github.com/voxpupuli/puppet-chrony) module is a good real-world reference for this pattern: it keeps common defaults inline in `init.pp` and overrides only the values that differ in per-OS Hiera data files, with no `common.yaml`.
+
+#### Keep each default in one place
+
+Give each default a single home. Declaring the same value both inline in `init.pp` and in module Hiera data creates two sources of truth that can drift apart. Choose the location based on whether the default varies by OS, and put it there only.
+
+Under this guidance, parameter defaults rarely belong in `common.yaml`: a static default goes inline, and an OS-specific one goes in a per-OS data file. `common.yaml` stays available for module data that isn't a plain class-parameter default, such as values you look up explicitly with `lookup`.
+
+#### Optional parameters
+
+Reserve `Optional[T] = undef` for parameters where `undef` is a genuine runtime value, such as a parameter that switches an optional feature off. In that case, `undef` is a meaningful state the user can select.
+
+For example, chrony's `smoothtime` parameter is declared `Optional[String] $smoothtime = undef`:
+
+```puppet
+Optional[String] $smoothtime = undef,
+```
+
+and its config template emits the directive only when a value is set:
+
+```text
+<% if $chrony::smoothtime { -%>
+smoothtime <%= $chrony::smoothtime %>
+<% } -%>
+```
+
+Here `undef` genuinely means the feature is off, so `Optional[T] = undef` is the right choice.
+
+Avoid declaring a parameter `Optional` just to defer its default to Hiera when the parameter will always receive a value. Doing so misleads users into thinking `undef` is a supported state when it isn't, and it weakens the type assertion. Declare the real type and give the parameter its actual default instead.
+
+If a parameter is genuinely required and has no sensible default, give it no default at all. A required parameter without a default fails catalog compilation with a clear error when the user omits it, which is safer than papering over the requirement with `Optional[T] = undef`.
 
 ### Exported resources
 
@@ -1009,7 +1064,8 @@ In addition to scope and organization, there are some additional guidelines for 
 
 Class inheritance should not be used. Use data binding instead of params.pp pattern. Inheritance should be used only for params.pp, which is not recommended.
 
-For maintaining older modules, inheritance can be used, but it must not be used across module namespaces. Cross-module dependencies should be satisfied in a more portable way, such as with include statements or relationship declarations. Class inheritance should only be used for `myclass::params` parameter defaults. Other use cases can be accomplished through the addition of parameters or conditional logic.
+For maintaining older modules, inheritance can be used, but it must not be used across module namespaces. Cross-module dependencies should be satisfied in a more portable way, such as with include statements or relationship declarations.
+Class inheritance should only be used for `myclass::params` parameter defaults. Other use cases can be accomplished through the addition of parameters or conditional logic.
 
 
 **Good:**
@@ -1071,7 +1127,7 @@ $facts['operatingsystem']
 $::operatingsystem
 ```
 
-**Very Bad**
+#### Very Bad
 
 ```puppet
 $operatingsystem
@@ -1230,7 +1286,8 @@ All publicly available modules should include the documentation covered below.
 
 #### README
 
-Your module should have a README in .md (or .markdown) format. READMEs help users of your module get the full benefit of your work. The [Puppet README template](https://raw.githubusercontent.com/OpenVoxProject/openvox-docs/master/docs/_openvox_8x/READMEtemplate.txt) offers a basic format you can use. If you create modules with the `puppet module generate` command, the generated README includes the template. Using the .md/.markdown format allows your README to be parsed and displayed by OpenVox Strings, GitHub, and the Puppet Forge.
+Your module should have a README in .md (or .markdown) format. READMEs help users of your module get the full benefit of your work.
+The [Puppet README template](https://raw.githubusercontent.com/OpenVoxProject/openvox-docs/master/docs/_openvox_8x/READMEtemplate.txt) offers a basic format you can use. If you create modules with the `puppet module generate` command, the generated README includes the template. Using the .md/.markdown format allows your README to be parsed and displayed by OpenVox Strings, GitHub, and the Puppet Forge.
 
 The [module documentation guide](./modules_documentation.html) can help you write a great README, but overall your README should:
 
@@ -1257,20 +1314,20 @@ For example:
 ```puppet
 # @param config_epp Specifies a file to act as a EPP template for the config file.
 #  Valid options: a path (absolute, or relative to the module path). Example value:
-#  'ntp/ntp.conf.epp'. A validation error is thrown if you supply both this param **and**
+#  'chrony/chrony.conf.epp'. A validation error is thrown if you supply both this param **and**
 #  the `config_template` param.
 ```
 
 If you use Strings to document your module, include information about Strings in the Reference section of your README so that your users will know how to generate the documentation. See [OpenVox Strings](https://github.com/OpenVoxProject/openvox-strings) documentation for details on usage, installation, and correctly writing documentation comments.
 
-If you do not include Strings code comments, you should include a Reference section in your README with a complete list of all classes, types, providers, defined types, and parameters that the user can configure. Include a brief description, the valid options, and the default values (if any). For example, this is a parameter for the `ntp` module's `ntp` class:
+If you do not include Strings code comments, you should include a Reference section in your README with a complete list of all classes, types, providers, defined types, and parameters that the user can configure. Include a brief description, the valid options, and the default values (if any). For example, this is a parameter for the `chrony` module's `chrony` class:
 
 ```markdown
 #### `package_ensure`
 
 Data type: String.
 
-Whether to install the NTP package, and what version to install. Values: 'present', 'latest', or a specific version number.
+Whether to install the chrony package, and what version to install. Values: 'present', 'latest', or a specific version number.
 
 Default value: 'present'.
 ```
@@ -1289,7 +1346,7 @@ Your module should have a CHANGELOG in .md (or .markdown) format. Your CHANGELOG
 
 Major use cases for your module should have corresponding example manifests in the module's `/examples` directory.
 
-```
+```text
 modulepath/apache/examples/{usecase}.pp
 ```
 
@@ -1303,4 +1360,3 @@ We recommend several community tools for testing your code and style.
 * [puppet-lint](https://puppet-lint.com/) tests your code for adherence to the style guidelines.
 * [metadata-json-lint](https://github.com/voxpupuli/metadata-json-lint) tests your `metadata.json` for adherence to the style guidelines.
 * For testing your module, we recommend rspec. [rspec-puppet](https://github.com/puppetlabs/rspec-puppet) can help you write rspec tests for Puppet.
-

@@ -27,7 +27,7 @@ Collectors have an irregular syntax that lets them function as both a statement 
 
 ## Syntax
 
-``` puppet
+```puppet
 User <| title == 'luke' |>           # collect a single user resource whose title is 'luke'
 User <| groups == 'admin' |>         # collect any user whose supplemental groups includes 'admin'
 Yumrepo['custom_packages'] -> Package <| tag == 'custom' |>  # order relationship with several packages
@@ -52,6 +52,10 @@ resembles the normal syntax for [Puppet expressions][expressions], but is not th
 > packages whose `provider` attribute had been _explicitly set_ to `yum` in the manifests.
 
 A collector with an empty search expression will match **every** resource of the specified resource type.
+
+{% include alert.html type="warning" content="Do not use unbounded resource collectors without search expressions to limit which resources match.
+They have a side effect of _realizing_ any matching virtual resources whether declared in your own code or in third party modules.
+Using unbounded collectors may result in many unexpected resources being managed and may have unforeseeable consequences like undesired configuration changes." %}
 
 Parentheses can be used to improve readability and to modify the priority/grouping of `and`/`or`. You can
 create arbitrarily complex expressions using the following four operators:
@@ -125,7 +129,7 @@ An **exported resource collector** uses a modified syntax that realizes [exporte
 
 Exported resource collectors are identical to collectors, except that their angle brackets are doubled:
 
-``` puppet
+```puppet
 Nagios_service <<| |>>  # realize all exported nagios_service resources
 ```
 

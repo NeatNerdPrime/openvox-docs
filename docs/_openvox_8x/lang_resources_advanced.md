@@ -39,10 +39,9 @@ Resource declarations are [expressions][] that describe the desired state for on
 This page describes the full syntax of resource expressions. Please make sure you've read [the main page about resources][resources] before reading any further.
 
 
-
 ## Full syntax
 
-``` puppet
+```puppet
 <TYPE> {
   default:
     *           => <HASH OF ATTRIBUTE/VALUE PAIRS>,
@@ -64,22 +63,22 @@ This page describes the full syntax of resource expressions. Please make sure yo
 The full, generalized form of a resource declaration expression is:
 
 * The **resource type,** which can be one of:
-    * A lowercase word with no quotes, like `file`.
-    * A [resource type data type][resource_data_type], like `File`, `Resource[File]` or `Resource['file']`. It must have a type but not a title.
+  * A lowercase word with no quotes, like `file`.
+  * A [resource type data type][resource_data_type], like `File`, `Resource[File]` or `Resource['file']`. It must have a type but not a title.
 * An opening curly brace (`{`).
 * One or more **resource bodies**, separated with semicolons (`;`). Each resource body consists of:
-    * A **title,** which can be one of:
-        * A [string][].
-        * An [array][] of strings (declares multiple resources).
-        * [The special value `default`][default] (sets default attribute values for other resource bodies in the same expression).
-    * A colon (`:`).
-    * Optionally, any number of **attribute and value pairs,** separated with commas (`,`). Each attribute/value pair consists of:
-        * An attribute name, which can be one of:
-            * A lowercase word with no quotes.
-            * The special attribute `*` (takes a [hash][] and sets _other_ attributes).
-        * A `=>` (called an arrow, "fat comma," or "hash rocket").
-        * A value, which can have any [data type][datatype].
-    * Optionally, a trailing comma after the last attribute/value pair.
+  * A **title,** which can be one of:
+    * A [string][].
+    * An [array][] of strings (declares multiple resources).
+    * [The special value `default`][default] (sets default attribute values for other resource bodies in the same expression).
+  * A colon (`:`).
+  * Optionally, any number of **attribute and value pairs,** separated with commas (`,`). Each attribute/value pair consists of:
+    * An attribute name, which can be one of:
+      * A lowercase word with no quotes.
+      * The special attribute `*` (takes a [hash][] and sets _other_ attributes).
+    * A `=>` (called an arrow, "fat comma," or "hash rocket").
+    * A value, which can have any [data type][datatype].
+  * Optionally, a trailing comma after the last attribute/value pair.
 * Optionally, a trailing semicolon after the last resource body.
 * A closing curly brace (`}`).
 
@@ -114,7 +113,7 @@ Instead, every other resource in that expression will use attribute values from 
 
 This is useful because it lets you set many attributes at once (like with an array of titles), but also lets you override some of them.
 
-``` puppet
+```puppet
 file {
   default:
     ensure => file,
@@ -151,7 +150,7 @@ The value of the `*` attribute must be a [hash][], where:
 
 This will set values for that resource's attributes, using every attribute and value listed in the hash.
 
-``` puppet
+```puppet
 $file_ownership = {
   'owner' => 'root',
   'group' => 'wheel',
@@ -180,7 +179,7 @@ Since a resource expression can accept a [resource type data type][resource_data
 
 That is, all of the following are equivalent:
 
-``` puppet
+```puppet
 file { '/tmp/foo': ensure => file, }
 File { '/tmp/foo': ensure => file, }
 Resource[File] { '/tmp/foo': ensure => file, }
@@ -199,7 +198,7 @@ This lets you declare resources without knowing in advance what type of resource
 
 If you specify an [array][] of [strings][string] as the title of a resource body, Puppet will create multiple resources with the same set of attributes. This is useful when you have many resources that are nearly identical.
 
-``` puppet
+```puppet
 $rc_dirs = [
   '/etc/rc.d',       '/etc/rc.d/init.d','/etc/rc.d/rc0.d',
   '/etc/rc.d/rc1.d', '/etc/rc.d/rc2.d', '/etc/rc.d/rc3.d',
@@ -223,7 +222,7 @@ Although you cannot declare the same resource twice, you can add attributes to a
 
 ### Amending attributes with a resource reference
 
-``` puppet
+```puppet
 file { '/etc/passwd':
   ensure => file,
 }
@@ -248,7 +247,7 @@ You can also use the special `*` attribute to amend attributes from a hash. See 
 
 ### Amending attributes with a collector
 
-``` puppet
+```puppet
 class base::linux {
   file { '/etc/passwd':
     ensure => file,
@@ -284,16 +283,16 @@ You can also use the special `*` attribute to amend attributes from a hash. See 
 > * Since it ignores class inheritance, you can override the same attribute twice, which results in a evaluation-order dependent race where the final override wins.
 
 
-
 ## Advanced examples
 
 ### Local resource defaults
 
-Since classic [resource default statements][resdefaults] are subject to dynamic scope, they can escape the place where they're declared and affect unpredictable areas of code. Sometimes this is powerful and useful, and other times it's really bad, like when you want to set defaults for your module's file resources, but you're also declaring classes and defined resources from other modules and want to avoid any contagious effect.
+Since classic [resource default statements][resdefaults] are subject to dynamic scope, they can escape the place where they're declared and affect unpredictable areas of code.
+Sometimes this is powerful and useful, and other times it's really bad, like when you want to set defaults for your module's file resources, but you're also declaring classes and defined resources from other modules and want to avoid any contagious effect.
 
 To control those effects, you can define your defaults in a variable and re-use them in multiple places, by combining [per-expression defaults][inpage_defaults] and [setting attributes from a hash][inpage_splat].
 
-``` puppet
+```puppet
 class mymodule::params {
   $file_defaults = {
     mode  => '0644',
@@ -322,13 +321,13 @@ The `create_resources` function expects three arguments:
 
 * A resource type.
 * A [hash][], where:
-    * Each key is a resource title.
-    * Each value is a hash of attributes and values for that resource.
+  * Each key is a resource title.
+  * Each value is a hash of attributes and values for that resource.
 * Optionally, a [hash][] of _default_ attributes and values, to be used for any resources that don't specify their own values for those attributes.
 
 If we assume we have those values in variables (`$type`, `$resources`, and `$defaults`):
 
-``` puppet
+```puppet
 $type = 'user'
 $resources = {
   'nick' => { uid    => '1330',
@@ -344,7 +343,7 @@ $defaults = { gid => 'allstaff',
 
 ...then we can create matching resources like this:
 
-``` puppet
+```puppet
 $resources.each |String $resource, Hash $attributes| {
   Resource[$type] {
     $resource: * => $attributes;

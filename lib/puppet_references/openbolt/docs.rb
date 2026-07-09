@@ -6,7 +6,6 @@ require 'fileutils'
 module PuppetReferences
   module Openbolt
     class Docs < PuppetReferences::Reference
-      OUTPUT_DIR = PuppetReferences::OUTPUT_DIR + '_openbolt_5x'
       DOCS_SOURCE = PuppetReferences::BOLT_DIR + 'documentation'
 
       GENERATED_PAGES = %w[
@@ -21,13 +20,8 @@ module PuppetReferences
         privilege_escalation.md
       ].freeze
 
-      def initialize(*)
-        @latest = '/openbolt/latest'
-        super
-      end
-
       def build_all
-        OUTPUT_DIR.mkpath
+        collection_dir.mkpath
         puts 'OpenBolt Docs: Building all...'
         generate_reference_pages
         copy_reference_pages
@@ -55,15 +49,29 @@ module PuppetReferences
             next
           end
 
-          content = rewrite_md_links(source.read)
-          dest = OUTPUT_DIR + filename
+          content = insert_generated_note(rewrite_md_links(source.read))
+          dest = collection_dir + filename
           dest.open('w') { |f| f.write(content) }
+        end
+      end
+
+      # Stamp the shared "generated, don't edit" notice after the page's
+      # leading H1 (the placement make_header uses for the other collections).
+      # Falls back to after the YAML front matter, then to the top of the file.
+      def insert_generated_note(content)
+        note = PuppetReferences::Util.generated_note('OpenBolt', PuppetReferences.version_commit)
+        if (m = content.match(/\A(---\n.*?\n---\n\n)?(# [^\n]*\n)/m))
+          "#{m[1]}#{m[2]}\n#{note}\n#{m.post_match}"
+        elsif (m = content.match(/\A(---\n.*?\n---\n)/m))
+          "#{m[1]}\n#{note}\n\n#{m.post_match}"
+        else
+          "#{note}\n\n#{content}"
         end
       end
 
       def copy_images
         Pathname.glob(DOCS_SOURCE + '*.{png,jpg,gif,svg}').each do |img|
-          FileUtils.cp(img.to_path, (OUTPUT_DIR + img.basename).to_path)
+          FileUtils.cp(img.to_path, (collection_dir + img.basename).to_path)
         end
       end
 

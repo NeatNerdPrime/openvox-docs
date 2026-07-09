@@ -51,6 +51,13 @@ bundle exec rake references:openfact INSTALLPATH=docs
 bundle exec rake references:openbolt INSTALLPATH=docs
 ```
 
+Or build every pinned product/version at once — this is what CI does, reading the
+pins from `_data/products.yml`:
+
+```console
+bundle exec rake references:all INSTALLPATH=docs
+```
+
 Note: It is possible to specify a version (tag or branch) to be used.
 If no version is provided, the latest stable release tag will be used.
 This is useful when checking for changes made in upstream reference source like OpenFact or OpenBolt repo itself.
@@ -59,6 +66,22 @@ This is useful when checking for changes made in upstream reference source like 
 bundle exec rake references:openvox INSTALLPATH=docs VERSION=main
 bundle exec rake references:openfact INSTALLPATH=docs VERSION=main
 bundle exec rake references:openbolt INSTALLPATH=docs VERSION=main
+```
+
+By default the references are built into each product's current stable collection
+(e.g. `_openvox_latest`). Use `COLLECTION` to target a specific version's directory,
+for example when regenerating a frozen older major from its matching upstream tag:
+
+```console
+bundle exec rake references:openvox INSTALLPATH=docs VERSION=8.27.0 COLLECTION=_openvox_8x
+```
+
+To build every pinned product/version in one go — the same way CI does — use
+`references:all`, which reads the version/tag pins from `_data/products.yml`
+(it does not take `VERSION` or `COLLECTION`):
+
+```console
+bundle exec rake references:all INSTALLPATH=docs
 ```
 
 ## Writing guidelines

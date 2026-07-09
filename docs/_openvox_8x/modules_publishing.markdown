@@ -103,11 +103,11 @@ junit/
 tmp/
 ```
 
-The `.pdkignore` file excludes files during `jig module build` only.
+The `.pdkignore` file excludes files during `jig build` only.
 For example, you might want spec tests in your source control but not in your module package, so you would list them in `.pdkignore`.
 To prevent files, such as those in temporary directories, from ever being checked into Git, use `.gitignore`.
 
-If you have both a `.pdkignore` and a `.gitignore` file, the `jig module` command uses the `.pdkignore` file.
+If you have both a `.pdkignore` and a `.gitignore` file, the `jig build` command uses the `.pdkignore` file.
 
 ### Removing symlinks from your module
 
@@ -143,7 +143,7 @@ Related topics:
 
 To upload your module to the Forge, you first must build the module package.
 
-1. From the command line in your module's root directory, run `jig build build`. This command generates a `.tar.gz` package and saves it in the module's `pkg/` subdirectory.
+1. From the command line in your module's root directory, run `jig build`. This command generates a `.tar.gz` package and saves it in the module's `pkg/` subdirectory.
 
    For example:
 
@@ -163,7 +163,7 @@ Your module package should be a compiled `tar.gz` package of 10MB or less.
 
 2. Click **Publish** in the upper right hand corner of the screen.
 
-4. On the upload page, click **Choose File** and use the file browser to locate and select the release tarball. Then click **Upload Release**.
+3. On the upload page, click **Choose File** and use the file browser to locate and select the release tarball. Then click **Upload Release**.
 
 After a successful upload, your browser should load the new release page of your module, with any errors popping up on the same screen.
 Your module's README, Changelog,and License files are displayed on your module's Forge page.
@@ -177,7 +177,7 @@ To let your module users know that you are no longer maintaining your module and
 
    * The full name of the module to be deprecated, such as `puppetlabs-apache`.
    * Optionally, the reason for the deprecation. The reason will be publicly displayed on the Forge.
-    * Optionally, a recommended alternative module or workaround.
+   * Optionally, a recommended alternative module or workaround.
 
 ## Delete a module release from the Forge
 

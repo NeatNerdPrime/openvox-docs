@@ -18,6 +18,67 @@ Puppet Open Source is no longer actively developed.
 
 You can either upgrade to Puppet 7 and then switch to OpenVox 7 and then upgrade to OpenVox 8, or you can upgrade to Puppet 8 and then migrate to OpenVox 8.
 
+## OpenVox 8.28.1
+
+Released July 8, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.28.1).
+
+### Security Issues Resolved in 8.28.1
+
+| Identifier                                                        | CVSS 3.1 Score | Resolved By                         |
+| :---------------------------------------------------------------- | :------------: | :---------------------------------- |
+| [CVE-2026-54906](https://nvd.nist.gov/vuln/detail/CVE-2026-54906) |       9.8      | `pkg:gem/concurrent-ruby@1.3.7`     |
+| [CVE-2026-54904](https://nvd.nist.gov/vuln/detail/CVE-2026-54904) |       7.5      | `pkg:gem/concurrent-ruby@1.3.7`     |
+| [CVE-2026-54905](https://nvd.nist.gov/vuln/detail/CVE-2026-54905) |       5.5      | `pkg:gem/concurrent-ruby@1.3.7`     |
+| [CVE-2026-47242](https://nvd.nist.gov/vuln/detail/CVE-2026-47242) |       N/A      | `pkg:gem/net-imap@0.6.4.1`          |
+| [CVE-2026-47241](https://nvd.nist.gov/vuln/detail/CVE-2026-47241) |       N/A      | `pkg:gem/net-imap@0.6.4.1`          |
+| [CVE-2026-47240](https://nvd.nist.gov/vuln/detail/CVE-2026-47240) |       N/A      | `pkg:gem/net-imap@0.6.4.1`          |
+| [CVE-2026-8804](https://nvd.nist.gov/vuln/detail/CVE-2026-8804)   |       6.7      | `pkg:gem/puppet-resource_api@1.9.2` |
+| [CVE-2026-8925](https://nvd.nist.gov/vuln/detail/CVE-2026-8925)   |       9.8      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-11856](https://nvd.nist.gov/vuln/detail/CVE-2026-11856) |       9.8      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-9079](https://nvd.nist.gov/vuln/detail/CVE-2026-9079)   |       9.8      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-10536](https://nvd.nist.gov/vuln/detail/CVE-2026-10536) |       9.8      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-8927](https://nvd.nist.gov/vuln/detail/CVE-2026-8927)   |       9.1      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-8924](https://nvd.nist.gov/vuln/detail/CVE-2026-8924)   |       9.1      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-11564](https://nvd.nist.gov/vuln/detail/CVE-2026-11564) |       9.1      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-8926](https://nvd.nist.gov/vuln/detail/CVE-2026-8926)   |       9.1      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-8286](https://nvd.nist.gov/vuln/detail/CVE-2026-8286)   |       8.1      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-11352](https://nvd.nist.gov/vuln/detail/CVE-2026-11352) |       7.5      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-11586](https://nvd.nist.gov/vuln/detail/CVE-2026-11586) |       7.5      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-9546](https://nvd.nist.gov/vuln/detail/CVE-2026-9546)   |       7.5      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-12064](https://nvd.nist.gov/vuln/detail/CVE-2026-12064) |       7.5      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-9545](https://nvd.nist.gov/vuln/detail/CVE-2026-9545)   |       7.5      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-8932](https://nvd.nist.gov/vuln/detail/CVE-2026-8932)   |       7.5      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-9547](https://nvd.nist.gov/vuln/detail/CVE-2026-9547)   |       7.4      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-9080](https://nvd.nist.gov/vuln/detail/CVE-2026-9080)   |       7.3      | `pkg:github/curl/curl@8.21.0`       |
+| [CVE-2026-8458](https://nvd.nist.gov/vuln/detail/CVE-2026-8458)   |       6.5      | `pkg:github/curl/curl@8.21.0`       |
+
+## OpenVox 8.28.0
+
+Released June 10, 2026.
+
+This is a bug-fix and security release of OpenVox.
+
+All bug fixes, new features and other changes are provided on the [project's github release page](https://github.com/OpenVoxProject/openvox/releases/tag/8.28.0).
+
+### Security Issues Resolved in 8.28.0
+
+|                            Identifier                             | CVSS 3.1 Score |             Resolved By             |
+| ----------------------------------------------------------------- | :------------: | ----------------------------------- |
+| [CVE-2026-34182](https://nvd.nist.gov/vuln/detail/CVE-2026-34182) |      9.1       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-45447](https://nvd.nist.gov/vuln/detail/CVE-2026-45447) |      8.8       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-7383](https://nvd.nist.gov/vuln/detail/CVE-2026-7383)   |      8.1       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-45445](https://nvd.nist.gov/vuln/detail/CVE-2026-45445) |      7.5       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-34180](https://nvd.nist.gov/vuln/detail/CVE-2026-34180) |      7.5       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-9076](https://nvd.nist.gov/vuln/detail/CVE-2026-9076)   |      7.5       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-42766](https://nvd.nist.gov/vuln/detail/CVE-2026-42766) |      5.9       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-45446](https://nvd.nist.gov/vuln/detail/CVE-2026-45446) |      4.8       | `pkg:github/openssl/openssl@3.0.21` |
+| [CVE-2026-42770](https://nvd.nist.gov/vuln/detail/CVE-2026-42770) |      3.7       | `pkg:github/openssl/openssl@3.0.21` |
+
+
 ## OpenVox 8.27.0
 
 Released May 18, 2026.

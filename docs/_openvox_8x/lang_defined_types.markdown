@@ -9,17 +9,13 @@ layout: default
 [collector]: ./lang_collectors.html
 [resource]: ./lang_resources.html
 [naming]: ./lang_reserved.html#classes-and-defined-resource-types
-[resource_namevar]: ./lang_resources.html#namenamevar
 [relationships]: ./lang_relationships.html
-[resource_title]: ./lang_resources.html#title
 [metaparameters]: ./lang_resources.html#metaparameters
 [modules]: ./modules_fundamentals.html
 [resource_defaults]: ./lang_defaults.html
-[classes]: ./lang_classes.html
 [variable_assignment]: ./lang_variables.html#assignment
 [variable]: ./lang_variables.html
 [references_namespaced]: ./lang_data_resource_reference.html
-[attributes]: ./lang_resources.html#attributes
 [title]: ./lang_resources.html#title
 [contains]: ./lang_containment.html
 [catalog]: ./lang_summary.html#compilation-and-catalogs
@@ -68,13 +64,13 @@ The general form of a define statement is:
 * The `define` keyword
 * The [name][naming] of the defined type
 * An optional **parameter list,** which consists of:
-    * An opening parenthesis
-    * A comma-separated list of **parameters** (e.g. `String $myparam = "default value"`). Each parameter consists of:
-        * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`)
-        * A [variable][] name to represent the parameter, including the `$` prefix
-        * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified)
-    * An optional trailing comma after the last parameter
-    * A closing parenthesis
+  * An opening parenthesis
+  * A comma-separated list of **parameters** (e.g. `String $myparam = "default value"`). Each parameter consists of:
+    * An optional [data type][literal_types], which will restrict the allowed values for the parameter (defaults to `Any`)
+    * A [variable][] name to represent the parameter, including the `$` prefix
+    * An optional equals (`=`) sign and **default value** (which must match the data type, if one was specified)
+  * An optional trailing comma after the last parameter
+  * A closing parenthesis
 * An opening curly brace
 * A block of arbitrary Puppet code, which generally contains at least one [resource declaration][resource]
 * A closing curly brace
@@ -89,7 +85,7 @@ The **parameters** used when defining the type become the **attributes** (withou
 
 To declare a resource of the `apache::vhost` defined type from the example above:
 
-``` puppet
+```puppet
 apache::vhost {'homepages':
   port    => 8081,
   docroot => '/var/www-testhost',
@@ -107,7 +103,7 @@ Declaring a new resource of the defined type will make Puppet re-evaluate the bl
 
 Every parameter of a defined type can be used as a local variable inside the definition. These variables are not set with [normal assignment statements][variable_assignment]; instead, each instance of the defined type uses its attributes to set them:
 
-``` puppet
+```puppet
 apache::vhost {'homepages':
   port    => 8081, # Becomes the value of $port
   docroot => '/var/www-testhost', # Becomes the value of $docroot
@@ -127,7 +123,7 @@ Every defined type gets two "free" parameters, which are always available and do
 
 Unlike the other parameters, the values of `$title` and `$name` are already available **inside the parameter list.** This means you can use `$title` as the default value (or part of the default value) for another attribute:
 
-``` puppet
+```puppet
 define apache::vhost (
   Integer $port,
   String[1] $docroot,
@@ -142,7 +138,7 @@ Since multiple instances of a defined type might be declared in your manifests, 
 
 You can make resources different across instances by making their **titles** and **names/namevars** include the value of `$title` or another parameter.
 
-``` puppet
+```puppet
 file { "${vhost_dir}/${servername}.conf":
 ```
 
@@ -156,14 +152,15 @@ Every instance of a defined type [contains][] all of its unique resources. This 
 
 The declaration of a defined type instance can include any [metaparameter][metaparameters]. If it does:
 
-* Every resource contained in the instance will also have that metaparameter. So if you declare a defined resource with `noop => true`, every resource contained in it will also have `noop => true`, unless they specifically override it. Metaparameters which can take more than one value (like the [relationship][relationships] metaparameters) will merge the values from the container and any specific values from the individual resource.
+* Every resource contained in the instance will also have that metaparameter. So if you declare a defined resource with `noop => true`, every resource contained in it will also have `noop => true`, unless they specifically override it.
+  Metaparameters which can take more than one value (like the [relationship][relationships] metaparameters) will merge the values from the container and any specific values from the individual resource.
 * The value of the metaparameter can be used as a variable in the definition, as though it were a normal parameter. (For example, in an instance declared with `require => Class['ntp']`, the local value of `$require` would be `Class['ntp']`.)
 
 ### Resource defaults
 
 Just like with a normal resource type, you can declare [resource defaults][resource_defaults] for a defined type:
 
-``` puppet
+```puppet
 # /etc/puppetlabs/puppet/manifests/site.pp
 Apache::Vhost {
   port => 80,
@@ -180,7 +177,7 @@ Definitions should be stored in the `manifests/` directory of a module with one 
 
 A define statement isn't an expression, and can't be used where a value is expected.
 
-> #### Aside: Best practices
+> ### Aside: Best practices
 >
 > You should usually only load defined types from modules. Although the additional options below this aside will work, they are not recommended.
 

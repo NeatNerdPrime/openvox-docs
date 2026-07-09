@@ -27,7 +27,9 @@ To help plan your module appropriately, consider:
 
 It is standard practice for Puppet users to have 200 or more modules in an environment. Simple is better. Each module in your environment should contain related resources that enable it to accomplish a task. Create multiple modules for more complex needs. The practice of having many small, focused modules promotes code reuse and turns modules into building blocks.
 
-As an example, let's take a look at the [`puppetlabs-puppetdb`](https://forge.puppet.com/puppetlabs/puppetdb) module. This module deals solely with the the setup, configuration, and management of PuppetDB. However, PuppetDB stores its data in a PostgreSQL database. Rather than having the module manage PostgreSQL, the author included the [`puppetlabs-postgresql`](https://forge.puppet.com/puppetlabs/postgresql) module as a dependency, leveraging the postgresql module's classes and resources to build out the right configuration for PuppetDB. Similarly, the `puppetdb-module` needs to manipulate the `puppet.conf` file in order to operate PuppetDB. Instead of having the `puppetdb-module` handle `puppet.conf` changes internally, the author used the [`puppetlabs-inifile`](https://forge.puppet.com/puppetlabs/inifile) module to enable `puppetlabs-puppetdb` to make only the required edits to `puppet.conf`.
+As an example, let's take a look at the [`puppetlabs-puppetdb`](https://forge.puppet.com/puppetlabs/puppetdb) module. This module deals solely with the the setup, configuration, and management of PuppetDB. However, PuppetDB stores its data in a PostgreSQL database.
+Rather than having the module manage PostgreSQL, the author included the [`puppetlabs-postgresql`](https://forge.puppet.com/puppetlabs/postgresql) module as a dependency, leveraging the postgresql module's classes and resources to build out the right configuration for PuppetDB.
+Similarly, the `puppetdb-module` needs to manipulate the `puppet.conf` file in order to operate PuppetDB. Instead of having the `puppetdb-module` handle `puppet.conf` changes internally, the author used the [`puppetlabs-inifile`](https://forge.puppet.com/puppetlabs/inifile) module to enable `puppetlabs-puppetdb` to make only the required edits to `puppet.conf`.
 
 ## Structuring your module
 
@@ -40,7 +42,7 @@ This section covers:
 * [How best to order your classes (rather than resources)](#ordering).
 * [How to leverage and utilize dependencies](#dependencies).
 
-To demonstrate a real-world best practices standard module, we will walk through the structure of the [puppetlabs-ntp](https://forge.puppet.com/puppetlabs/ntp) module.
+To demonstrate a real-world best practices standard module, we will walk through the structure of VoxPupuli's [puppet-chrony](https://github.com/voxpupuli/puppet-chrony) module.
 
 ### Class design
 
@@ -54,83 +56,71 @@ In terms of class structure we recommend the following (more detail below):
 
 #### `module`
 
-The main class of any module must share the name of the module and be located in the `init.pp` file. The name and location of the main module class is extremely important, as it guides the [autoloader](./lang_namespaces.html#autoloader-behavior) behavior. The main class of a module is its interface point and ought to be the only parameterized class if possible. Limiting the parameterized classes to just the main class allows you to control usage of the entire module with the inclusion of a single class. This class should provide sensible defaults so that a user can get going with `include module`.
+The main class of any module must share the name of the module and be located in the `init.pp` file. The name and location of the main module class is extremely important, as it guides the [autoloader](./lang_namespaces.html#autoloader-behavior) behavior.
+The main class of a module is its interface point and ought to be the only parameterized class if possible. Limiting the parameterized classes to just the main class allows you to control usage of the entire module with the inclusion of a single class. This class should provide sensible defaults so that a user can get going with `include module`.
 
-For instance, the main `ntp` class in the `ntp` module looks like this:
+For instance, the main `chrony` class in the `chrony` module looks like this:
 
 ```puppet
-class ntp (
-  Boolean $broadcastclient,
-  Stdlib::Absolutepath $config,
-  Optional[Stdlib::Absolutepath] $config_dir,
-  String $config_file_mode,
-  Optional[String] $config_epp,
-  Optional[String] $config_template,
-  Boolean $disable_auth,
-  Boolean $disable_dhclient,
-  Boolean $disable_kernel,
-  Boolean $disable_monitor,
-  Optional[Array[String]] $fudge,
-  Stdlib::Absolutepath $driftfile,
+class chrony (
+  Array[Stdlib::IP::Address] $bindaddress = [],
+  Array[String] $bindcmdaddress = ['127.0.0.1', '::1'],
+  Optional[String] $initstepslew = undef,
+  Array[String] $cmdacl = [],
+  NotUndef $commandkey = 0,
+  Stdlib::Unixpath $config = '/etc/chrony/chrony.conf',
+  Stdlib::Filemode $config_mode = '0644',
+  Boolean $config_keys_manage = true,
+  Array[String[1]] $keys = [],
+  Stdlib::Unixpath $driftfile = '/var/lib/chrony/drift',
  ...
 ```
+
+Note that each static default is declared inline, right on the parameter, so the value is visible in the class signature and in generated reference documentation.
 
 #### `module::install`
 
 The install class must be located in the `install.pp` file. It should contain all of the resources related to getting the software that the module manages onto the node.
 
-The install class must be named `module::install`, as in the `ntp` module:
+The install class must be named `module::install`, as in the `chrony` module:
 
 ```puppet
-class ntp::install {
+class chrony::install {
+  assert_private()
 
-  if $ntp::package_manage {
-    package { $ntp::package_name:
-      ensure => $ntp::package_ensure,
-    }
-
+  package { 'chrony':
+    ensure   => $chrony::package_ensure,
+    name     => $chrony::package_name,
+    source   => $chrony::package_source,
+    provider => $chrony::package_provider,
   }
-
 }
 ```
+
+The `install`, `config`, and `service` classes are private: they are declared only by the main `chrony` class, never directly by users. Each one calls `assert_private()`, which fails compilation with a clear message if the class is declared from outside its own module. See [public and private classes](./style_guide.html#public-and-private) for more on this distinction.
 
 #### `module::config`
 
 The resources related to configuring the installed software should be placed in a config class. The config class must be named `module::config` and must be located in the `config.pp` file.
 
-For example, see the `module::config` class in the `ntp` module:
+For example, see the `module::config` class in the `chrony` module:
 
 ```puppet
-class ntp::config {
+class chrony::config {
+  assert_private()
 
-  #The servers-netconfig file overrides NTP config on SLES 12, interfering with our configuration.
-  if $facts['operatingsystem'] == 'SLES' and $facts['operatingsystemmajrelease'] == '12' {
-    file { '/var/run/ntp/servers-netconfig':
-      ensure => 'absent'
-    }
-  }
-
-  if $ntp::keys_enable {
-    case $ntp::config_dir {
-      '/', '/etc', undef: {}
-      default: {
-        file { $ntp::config_dir:
-          ensure  => directory,
-          owner   => 0,
-          group   => 0,
-          mode    => '0775',
-          recurse => false,
-        }
+  file { $chrony::config:
+    ensure  => file,
+    owner   => 0,
+    group   => 0,
+    mode    => $chrony::config_mode,
+    content => epp($chrony::config_template,
+      {
+        servers => chrony::server_array_to_hash($chrony::servers, ['iburst']),
+        pools   => chrony::server_array_to_hash($chrony::pools, ['iburst']),
+        peers   => chrony::server_array_to_hash($chrony::peers),
       }
-    }
-
-    file { $ntp::keys_file:
-      ensure  => file,
-      owner   => 0,
-      group   => 0,
-      mode    => '0644',
-      content => epp('ntp/keys.epp'),
-    }
+    ),
   }
 ...
 ```
@@ -142,23 +132,22 @@ The remaining service resources, and anything else related to the running state 
 For example:
 
 ```puppet
-class ntp::service {
+class chrony::service {
+  assert_private()
 
-  if ! ($ntp::service_ensure in [ 'running', 'stopped' ]) {
-    fail('service_ensure parameter must be running or stopped')
-  }
-
-  if $ntp::service_manage == true {
-    service { 'ntp':
-      ensure     => $ntp::service_ensure,
-      enable     => $ntp::service_enable,
-      name       => $ntp::service_name,
-      provider   => $ntp::service_provider,
-      hasstatus  => true,
-      hasrestart => true,
+  if $chrony::service_manage {
+    service { $chrony::service_name:
+      ensure => $chrony::service_ensure,
+      enable => $chrony::service_enable,
     }
   }
 
+  if $chrony::wait_manage {
+    service { $chrony::wait_name:
+      ensure => $chrony::wait_ensure,
+      enable => $chrony::wait_enable,
+    }
+  }
 }
 ```
 
@@ -174,22 +163,22 @@ Naming consistency is imperative for community comprehension and assists in trou
 
 Best practices recommend the pattern of `thing_property` for naming parameters.
 
-For example, in the `ntp` module
+For example, in the `chrony` module the service resource uses `service_name`, `service_ensure`, and `service_enable`:
 
 ```puppet
-class ntp::install {
+class chrony::service {
 
-  if $ntp::package_manage {
-    package { $ntp::package_name:
-      ensure => $ntp::package_ensure,
+  if $chrony::service_manage {
+    service { $chrony::service_name:
+      ensure => $chrony::service_ensure,
+      enable => $chrony::service_enable,
     }
-
   }
 
 }
 ```
 
-If you have a parameter that toggles an entire function on and off, the naming convention can be amended to `thing_manage`. This applies, in particular, to Boolean toggles, such as when the module manages the installation altogether. The `thing_manage` convention allows you to wrap all of the resources in an `if $package_manage {}` test, as shown in the `ntp` example above.
+If you have a parameter that toggles an entire function on and off, the naming convention can be amended to `thing_manage`. This applies, in particular, to Boolean toggles, such as when the module manages the service altogether. The `thing_manage` convention allows you to wrap all of the resources in an `if $service_manage {}` test, as shown in the `chrony` example above.
 
 Consistent naming across modules helps with the readability and usability of your code.
 
@@ -199,9 +188,29 @@ To maximize the usability of your module, make it flexible by adding parameters.
 
 You must not hardcode data in your modules, and having more parameters is the best alternative. Hardcoding data in your module makes it inflexible, and means your module requires manifest changes to be used in even slightly different circumstances.
 
-Avoid adding parameters that allow you to override templates. When your parameters allow  template overrides, users can override your template with a custom template that contains additional hardcoded parameters. Hardcoded parameters in templates inhibits flexibility over time. It is far better to create more parameters and then modify the original template, or have a parameter which accepts an arbitrary chunk of text added to the template, than it is to override the template with a customized one.
+Avoid adding parameters that allow you to override templates. When your parameters allow  template overrides, users can override your template with a custom template that contains additional hardcoded parameters.
+Hardcoded parameters in templates inhibits flexibility over time. It is far better to create more parameters and then modify the original template, or have a parameter which accepts an arbitrary chunk of text added to the template, than it is to override the template with a customized one.
 
 For an example of a module that capitalizes on offering many parameters, please see [puppetlabs-apache](https://forge.puppet.com/puppetlabs/apache).
+
+#### Parameter defaults
+
+Where you put a parameter's default value depends on whether that value is the same on every supported operating system:
+
+* **Static defaults that are identical across every supported OS** belong inline in the parameter declaration in `init.pp`.
+* **OS-specific defaults** belong in module Hiera data with a per-OS hierarchy, resolved through automatic parameter lookup.
+
+Keeping static defaults inline puts the value right where the parameter is declared, which is what module reviewers expect and what keeps the default easy to find. When defaults live only in Hiera, someone reading `init.pp` can't tell whether a parameter has a default elsewhere or must be supplied.
+
+Inline defaults also render in generated reference documentation with any toolchain. Defaults placed only in `data/common.yaml` are invisible to upstream [puppet-strings](https://github.com/puppetlabs/puppet-strings/issues/250), though OpenVox's [openvox-strings](https://github.com/voxpupuli/openvox-strings/pull/27) can now read them.
+
+Give each default a single home. Duplicating a value between `init.pp` and module Hiera data means two sources of truth that can drift apart.
+
+Reserve `Optional[T] = undef` for parameters where `undef` is a genuine runtime value, such as a parameter that toggles an optional feature off. Avoid declaring a parameter `Optional` simply to defer its default to Hiera when the parameter will always receive a value, since that misleads users into thinking `undef` is a supported state.
+
+If a parameter is genuinely required and has no sensible default, give it no default at all so that catalog compilation fails clearly when the value is missing, rather than using `Optional[T] = undef`.
+
+For more on the mechanics of parameter defaults and Hiera data in modules, see the [Puppet language style guide](./style_guide.html#parameter-defaults).
 
 ### Ordering
 
@@ -224,15 +233,16 @@ To allow other modules to form ordering relationships with your module, ensure t
 
 Classes do not _automatically_ contain the classes they declare. This is because classes can be declared in several places via `include` and similar functions. To contain classes, use [the `contain` function](./function.html#contain). For more information and context about containment, see [the containment docs](./lang_containment.html).
 
-For example, the `ntp` module uses containment in the main `ntp` class:
+For example, the `chrony` module uses containment in the main `chrony` class:
 
 ```puppet
-contain ntp::install
-contain ntp::config
-contain ntp::service
-Class['::ntp::install'] ->
-Class['::ntp::config'] ~>
-Class['::ntp::service']
+contain chrony::install
+contain chrony::config
+contain chrony::service
+
+Class['chrony::install']
+-> Class['chrony::config']
+~> Class['chrony::service']
 ```
 
 ### Dependencies
@@ -313,7 +323,8 @@ We encourage you to publish your modules on the [Puppet Forge](https://forge.pup
 
 Sharing your modules allows other users to write improvements to the modules you make available and contribute them back to you, effectively giving you free improvements to your modules.
 
-Additionally, publishing your modules to the Forge helps foster community among Puppet users, and allows other Puppet community members to download and use your module. If the Puppet community routinely releases and iterates on modules on the Forge, the quality of available modules increases dramatically and gives you access to more modules to download and modify for your own purposes. Details on how to publish modules to the Forge can be found in the [module publishing guide](./modules_publishing.html).
+Additionally, publishing your modules to the Forge helps foster community among Puppet users, and allows other Puppet community members to download and use your module.
+If the Puppet community routinely releases and iterates on modules on the Forge, the quality of available modules increases dramatically and gives you access to more modules to download and modify for your own purposes. Details on how to publish modules to the Forge can be found in the [module publishing guide](./modules_publishing.html).
 
 ## Community Resources
 

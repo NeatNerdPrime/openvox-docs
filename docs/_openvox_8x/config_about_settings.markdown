@@ -5,17 +5,14 @@ title: "Configuration: How Puppet is configured"
 
 [short list]: ./config_important_settings.html
 [conf_ref]: ./configuration.html
-[puppet.conf]: ./config_file_main.html
-[auth.conf]: ./config_file_auth.html
-[puppetdb.conf]: ./config_file_puppetdb.html
 [puppetserver_config]: /openvox-server/latest/configuration.html
 
 Puppet's commands and services can be extensively configured, and its settings can be specified in a variety of places.
 
 See also:
 
--   [Short list of important settings][short list]
--   [The configuration reference][conf_ref]
+- [Short list of important settings][short list]
+- [The configuration reference][conf_ref]
 
 Settings can be set in the main config file. Puppet's main config file is called `puppet.conf`.
 
@@ -25,8 +22,8 @@ When we mention "settings" in the context of Puppet, we usually mean the main se
 
 However, there are also about nine extra configuration files --- things like `auth.conf` and `puppetdb.conf`. These files exist for several reasons:
 
--   The main settings only support a few types of values. Some things just can't be configured without complex data structures, so they needed separate files. (Authorization rules and custom CSR attributes are in this category.)
--   Puppet currently doesn't allow extensions to add new settings to `puppet.conf`. This means some settings that _should_ be main settings (like the PuppetDB server) can't be.
+- The main settings only support a few types of values. Some things just can't be configured without complex data structures, so they needed separate files. (Authorization rules and custom CSR attributes are in this category.)
+- Puppet currently doesn't allow extensions to add new settings to `puppet.conf`. This means some settings that _should_ be main settings (like the PuppetDB server) can't be.
 
 ### Puppet Server configuration
 
@@ -88,7 +85,7 @@ For help setting your operating system's locale or adding new locales, consult i
 
 To check your current locale settings, run the `locale` command. This outputs the settings used by your current shell.
 
-```
+```console
 $ locale
 LANG="en_US.UTF-8"
 LC_COLLATE="en_US.UTF-8"
@@ -104,7 +101,7 @@ To see which locales are supported by your system, run `locale -a`, which output
 
 To check the current status of environment variables that might conflict with or override your locale settings, use the `set` command. For example, this command lists the set environment variables and searches for those containing `LANG` or `LC_`:
 
-```
+```console
 sudo set | egrep 'LANG|LC_'
 ```
 
@@ -112,7 +109,7 @@ sudo set | egrep 'LANG|LC_'
 
 To check your current locale setting, run the `Get-WinSystemLocale` command from PowerShell.
 
-```
+```powershell
 PS C:\> Get-WinSystemLocale
 LCID             Name             DisplayName
 ----             ----             -----------
@@ -127,7 +124,7 @@ You can use environment variables to set your locale for processes started on th
 
 For example, to set the locale to Japanese for a terminal session on SLES:
 
-```
+```console
 export LANG=ja_JP.UTF-8
 export LANGUAGE=''
 export LC_ALL=''
@@ -135,8 +132,8 @@ export LC_ALL=''
 
 To set the locale for the OpenVox agent service, you can add these `export` statements to:
 
--   `/etc/sysconfig/puppet` on RHEL and its derivatives
--   `/etc/default/puppet` on Debian, Ubuntu, and their derivatives
+- `/etc/sysconfig/puppet` on RHEL and its derivatives
+- `/etc/default/puppet` on Debian, Ubuntu, and their derivatives
 
 After updating the file, restart the Puppet service to apply the change.
 
@@ -159,12 +156,13 @@ On Windows, Puppet uses the `LANG` environment variable if it is set. If not, it
 
 On Windows 10, you can use PowerShell to set the system locale:
 
-```
+```powershell
 Set-WinSystemLocale en-US
 ```
 
 ### Disabling internationalized strings
 
-Puppet 5.3.2 added the optional Boolean `disable_i18n` setting, which you can configure in `puppet.conf`. If set to `true`, Puppet disables localized strings in log messages, reports, and parts of the command-line interface. This can improve performance when using Puppet modules, especially if [environment caching](./configuration.html#environment_timeout) is disabled, and even if you don't need localized strings or the modules aren't localized. This setting is `false` by default in open source Puppet.
+Puppet 5.3.2 added the optional Boolean `disable_i18n` setting, which you can configure in `puppet.conf`. If set to `true`, Puppet disables localized strings in log messages, reports, and parts of the command-line interface.
+This can improve performance when using Puppet modules, especially if [environment caching](./configuration.html#environment_timeout) is disabled, and even if you don't need localized strings or the modules aren't localized. This setting is `false` by default in open source Puppet.
 
 If you're experiencing performance issues, configure this setting in the `[server]` section of the OpenVox Server's `puppet.conf` file. To force unlocalized messages, which are in English by default, configure this section in a node's `[main]` or `[user]` sections of `puppet.conf`.

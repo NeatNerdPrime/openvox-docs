@@ -6,11 +6,8 @@ title: "Config files: auth.conf (LEGACY)"
 [api]: /openvox-server/latest/http_api_index.html
 [default_file]: https://github.com/puppetlabs/puppet/blob/4.3.0/conf/auth.conf
 [environment]: ./environments_about.html
-[server_ca]: /openvox-server/latest/config_file_ca.html
-[server_master]: /openvox-server/latest/config_file_master.html
 [server_auth_conf]: /openvox-server/latest/config_file_auth.html
 [puppetserver.conf]: /openvox-server/latest/config_file_puppetserver.html
-[Puppet Server]: /openvox-server/latest/
 [confdir]: ./dirs_confdir.html
 
 
@@ -23,9 +20,9 @@ Access to Puppet's HTTPS API is configured in `auth.conf`.
 > Until then, Puppet Server uses a combination of the new `auth.conf` file and this legacy `auth.conf` file:
 >
 > * For most `/puppet/v3` endpoints, it defaults to the **legacy `auth.conf`.**
->     * You can completely switch to the new `auth.conf` by setting [puppetserver.conf][] > `jruby-puppet` > `use-legacy-auth-conf: false`.
+>   * You can completely switch to the new `auth.conf` by setting [puppetserver.conf][] > `jruby-puppet` > `use-legacy-auth-conf: false`.
 > * For `certificate_status` and `puppet-admin-api`, it uses the **new `auth.conf`.**
->     * However, it will use the old `client-whitelist` settings instead if they're present.
+>   * However, it will use the old `client-whitelist` settings instead if they're present.
 > * For most `/puppet-ca/v1` endpoints and any new `/puppet/v3` endpoints added during the Puppet Server 2.x series, it only uses the **new `auth.conf`.**
 >
 > The default location of the new `auth.conf` is `/etc/puppetlabs/puppetserver/conf.d/auth.conf`. See [the Puppet Server `auth.conf` docs][server_auth_conf] for details.
@@ -44,7 +41,7 @@ The location of the `confdir` depends on your OS. [See the confdir documentation
 
 ## Example
 
-```
+```text
 path /puppet/v3/environments
 method find
 allow *
@@ -136,9 +133,8 @@ The file can also include comments, which are lines starting with `#`. Comments 
 
 ## ACL syntax
 
-[inpage_acl]: #acl-syntax
 
-```
+```text
 path ~ ^/puppet/v3/report/([^/]+)$
 method save
 allow $1
@@ -170,13 +166,17 @@ Which URLs the ACL applies to. **Required.** Must be the first directive in the 
 
 #### URL prefix
 
-    path /puppet/v3/report
+```text
+path /puppet/v3/report
+```
 
 If the value of `path` is just an absolute path, OpenVox Server interprets it as a prefix. The ACL will match any URL that _begins_ with that string.
 
 #### Regular expression
 
-    path ~ ^/puppet/v3/report/([^/]+)$
+```text
+path ~ ^/puppet/v3/report/([^/]+)$
+```
 
 If the value of `path` is a tilde (`~`), a space, and then a regular expression, the ACL will match any URL that matches the regular expression. Regexps in paths should NOT be delimited with slashes.
 

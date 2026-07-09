@@ -15,7 +15,7 @@ jobs:
     steps:
       # needs fetch-depth because the packaging dem reads old git tags
       - name: Checkout current PR
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Install Ruby version 3.3
@@ -36,7 +36,7 @@ jobs:
     steps:
       # needs fetch-depth because the packaging gem reads old git tags
       - name: Checkout current PR
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Install Ruby version 3.3
@@ -54,9 +54,7 @@ jobs:
       # into docs/ first, the same way the publish workflow does.
       - name: Generate reference docs
         run: |
-          bundle exec rake references:openfact INSTALLPATH=docs
-          bundle exec rake references:openvox INSTALLPATH=docs
-          bundle exec rake references:openbolt INSTALLPATH=docs
+          bundle exec rake references:all INSTALLPATH=docs
       - name: Build site
         run: bundle exec jekyll build
       - name: Check internal links

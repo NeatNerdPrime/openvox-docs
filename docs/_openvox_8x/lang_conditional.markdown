@@ -28,7 +28,7 @@ Puppet supports "if" and "unless" statements, case statements, and selectors.
 
 An "if" statement:
 
-``` puppet
+```puppet
 if $facts['is_virtual'] {
   warning('Tried to include class ntp on virtual machine; this node might be misclassified.')
 }
@@ -42,7 +42,7 @@ else {
 
 An "unless" statement:
 
-``` puppet
+```puppet
 unless $facts['memory']['system']['totalbytes'] > 1073741824 {
   $maxclient = 500
 }
@@ -50,7 +50,7 @@ unless $facts['memory']['system']['totalbytes'] > 1073741824 {
 
 A case statement:
 
-``` puppet
+```puppet
 case $facts['os']['name'] {
   'Solaris':           { include role::solaris }
   'RedHat', 'CentOS':  { include role::redhat  }
@@ -61,7 +61,7 @@ case $facts['os']['name'] {
 
 A selector:
 
-``` puppet
+```puppet
 $rootgroup = $facts['os']['family'] ? {
   'Solaris'          => 'wheel',
   /(Darwin|FreeBSD)/ => 'wheel',
@@ -83,7 +83,7 @@ file { '/etc/passwd':
 
 ### Syntax
 
-``` puppet
+```puppet
 if $facts['is_virtual'] {
   # Our NTP module is not supported on virtual machines:
   warning('Tried to include class ntp on virtual machine; this node might be misclassified.')
@@ -103,9 +103,9 @@ The general form of an "if" statement is:
 * A **condition** (any expression resolving to a boolean value)
 * A pair of curly braces containing any Puppet code
 * **Optionally:** any number of `elsif` clauses, which will be processed in order. An `elsif` clause consists of:
-    * The `elsif` keyword
-    * A **condition**
-    * A pair of curly braces containing any Puppet code
+  * The `elsif` keyword
+  * A **condition**
+  * A pair of curly braces containing any Puppet code
 * **Optionally:** the `else` keyword and a pair of curly braces containing Puppet code
 
 ### Behavior
@@ -138,7 +138,7 @@ Static values can also be conditions, although doing this would be pointless.
 
 If you use the regular expression match operator in a condition, any captures from parentheses in the pattern will be available inside the associated code block as numbered variables (`$1, $2`, etc.), and the entire match will be available as `$0`:
 
-``` puppet
+```puppet
 if $trusted['certname'] =~ /^www(\d+)\./ {
   notice("Welcome to web server number $1.")
 }
@@ -158,7 +158,7 @@ These are not normal variables, and have some special behaviors:
 
 ### Syntax
 
-``` puppet
+```puppet
 unless $facts['memory']['system']['totalbytes'] > 1073741824 {
   $maxclient = 500
 }
@@ -200,15 +200,13 @@ Static values can also be conditions, although doing this would be pointless.
 Although "unless" statements receive regex capture variables like "if" statements, they usually aren't used, since the code in the statement will only be executed if the condition didn't match anything. It's possible to use regex captures in the "else" clause, but it would make more sense to just use an "if" statement.
 
 
-
-Case Statements
------
+## Case Statements
 
 Like "if" statements, **case statements** choose one of several blocks of arbitrary Puppet code to execute. They take a control expression and a list of cases and code blocks, and will execute the first block whose case value matches the control expression.
 
 ### Syntax
 
-``` puppet
+```puppet
 case $facts['os']['name'] {
   'Solaris':           { include role::solaris } # Apply the solaris class
   'RedHat', 'CentOS':  { include role::redhat  } # Apply the redhat class
@@ -223,9 +221,9 @@ The general form of a case statement is:
 * A **control expression** (any expression resolving to a value; see below)
 * An opening curly brace
 * Any number of possible matches, which consist of:
-    * A **case** (see below) or comma-separated list of cases
-    * A colon
-    * A pair of curly braces containing any arbitrary Puppet code
+  * A **case** (see below) or comma-separated list of cases
+  * A colon
+  * A pair of curly braces containing any arbitrary Puppet code
 * A closing curly brace
 
 
@@ -276,7 +274,7 @@ The value of a `case` expression is the value of the last expression in the exec
 
 If you use regular expression cases, any captures from parentheses in the pattern will be available inside the associated code block as numbered variables (`$1, $2`, etc.), and the entire match will be available as `$0`:
 
-``` puppet
+```puppet
 case $trusted['hostname'] {
   /www(\d+)/: { notice("Welcome to web server number ${1}"); include role::web }
   default:   { include role::generic }
@@ -323,7 +321,7 @@ Selectors can be used wherever a **value** is expected. This includes:
 
 Selectors resemble a cross between a case statement and the ternary operator found in other languages.
 
-``` puppet
+```puppet
 $rootgroup = $facts['os']['family'] ? {
   'Solaris'          => 'wheel',
   /(Darwin|FreeBSD)/ => 'wheel',
@@ -345,10 +343,10 @@ The general form of a selector is:
 * The `?` (question mark) keyword
 * An opening curly brace
 * Any number of possible matches, each of which consists of:
-    * A **case** (see below)
-    * The `=>` (fat comma) keyword
-    * A **value** (which can be any expression resolving to a value)
-    * A trailing comma
+  * A **case** (see below)
+  * The `=>` (fat comma) keyword
+  * A **value** (which can be any expression resolving to a value)
+  * A trailing comma
 * A closing curly brace
 
 ### Behavior
@@ -381,7 +379,7 @@ A case can be any expression that resolves to a value. (This includes literal va
 
 If you use regular expression cases, any captures from parentheses in the pattern will be available inside the associated value as numbered variables (`$1, $2`, etc.), and the entire match will be available as `$0`:
 
-``` puppet
+```puppet
 $system = $facts['os']['name'] ? {
   /(RedHat|Debian)/ => "our system is ${1}",
   default           => "our system is unknown",

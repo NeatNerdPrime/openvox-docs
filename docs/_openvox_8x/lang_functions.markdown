@@ -48,7 +48,7 @@ These two call styles have the exact same capabilities, so you can choose whiche
 * For functions that take many arguments, prefix calls are easier to read.
 * For functions that take one normal argument and a lambda, chained calls are easier to read.
 * For a series of functions where each takes the last one's result as its argument, chained calls are easier to read.
-    * This goes double if at least one of those functions accepts a [lambda][].
+  * This goes double if at least one of those functions accepts a [lambda][].
 
 For other cases, tastes vary, so do whatever you prefer.
 
@@ -62,7 +62,7 @@ Functions must always be called with their full names; you can't shorten a quali
 
 You can call a function by writing its name and providing a list of arguments in parentheses.
 
-``` puppet
+```puppet
 file { '/etc/ntp.conf':
   ensure  => file,
   content => template('ntp/ntp.conf.erb'), # function call; resolves to a string
@@ -95,23 +95,24 @@ In the examples above, [`template`][template], [`include`][include], and [`each`
 
 The general form of a prefix function call is:
 
-    name(argument, argument, ...) |$parameter, $parameter, ...| { code block }
+```puppet
+name(argument, argument, ...) |$parameter, $parameter, ...| { code block }
+```
 
 * The full name of the function, as an unquoted word.
 * An opening parenthesis (`(`).
-    * Parentheses are optional when calling a [_built-in statement function_][inpage_statement] with at least one argument (like `include apache`). They're mandatory in all other cases.
+  * Parentheses are optional when calling a [_built-in statement function_][inpage_statement] with at least one argument (like `include apache`). They're mandatory in all other cases.
 * Zero or more **arguments,** separated with commas. Arguments can be any [expression][] that resolves to a value. See each function's docs for the number of its arguments and their [data types][datatype].
-    * Note that [the `*` (splat) array operator][splat] can convert an array to a comma-separated list of arguments.
+  * Note that [the `*` (splat) array operator][splat] can convert an array to a comma-separated list of arguments.
 * A closing parenthesis (`)`), if an opening parenthesis was used.
 * Optionally, a [lambda][] (code block), if the function accepts one.
-
 
 
 ### Chained function calls
 
 You can also call a function by writing its first argument, a period, and the name of the function.
 
-``` puppet
+```puppet
 file { '/etc/ntp.conf':
   ensure  => file,
   content => 'ntp/ntp.conf.erb'.template, # function call; resolves to a string
@@ -140,15 +141,16 @@ $binaries.each |$binary| {
 
 The general form of a chained function call is:
 
-    argument.name(argument, ...) |$parameter, $parameter, ...| { code block }
+```puppet
+argument.name(argument, ...) |$parameter, $parameter, ...| { code block }
+```
 
 * The **first argument** of the function, which can be any [expression][] that resolves to a value.
 * A period (`.`).
 * The full name of the function, as an unquoted word.
 * Optionally, parentheses containing a comma-separated list of **additional arguments,** starting with the _second_ argument.
-    * Note that [the `*` (splat) array operator][splat] can convert an array to a comma-separated list of arguments.
+  * Note that [the `*` (splat) array operator][splat] can convert an array to a comma-separated list of arguments.
 * Optionally, a [lambda][] (code block), if the function accepts one.
-
 
 
 ## Behavior

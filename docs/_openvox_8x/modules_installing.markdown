@@ -3,23 +3,12 @@ layout: default
 title: "Installing modules"
 ---
 
-[forge]: https://forge.puppet.com
-[module_man]: ./man/module.html
 [modulepath]: ./dirs_modulepath.html
 [codedir]: ./dirs_codedir.html
-
-
-[publishing]: ./modules_publishing.html
-[fundamentals]: ./modules_fundamentals.html
-[plugins]: ./plugins_in_modules.html
-[documentation]: ./modules_documentation.html
-[metadata.json]: ./modules_metadata.html
 
 [approved]: https://forge.puppet.com/approved
 [supported]: https://forge.puppet.com/supported
 [score]: https://forge.puppet.com
-[environment]: ./environments_about.html
-[pdk]: {{pdk}}/pdk.html
 
 
 Install, upgrade, and uninstall Forge modules from the command line with the `puppet module` command.
@@ -27,21 +16,21 @@ Install, upgrade, and uninstall Forge modules from the command line with the `pu
 The `puppet module` command provides an interface for managing modules from the Puppet Forge. Its interface is similar to other common package managers, such as `gem`, `apt-get`, or `yum`. You can install, upgrade, uninstall, list, and search for modules with this command.
 
 > **Important:** If you are using a code-management tool such as r10k, do not use the `puppet module` command. With code management, you install modules with a Puppetfile; code management purges any modules that were installed with the `puppet module` command.
-
+>
 > **Solaris Note:** To use `puppet module` commands on Solaris systems, you must first install gtar.
 
-### Using `puppet module` behind a proxy
+## Using `puppet module` behind a proxy
 
 To use the `puppet module` command behind a proxy, set the following, replacing `<PROXY IP>` and `<PROXY PORT>` with the proxy's IP address and port.
 
-```
+```console
 export http_proxy=http://<PROXY IP>:<PROXY PORT>
 export https_proxy=http://<PROXY IP>:<PROXY PORT>
 ```
 
 For instance, with an HTTP proxy at 192.168.0.10 on port 8080, set:
 
-```
+```console
 export http_proxy=http://192.168.0.10:8080
 export https_proxy=http://192.168.0.10:8080
 ```
@@ -72,7 +61,7 @@ Related topics:
 
 The `puppet module search` command accepts a single search term and returns a list of modules whose names, descriptions, or keywords match the search term.
 
-```
+```console
 $ puppet module search apache
 Searching http://forge.puppetlabs.com ...
 NAME                           DESCRIPTION            AUTHOR          KEYWORDS
@@ -88,7 +77,7 @@ When you've identified the module you want, you can then install it.
 
 ## Installing modules from the command line
 
-The `puppet module install` command installs a module and all of its dependencies. You can install modules from the Forge, a module repository, or a release tarball. 
+The `puppet module install` command installs a module and all of its dependencies. You can install modules from the Forge, a module repository, or a release tarball.
 
 By default, this command installs modules into the first directory in the Puppet [modulepath][], `$codedir/environments/production/modules` by default.
 
@@ -129,7 +118,7 @@ To install a module from the Puppet Forge, use the `puppet module install` comma
 
 The full name of a Forge module is formatted as username-modulename. For example, to instal `puppetlabs-apache`:
 
-``` bash
+```bash
 puppet module install puppetlabs-apache
 ```
 
@@ -143,7 +132,7 @@ The normal default module repository is the Forge, so the default `module_reposi
 
 * To change the repository for a single module installation only, specify the base URL of the repository when you install the module. Use the `--module_repository` option to set this. For example:
 
-``` bash
+```bash
 puppet module install --module_repository http://dev-forge.example.com puppetlabs-apache
 ```
 
@@ -157,7 +146,7 @@ To install a module from a release tarball, specify the path to the tarball inst
 
 If you cannot connect to the Puppet Forge, or you are installing modules that have not yet been published to the Forge, use the `--ignore-dependencies` flag. In this case, you must manually install any dependencies.
 
-``` bash
+```bash
 sudo puppet module install ~/puppetlabs-apache-0.10.0.tar.gz --ignore-dependencies
 ```
 
@@ -191,11 +180,11 @@ The `puppet module` command manages modules with several actions, including inst
 
 View a full description of each action with `puppet man module` or by viewing the man page online.
 
-#### `install`
+### `install`
 
 Installs a module from either the Forge or a release archive.
 
-``` bash
+```bash
 sudo puppet module install puppetlabs-apache --version 0.0.2
 ```
 
@@ -215,7 +204,7 @@ Option   | Description
 
 Lists installed modules.
 
-``` bash
+```bash
 sudo puppet module list
 ```
 
@@ -223,7 +212,7 @@ sudo puppet module list
 
 Searches the Forge for a module.
 
-``` bash
+```bash
 sudo puppet module search apache
 ```
 
@@ -231,7 +220,7 @@ sudo puppet module search apache
 
 Uninstalls a Puppet module.
 
-``` bash
+```bash
 sudo puppet module uninstall puppetlabs-apache
 ```
 
@@ -239,8 +228,6 @@ sudo puppet module uninstall puppetlabs-apache
 
 Upgrades a Puppet module.
 
-``` bash
+```bash
 sudo puppet module upgrade puppetlabs-apache --version 0.0.3
 ```
-
-

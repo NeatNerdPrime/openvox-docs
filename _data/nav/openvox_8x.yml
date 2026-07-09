@@ -9,6 +9,10 @@
     link: "system_requirements.html"
   - text: About openvox-agent
     link: "about_agent.html"
+  - text: Component versions in recent releases
+    link: "component_versions.html"
+  - text: Supported platforms
+    link: "supported_platforms.html"
 - text: Getting started
   items:
   - text: Getting started with OpenVox
@@ -97,6 +101,8 @@
     link: "modules_fundamentals.html"
   - text: Beginner's guide to writing modules
     link: "bgtm.html"
+  - text: Scaffolding modules with Jig
+    link: "/ecosystem/latest/devkit/jig.html"
   - text: Plugins in modules
     link: "plugins_in_modules.html"
   - text: Installing modules
@@ -335,8 +341,6 @@
   items:
   - text: External node classifiers
     link: "nodes_external.html"
-  - text: The LDAP node classifier
-    link: "nodes_ldap.html"
 - text: Misc. references
   items:
   - text: Settings (configuration reference)
