@@ -733,9 +733,9 @@ In `init.pp`:
 # filtered out if present
 #
 class myservice (
-  Enum['running', 'stopped'] $service_ensure,
+  Enum['running', 'stopped'] $service_ensure    = 'running',
   String                     $tempfile_contents,
-  Optional[Array[String[1]]] $package_list = undef,
+  Optional[Array[String[1]]] $package_list      = undef,
 ) {
   # Example of additional assertion with a better error message than just saying that
   # there was a type mismatch for $package_list.
@@ -777,21 +777,12 @@ version: 5
 defaults:
   data_hash: yaml_data
 
-# The default values can be merged if you want to extend with additional packages
-# If not, use 'default_hierarchy' instead of 'hierarchy'
-#
 hierarchy:
 - name: 'Per Operating System'
   path: 'os/%{os.name}.yaml'
-- name: 'Common'
-  path: 'common.yaml'
 ```
 
-In module `data/common.yaml`:
-
-```yaml
-myservice::service_ensure: running
-```
+The static `service_ensure` default lives inline in `init.pp`, so only the OS-specific `package_list` needs data files.
 
 In module `data/os/centos.yaml`:
 
@@ -895,41 +886,102 @@ class ntp (
 
 ### Parameter defaults
 
-Adding default values to the parameters in classes and defined types makes your module easier to use. Use Hiera data in the module and rely on automatic parameter lookup for class parameters. See the documentation about [automatic parameter lookup](./hiera_automatic.html#puppet-lookup) for detailed information.
+Adding default values to the parameters in classes and defined types makes your module easier to use. Take care to declare the data type of parameters, as this provides automatic type assertions.
 
-Take care to declare the data type of parameters, as this provides automatic type assertions.
+Where a default value lives depends on whether it varies by operating system.
+
+#### Static defaults
+
+When a parameter's default is the same on every supported operating system, declare it inline in the parameter list.
+
+Keeping static defaults inline puts the value right where the parameter is declared, which keeps it easy to find and is the convention module reviewers expect. When defaults live only in Hiera, someone reading `init.pp` can't tell whether a parameter has a default elsewhere or must be supplied.
+
+Inline defaults also render in generated reference documentation with any toolchain. Defaults placed only in `data/common.yaml` are invisible to upstream [puppet-strings](https://github.com/puppetlabs/puppet-strings/issues/250), though OpenVox's [openvox-strings](https://github.com/voxpupuli/openvox-strings/pull/27) can now read them.
 
 **Good:**
 
 ```puppet
-# parameter defaults provided via APL > puppet 4.9.0
 class my_module (
-  String $source,
-  String $config,
+  String[1] $ensure  = 'present',
+  Integer[0] $port   = 8080,
+  Boolean $manage    = true,
 ) {
   # body of class
 }
 ```
 
-with a `hiera.yaml` in the root of the module:
+#### OS-specific defaults
+
+Typically one or two operating systems need a different value while the rest share a common one. Keep the common value as the inline default and use module Hiera data only to override it for the operating systems that differ.
+
+Automatic parameter lookup takes precedence over the inline default when a matching key exists, so you supply data only for the exceptions rather than for every supported OS. See the documentation about [automatic parameter lookup](./hiera_automatic.html#puppet-lookup) for detailed information.
+
+**Good:**
+
+The common `config` default stays inline; only nodes in the Red Hat family override it through Hiera:
+
+```puppet
+class my_module (
+  String[1] $source = 'default source value',
+  String[1] $config = '/etc/mymodule/mymodule.conf',
+) {
+  # body of class
+}
+```
+
+with a `hiera.yaml` in the root of the module that adds a per-OS hierarchy level:
 
 ```yaml
 ---
 version: 5
-default_hierarchy:
-- name: 'defaults'
-  path: 'defaults.yaml'
+defaults:
   data_hash: yaml_data
+hierarchy:
+  - name: 'OS family'
+    paths:
+      - '%{facts.os.name}.yaml'
+      - '%{facts.os.family}.yaml'
 ```
 
-and with the file `data/defaults.yaml`:
+and an override for just the deviating OS in `data/RedHat.yaml`:
 
 ```yaml
-mymodule::source: 'default source value'
-mymodule::config: 'default config value'
+mymodule::config: '/etc/sysconfig/mymodule'
 ```
 
-This places the values in the defaults hierarchy, which means that the defaults are not merged into overriding values. If you want to merge the defaults into those values, change the `default_hierarchy` to `hierarchy`.
+Nodes in the Red Hat family pick up the Hiera value; every other operating system falls through to the inline default. No `common.yaml` entry is needed, because the inline default already covers the common case.
+
+The [puppet-chrony](https://github.com/voxpupuli/puppet-chrony) module is a good real-world reference for this pattern: it keeps common defaults inline in `init.pp` and overrides only the values that differ in per-OS Hiera data files, with no `common.yaml`.
+
+#### Keep each default in one place
+
+Give each default a single home. Declaring the same value both inline in `init.pp` and in module Hiera data creates two sources of truth that can drift apart. Choose the location based on whether the default varies by OS, and put it there only.
+
+Under this guidance, parameter defaults rarely belong in `common.yaml`: a static default goes inline, and an OS-specific one goes in a per-OS data file. `common.yaml` stays available for module data that isn't a plain class-parameter default, such as values you look up explicitly with `lookup`.
+
+#### Optional parameters
+
+Reserve `Optional[T] = undef` for parameters where `undef` is a genuine runtime value, such as a parameter that switches an optional feature off. In that case, `undef` is a meaningful state the user can select.
+
+For example, chrony's `smoothtime` parameter is declared `Optional[String] $smoothtime = undef`:
+
+```puppet
+Optional[String] $smoothtime = undef,
+```
+
+and its config template emits the directive only when a value is set:
+
+```text
+<% if $chrony::smoothtime { -%>
+smoothtime <%= $chrony::smoothtime %>
+<% } -%>
+```
+
+Here `undef` genuinely means the feature is off, so `Optional[T] = undef` is the right choice.
+
+Avoid declaring a parameter `Optional` just to defer its default to Hiera when the parameter will always receive a value. Doing so misleads users into thinking `undef` is a supported state when it isn't, and it weakens the type assertion. Declare the real type and give the parameter its actual default instead.
+
+If a parameter is genuinely required and has no sensible default, give it no default at all. A required parameter without a default fails catalog compilation with a clear error when the user omits it, which is safer than papering over the requirement with `Optional[T] = undef`.
 
 ### Exported resources
 
