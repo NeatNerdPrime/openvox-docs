@@ -238,7 +238,6 @@ Start with a single setfile so failures are easy to read, then grow the test mat
 Most Vox Pupuli modules don't hand-write this job.
 Instead they call the shared [`gha-puppet`](https://github.com/voxpupuli/gha-puppet) reusable workflow, which builds the platform matrix from your `metadata.json` automatically.
 See [puppet-chrony's `ci.yml`](https://github.com/voxpupuli/puppet-chrony/blob/a678f95dcc6de27120b96a3cb156734ac84b1652/.github/workflows/ci.yml#L45-L52) for a complete, working example.
-That file carries a "do not edit" header because it's maintained by [modulesync](https://voxpupuli.org/docs/updating-files-managed-with-modulesync/), which keeps shared files like CI workflows consistent across every Vox Pupuli module, so in such a repo you'd update the synced template, not the module's copy.
 
 ## Customizing the nodes
 
