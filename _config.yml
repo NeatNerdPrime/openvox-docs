@@ -2,6 +2,8 @@
 title: OpenVox Documentation
 description: Documentation for various OpenVox Projects.
 
+logo: /assets/images/HexagonSticker.png
+
 timezone: UTC
 
 theme: jekyll-vitepress-theme
