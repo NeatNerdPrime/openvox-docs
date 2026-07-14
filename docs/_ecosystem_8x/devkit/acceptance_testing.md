@@ -107,7 +107,9 @@ A manifest is idempotent when applying it more than once is safe: the first run 
 Idempotency is a core property of well-written Puppet code, and a manifest that keeps making changes on every run is a bug.
 Catching that here is one of the most valuable things an acceptance test does.
 
-{% include alert.html type="note" content="A few modules genuinely need two runs to converge, usually because the first run installs a tool that produces a new fact the second run then acts on. That's the rare exception, not a license to ignore a manifest that never settles; when you hit a real case, relax the second-run check for that one test." %}
+A few modules genuinely need two runs to converge, usually because the first run installs a tool that produces a new fact the second run then acts on.
+That's the rare exception, not a license to ignore a manifest that never settles; when you hit a real case, relax the second-run check for that one test.
+{: .note }
 
 Once the manifest is applied, you assert against the real node using the [`serverspec`](https://serverspec.org/) matchers such as `package`, `service`, and `port`.
 A typical test for a `chrony` class looks like this:
@@ -259,4 +261,6 @@ end
 By default the framework installs your module and its dependencies by resolving `metadata.json`.
 If you'd rather supply them yourself, `configure_beaker(modules: :fixtures)` uses the [fixtures](unit_testing.html) already checked out under `spec/fixtures/modules`, and `configure_beaker(modules: nil)` hands you full control.
 
-{% include alert.html type="tip" content="Acceptance tests are slow and resource-hungry compared to unit tests, so keep them for behavior you genuinely can't verify in a unit test. Reach for them when an OS difference, a real service, or an end-to-end interaction is the thing under test." %}
+Acceptance tests are slow and resource-hungry compared to unit tests, so keep them for behavior you genuinely can't verify in a unit test.
+Reach for them when an OS difference, a real service, or an end-to-end interaction is the thing under test.
+{: .tip }
