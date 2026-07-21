@@ -193,6 +193,8 @@
     link: "lang_data_regexp.html"
   - text: URI
     link: "lang_data_uri.html"
+  - text: Binary
+    link: "lang_data_binary.html"
   - text: Sensitive
     link: "lang_data_sensitive.html"
   - text: Undef

@@ -17,6 +17,7 @@ title: "Language: Data types: Data type syntax"
 [hash]: ./lang_data_hash.html
 [regexp]: ./lang_data_regexp.html
 [uri]: ./lang_data_uri.html
+[binary]: ./lang_data_binary.html
 [undef]: ./lang_data_undef.html
 [default]: ./lang_data_default.html
 [resource_reference]: ./lang_data_resource_reference.html
@@ -150,6 +151,7 @@ These are the "real" data types, which make up the most common values you'll int
 * [`Hash`][hash]
 * [`Regexp`][regexp]
 * [`URI`][uri]
+* [`Binary`][binary]
 * [`Undef`][undef]
 * [`Default`][default]
 
