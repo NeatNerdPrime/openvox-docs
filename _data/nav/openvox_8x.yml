@@ -195,6 +195,8 @@
     link: "lang_data_uri.html"
   - text: Binary
     link: "lang_data_binary.html"
+  - text: Timestamp and Timespan
+    link: "lang_data_time.html"
   - text: Sensitive
     link: "lang_data_sensitive.html"
   - text: Undef
