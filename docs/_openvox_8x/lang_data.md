@@ -23,6 +23,7 @@ Strings are the most common and useful data type, but you'll also have to work w
 * [Arrays](./lang_data_array.html)
 * [Hashes](./lang_data_hash.html)
 * [Regular Expressions](./lang_data_regexp.html)
+* [URI](./lang_data_uri.html)
 * [Sensitive](./lang_data_sensitive.html)
 * [Undef](./lang_data_undef.html)
 * [Resource References](./lang_data_resource_reference.html)
