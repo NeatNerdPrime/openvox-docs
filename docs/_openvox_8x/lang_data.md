@@ -27,6 +27,7 @@ Strings are the most common and useful data type, but you'll also have to work w
 * [Binary](./lang_data_binary.html)
 * [Timestamp and Timespan](./lang_data_time.html)
 * [SemVer and SemVerRange](./lang_data_semver.html)
+* [Error](./lang_data_error.html)
 * [Sensitive](./lang_data_sensitive.html)
 * [Undef](./lang_data_undef.html)
 * [Resource References](./lang_data_resource_reference.html)
