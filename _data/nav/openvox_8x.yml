@@ -199,6 +199,8 @@
     link: "lang_data_time.html"
   - text: SemVer and SemVerRange
     link: "lang_data_semver.html"
+  - text: Error
+    link: "lang_data_error.html"
   - text: Sensitive
     link: "lang_data_sensitive.html"
   - text: Undef

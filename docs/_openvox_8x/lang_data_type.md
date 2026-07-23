@@ -20,6 +20,7 @@ title: "Language: Data types: Data type syntax"
 [binary]: ./lang_data_binary.html
 [time]: ./lang_data_time.html
 [semver]: ./lang_data_semver.html
+[error]: ./lang_data_error.html
 [undef]: ./lang_data_undef.html
 [default]: ./lang_data_default.html
 [resource_reference]: ./lang_data_resource_reference.html
@@ -156,6 +157,7 @@ These are the "real" data types, which make up the most common values you'll int
 * [`Binary`][binary]
 * [`Timestamp` and `Timespan`][time]
 * [`SemVer` and `SemVerRange`][semver]
+* [`Error`][error]
 * [`Undef`][undef]
 * [`Default`][default]
 
