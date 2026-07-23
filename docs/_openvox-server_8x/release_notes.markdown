@@ -6,7 +6,7 @@ canonical: "/openvox-server/latest/release_notes.html"
 
 ## OpenVox Server 8.15.1
 
-Released 2026-07-22.
+Released July 22, 2026.
 
 This is a bug-fix release of OpenVox Server.
 
@@ -36,7 +36,7 @@ All bug fixes, new features and other changes are provided on the [project's Git
 
 ## OpenVox Server 8.14.1
 
-Released 2026-06-24.
+Released June 24, 2026.
 
 This is a bug-fix release of OpenVox Server.
 
@@ -62,7 +62,7 @@ All bug fixes, new features and other changes are provided on the [project's Git
 
 ## OpenVox Server 8.13.0
 
-Released 2026-05-04.
+Released May 4, 2026.
 
 This is an enhancement and bug-fix release of OpenVox Server.
 
